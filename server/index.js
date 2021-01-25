@@ -11,6 +11,10 @@ app.use(express.json()); //gives us access to req.body
 app.use("/users", require("./routes/users"));
 app.use("/dashboard", require("./routes/dashboard"));
 
+app.get("/", function (req, res) {
+  res.send("Server Started");
+});
+
 app.listen(5000, () => {
-  console.log("Server is running on port 500");
+  console.log("Server is running on port 5000");
 });
