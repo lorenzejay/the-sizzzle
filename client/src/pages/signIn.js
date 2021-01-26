@@ -14,10 +14,10 @@ const SignIn = ({ history }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  // userInfo && console.log(userInfo.user_id);
   useEffect(() => {
     if (userInfo) {
-      history.push(`dashboard/${userInfo.token}`);
+      history.push(`/user/${userInfo.returnedUsername}`);
     }
   }, [history, userInfo]);
 

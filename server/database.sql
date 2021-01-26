@@ -18,6 +18,12 @@ SET DEFAULT '';
 --insert dummy data
 INSERT INTO users(username, first_name, last_name, email, password) VALUES ('John Doe', 'John', 'Doe', 'johndoe@example.com','123456' );
 
+CREATE TABLE user_follows(
+    user_follows_id,
+    follow_from = uuid NOT NULL,
+    follow_to = uuid NOT NULL,
+);
+
 CREATE TABLE recipes(
     recipe_id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -25,6 +31,7 @@ CREATE TABLE recipes(
     media VARCHAR(255)
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 );
+
 
 CREATE TABLE ingredients(
     ingredients_id SERIAL PRIMARY KEY,

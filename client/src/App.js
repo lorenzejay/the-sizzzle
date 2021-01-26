@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
 
 //pages
@@ -12,7 +12,7 @@ function App() {
       <Route exact path="/" component={Homepage} />
       <Route path="/sign-up" component={SignUp} />
       <Route path="/sign-in" component={SignIn} />
-      <Route path="/dashboard/:id" component={Dashboard} />
+      <Route path="/user/:id" component={Dashboard} />
     </Router>
   );
 }

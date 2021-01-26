@@ -1,25 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/button";
 import Form from "../components/form";
 import Input from "../components/input";
 import Layout from "../components/layout";
 import Loader from "../components/loader";
+import { register } from "../redux/Actions/userActions";
 
-const SignUp = () => {
+const SignUp = ({ history }) => {
+  const dispatch = useDispatch();
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, userInfo, error } = userRegister;
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [formError, setFormError] = useState("");
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push(`/user/${userInfo.returnedUsername}`);
+    }
+  }, [history, userInfo]);
+
+  const resetInputs = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setUsername("");
+    setPassword("");
+    setConfirmPassword("");
+  };
 
   const handleSignUp = (e) => {
     e.preventDefault();
+
+    if (password === confirmPassword) {
+      resetInputs();
+      dispatch(register(email, username, firstName, lastName, password));
+    } else {
+      setFormError("The passwords do not match");
+    }
   };
 
   return (
     <Layout>
       <Form title={"Sign Up"} className="mx-auto" handleSubmit={handleSignUp}>
+        {loading && <Loader />}
+        {error && <p className="mx-auto w/-1/2 shadow">{error}</p>}
+        {formError && <p className="mx-auto w/-1/2 shadow">{formError}</p>}
         <Input
           placeholder="First Name"
           type="text"

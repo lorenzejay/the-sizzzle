@@ -18,7 +18,7 @@ router.post("/register", validInfo, async (req, res) => {
     const isAlreadyRegistered = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
 
     if (isAlreadyRegistered.rows.length !== 0) {
-      return res.status(401).send("There is already a user associated with this account.");
+      return res.status(401).json("There is already a user associated with this account.");
     }
 
     //bycrypt users password
@@ -34,10 +34,12 @@ router.post("/register", validInfo, async (req, res) => {
       [username, first_name, last_name, email, bycryptPassword]
     );
 
-    //genrate jwt token
+    const returnedUsername = newUser.rows[0].username;
 
+    //genrate jwt token
     const token = jwtGenerator(newUser.rows[0].user_id);
-    res.json({ token });
+    //this is what is returned when our call is successful
+    res.json({ token, returnedUsername });
   } catch (error) {
     console.log(error.message);
   }
@@ -49,10 +51,10 @@ router.post("/login", validInfo, async (req, res) => {
     const { email, password } = req.body;
     //get the user details by checking the username
     const query = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
-
+    const returnedUsername = query.rows[0].username;
     //if there are no users associated with the given username
     if (query.rowCount === 0) {
-      return res.status(401).send("Password or Email is incorrect");
+      return res.status(401).json("Password or Email is incorrect");
     }
     const savedHashPassword = query.rows[0].password;
 
@@ -60,12 +62,12 @@ router.post("/login", validInfo, async (req, res) => {
       if (err) {
         throw err;
       } else if (!isMatch) {
-        return res.status(401).send("Password or Email is incorrect.");
+        return res.status(401).json("Password or Email is incorrect.");
       } else {
         //passwrods match so we should authenticate user
         const token = jwtGenerator(query.rows[0].user_id);
 
-        return res.json({ token });
+        return res.json({ token, returnedUsername });
       }
     });
   } catch (error) {
