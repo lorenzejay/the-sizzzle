@@ -9,6 +9,9 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  ANY_USER_DETAILS_REQUEST,
+  ANY_USER_DETAILS_SUCCESS,
+  ANY_USER_DETAILS_FAIL,
 } from "../Types/userTypes";
 // import axios from "axios";
 
@@ -90,5 +93,21 @@ export const getUserDetails = () => async (dispatch, getState) => {
   } catch (error) {
     console.log(error.message);
     dispatch({ type: USER_DETAILS_FAIL, error: error.message });
+  }
+};
+
+export const getAnyUserDetails = (username) => async (dispatch) => {
+  try {
+    dispatch({ type: ANY_USER_DETAILS_REQUEST });
+
+    const data = await fetch(`http://localhost:5000/users/${username}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    const parsedData = await data.json();
+    dispatch({ type: ANY_USER_DETAILS_SUCCESS, payload: parsedData });
+  } catch (error) {
+    console.log(error.message);
+    dispatch({ type: ANY_USER_DETAILS_FAIL, error: error.message });
   }
 };

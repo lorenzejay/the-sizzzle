@@ -1,6 +1,7 @@
 CREATE DATABASE RecipeGram;
 
---download extension--
+--download extension uuid--
+-- needs to change varchar to 50 --
 CREATE TABLE users(
     user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     username VARCHAR(255) NOT NULL,
@@ -18,11 +19,14 @@ SET DEFAULT '';
 --insert dummy data
 INSERT INTO users(username, first_name, last_name, email, password) VALUES ('John Doe', 'John', 'Doe', 'johndoe@example.com','123456' );
 
-CREATE TABLE user_follows(
-    user_follows_id,
-    follow_from = uuid NOT NULL,
-    follow_to = uuid NOT NULL,
+CREATE TABLE followers(
+    followers_id SERIAL PRIMARY KEY,
+    user_to VARCHAR(55) NOT NULL,
+    user_from VARCHAR(55) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO followers(user_to, user_from) VALUES ('DkMet', 'Excaliber');
 
 CREATE TABLE recipes(
     recipe_id SERIAL PRIMARY KEY,

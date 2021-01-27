@@ -11,7 +11,7 @@ app.use(express.json()); //gives us access to req.body
 //register and login route
 app.use("/users", require("./routes/users"));
 app.use("/dashboard", require("./routes/dashboard"));
-// app.use("/followers", require("./routes/followers"));
+app.use("/followers", require("./routes/followers"));
 
 app.get("/", function (req, res) {
   res.send("Server Started");

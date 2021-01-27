@@ -15,7 +15,10 @@ router.post("/register", validInfo, async (req, res) => {
     const { username, first_name, last_name, email, password } = req.body;
 
     //check if user exists already then throw error
-    const isAlreadyRegistered = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    const isAlreadyRegistered = await pool.query(
+      "SELECT * FROM users WHERE email = $1 OR username = $2",
+      [email, username]
+    );
 
     if (isAlreadyRegistered.rows.length !== 0) {
       return res.status(401).json("There is already a user associated with this account.");
@@ -70,6 +73,29 @@ router.post("/login", validInfo, async (req, res) => {
         return res.json({ token, returnedUsername });
       }
     });
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+//GET
+// get a user based on username passed in
+router.get("/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+
+    //getting user based on username
+    const query = await pool.query(
+      "SELECT user_id, username, first_name, last_name, profilepic FROM USERS WHERE username = $1",
+      [username]
+    );
+
+    if (query.rowCount === 0) {
+      return res.status(404).json(false);
+    }
+
+    const user = query.rows[0];
+    res.json({ user });
   } catch (error) {
     console.log(error.message);
   }

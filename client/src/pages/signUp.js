@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Button from "../components/button";
 import Form from "../components/form";
 import Input from "../components/input";
@@ -22,7 +23,7 @@ const SignUp = ({ history }) => {
 
   useEffect(() => {
     if (userInfo) {
-      history.push(`/user/${userInfo.returnedUsername}`);
+      history.push(`/dashboard/${userInfo.returnedUsername}`);
     }
   }, [history, userInfo]);
 
@@ -97,6 +98,9 @@ const SignUp = ({ history }) => {
         <Button className="w-3/4 md:w-1/2 uppercase" type="submit">
           Continue
         </Button>
+        <Link to="/login" className="mx-auto mt-5">
+          If you already have an account, <span style={{ color: "#ff0078" }}>Sign In</span>
+        </Link>
       </Form>
     </Layout>
   );

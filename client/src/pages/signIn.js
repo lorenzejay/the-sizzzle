@@ -6,6 +6,7 @@ import Layout from "../components/layout";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/Actions/userActions";
 import Loader from "../components/loader";
+import { Link } from "react-router-dom";
 
 const SignIn = ({ history }) => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const SignIn = ({ history }) => {
   // userInfo && console.log(userInfo.user_id);
   useEffect(() => {
     if (userInfo) {
-      history.push(`/user/${userInfo.returnedUsername}`);
+      history.push(`/dashboard/${userInfo.returnedUsername}`);
     }
   }, [history, userInfo]);
 
@@ -46,6 +47,9 @@ const SignIn = ({ history }) => {
         <Button className="w-3/4 md:w-1/2 uppercase" type="submit">
           Sign In
         </Button>
+        <Link to="/sign-up" className="mx-auto mt-5">
+          If you don't have an account, <span style={{ color: "#ff0078" }}>Sign Up</span>
+        </Link>
       </Form>
     </Layout>
   );

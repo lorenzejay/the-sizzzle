@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { FaBars } from "react-icons/fa";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/Actions/userActions";
+import { CgProfile } from "react-icons/cg";
+import { AiFillHome } from "react-icons/ai";
 export const Nav = styled.header`
   //handle transitions here
   background: #fff;
@@ -63,10 +65,6 @@ export const NavMenu = styled.ul`
   list-style: none;
   text-align: center;
   margin-right: 22px;
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
 `;
 
 export const NavItem = styled.li`
@@ -88,10 +86,12 @@ export const NavLinks = styled(Link)`
   }
 `;
 
-const Header = ({ toggle, history }) => {
+const Header = ({ toggle }) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const [search, setSearch] = useState("");
 
   const handleLogout = () => {
     dispatch(logout());
@@ -104,18 +104,27 @@ const Header = ({ toggle, history }) => {
             RecipeGram
           </NavLink>
 
-          <MobileIcon onClick={toggle}>
+          <input
+            className="hidden md:block px-5 py-1"
+            name="search"
+            type="text"
+            placeholder="Search User"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {/* <MobileIcon onClick={toggle}>
             <FaBars />
-          </MobileIcon>
+          </MobileIcon> */}
 
           {userInfo ? (
             <NavMenu>
               <NavItem>
-                <NavLinks to="/">Home</NavLinks>
+                <NavLinks to="/">
+                  <AiFillHome size={26} />
+                </NavLinks>
               </NavItem>
 
               <NavItem>
-                <NavLinks to="/sign-in">Dashboard</NavLinks>
+                <NavLinks to="/login">Dashboard</NavLinks>
               </NavItem>
               <NavItem>
                 <button className="mt-auto h-full" type="button" onClick={handleLogout}>
@@ -130,7 +139,7 @@ const Header = ({ toggle, history }) => {
               </NavItem>
 
               <NavItem>
-                <NavLinks to="/sign-in">Sign In</NavLinks>
+                <NavLinks to="/login">Sign In</NavLinks>
               </NavItem>
               <NavItem>
                 <NavLinks to="/sign-up">Sign Up</NavLinks>

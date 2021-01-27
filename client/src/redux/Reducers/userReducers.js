@@ -10,6 +10,9 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  ANY_USER_DETAILS_REQUEST,
+  ANY_USER_DETAILS_SUCCESS,
+  ANY_USER_DETAILS_FAIL,
 } from "../Types/userTypes";
 
 export const userLogInReducer = (state = {}, action) => {
@@ -47,6 +50,19 @@ export const userDetailsReducer = (state = {}, action) => {
     case USER_DETAILS_SUCCESS:
       return { loading: false, profile: action.payload };
     case USER_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const anyUserDetailsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ANY_USER_DETAILS_REQUEST:
+      return { loading: true };
+    case ANY_USER_DETAILS_SUCCESS:
+      return { loading: false, anyUserProfile: action.payload };
+    case ANY_USER_DETAILS_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

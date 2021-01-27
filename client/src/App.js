@@ -6,13 +6,15 @@ import Homepage from "./pages/homepage";
 import SignIn from "./pages/signIn";
 import SignUp from "./pages/signUp";
 import Dashboard from "./pages/dashboard";
+import EditProfilePage from "./pages/editProfilePage";
 function App() {
   return (
     <Router>
       <Route exact path="/" component={Homepage} />
       <Route path="/sign-up" component={SignUp} />
-      <Route path="/sign-in" component={SignIn} />
-      <Route path="/user/:id" component={Dashboard} />
+      <Route path="/login" component={SignIn} />
+      <Route exact path="/dashboard/:id" component={Dashboard} />
+      <Route path="/dashboard/:id/edit-profile" component={EditProfilePage} />
     </Router>
   );
 }
