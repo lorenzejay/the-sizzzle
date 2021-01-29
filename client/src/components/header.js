@@ -122,6 +122,9 @@ const Header = ({ toggle }) => {
                   <AiFillHome size={26} />
                 </NavLinks>
               </NavItem>
+              <NavItem>
+                <NavLinks to="/upload">Upload</NavLinks>
+              </NavItem>
 
               <NavItem>
                 <NavLinks to="/login">Dashboard</NavLinks>

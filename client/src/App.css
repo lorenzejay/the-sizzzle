@@ -1,8 +1,11 @@
-input {
+input,
+textarea {
   border: 0.75px solid #d3d3d3;
+  outline: none;
 }
 
-input:focus {
+input:focus,
+textarea {
   outline: none !important;
   border: 1.2px solid #000;
 }
