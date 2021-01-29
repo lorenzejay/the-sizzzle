@@ -38,11 +38,12 @@ router.post("/register", validInfo, async (req, res) => {
     );
 
     const returnedUsername = newUser.rows[0].username;
+    const returnedUserId = newUser.rows[0].user_id;
 
     //genrate jwt token
     const token = jwtGenerator(newUser.rows[0].user_id);
     //this is what is returned when our call is successful
-    res.json({ token, returnedUsername });
+    res.json({ token, returnedUsername, returnedUserId });
   } catch (error) {
     console.log(error.message);
   }
@@ -55,6 +56,7 @@ router.post("/login", validInfo, async (req, res) => {
     //get the user details by checking the username
     const query = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
     const returnedUsername = query.rows[0].username;
+    const returnedUserId = query.rows[0].user_id;
     //if there are no users associated with the given username
     if (query.rowCount === 0) {
       return res.status(401).json("Password or Email is incorrect");
@@ -70,7 +72,7 @@ router.post("/login", validInfo, async (req, res) => {
         //passwrods match so we should authenticate user
         const token = jwtGenerator(query.rows[0].user_id);
 
-        return res.json({ token, returnedUsername });
+        return res.json({ token, returnedUsername, returnedUserId });
       }
     });
   } catch (error) {

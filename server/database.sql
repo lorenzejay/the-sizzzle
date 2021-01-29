@@ -21,12 +21,12 @@ INSERT INTO users(username, first_name, last_name, email, password) VALUES ('Joh
 
 CREATE TABLE followers(
     followers_id SERIAL PRIMARY KEY,
-    user_to VARCHAR(55) NOT NULL,
-    user_from VARCHAR(55) NOT NULL,
+    user_to uuid REFERENCES users(user_id) NOT NULL,
+    user_from uuid REFERENCES users(user_id) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO followers(user_to, user_from) VALUES ('DkMet', 'Excaliber');
+INSERT INTO followers(user_to, user_from) VALUES ('7e253413-c371-4a3c-84bf-12ef45861795', '8e96a151-7882-4002-abb1-f1b3b411c754');
 
 CREATE TABLE recipes(
     recipe_id SERIAL PRIMARY KEY,
