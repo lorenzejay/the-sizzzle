@@ -146,7 +146,7 @@ const Dashboard = ({ location }) => {
                 <Link to={`/post/${post.upload_id}`} key={post.upload_id}>
                   <img
                     src={post.image_url}
-                    className="w-32 h-32 md:w-44 md:h-44 "
+                    className="w-32 h-32 md:w-44 md:h-44 object-cover"
                     loading="lazy"
                     alt="post"
                   />

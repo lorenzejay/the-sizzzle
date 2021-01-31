@@ -31,7 +31,7 @@ const SignIn = ({ history }) => {
     <Layout>
       <Form title="Sign In" handleSubmit={(e) => handleLogin(e)}>
         {loading && <Loader />}
-        {error && <p className="red shadow">{error}</p>}
+        {error && <p className="text-red-500 shadow">{error}</p>}
         <Input
           placeholder="Email"
           type="email"
