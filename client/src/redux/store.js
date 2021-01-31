@@ -12,6 +12,7 @@ import {
   followersReducer,
   followUserReducer,
 } from "./Reducers/followerReducer";
+import { getAllUserUploadsReducer, uploadPostReducer } from "./Reducers/uploadReducer";
 
 const reducers = combineReducers({
   userLogin: userLogInReducer,
@@ -22,6 +23,9 @@ const reducers = combineReducers({
   getFollows: followersReducer,
   follow: followUserReducer,
   checkIfFollowing: followCheckerReducer,
+
+  uploadPost: uploadPostReducer,
+  allUserPosts: getAllUserUploadsReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
