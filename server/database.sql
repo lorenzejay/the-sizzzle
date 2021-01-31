@@ -28,12 +28,14 @@ CREATE TABLE followers(
 
 INSERT INTO followers(user_to, user_from) VALUES ('7e253413-c371-4a3c-84bf-12ef45861795', '8e96a151-7882-4002-abb1-f1b3b411c754');
 
-CREATE TABLE recipes(
-    recipe_id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    media VARCHAR(255)
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE uploads(
+    upload_id SERIAL PRIMARY KEY,
+    uploaded_by uuid REFERENCES users(user_id) NOT NULL,
+    title VARCHAR(50) NOT NULL,
+    description TEXT NOT NULL,
+    cloudinary_id VARCHAR(128) NOT NULL,
+    image_url VARCHAR(128) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 

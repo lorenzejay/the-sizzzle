@@ -3,11 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/button";
 import Input from "../components/input";
 import Layout from "../components/layout";
+import Loader from "../components/loader";
+import { uploadUsersPost } from "../redux/Actions/uploadActions";
 
 const Upload = ({ history }) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const uploadPost = useSelector((state) => state.uploadPost);
+  const { postResult, error, loading } = uploadPost;
 
   const [fileInputState, setFileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
@@ -20,6 +25,12 @@ const Upload = ({ history }) => {
       history.push("/login");
     }
   }, [dispatch, history]);
+
+  // useEffect(() => {
+  //   if (postResult && !error) {
+  //     history.push("/");
+  //   }
+  // }, [dispatch, history, postResult]);
 
   const handleFileInputState = (e) => {
     //grabs the first file
@@ -37,26 +48,31 @@ const Upload = ({ history }) => {
   const handleSubmitPost = (e) => {
     e.preventDefault();
     if (!previewSource || !title || !description) return;
-    uploadImage(previewSource);
-  };
-
-  const uploadImage = async (base64EncodedImage) => {
-    console.log(base64EncodedImage);
-    //will be done through redux instead later
-    try {
-      await fetch("http://localhost:5000/upload/submit", {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({ data: base64EncodedImage, title, description }),
-      });
-    } catch (error) {
-      console.log(error);
+    // uploadImage(previewSource);
+    dispatch(uploadUsersPost(title, description, previewSource));
+    if (postResult && !error) {
+      history.push("/");
     }
   };
+
+  // const uploadImage = async (base64EncodedImage) => {
+  //   console.log(base64EncodedImage);
+  //   //will be done through redux instead later
+  //   try {
+  //     await fetch("http://localhost:5000/upload", {
+  //       method: "POST",
+  //       headers: { "Content-type": "application/json" },
+  //       body: JSON.stringify({ data: base64EncodedImage, title, description }),
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <Layout>
       <div>
+        {loading && <Loader />}
         <form
           onSubmit={handleSubmitPost}
           className="flex flex-col justify-center items-center padding"

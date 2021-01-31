@@ -8,6 +8,7 @@ import SignUp from "./pages/signUp";
 import Dashboard from "./pages/dashboard";
 import EditProfilePage from "./pages/editProfilePage";
 import Upload from "./pages/upload";
+import PostTemplate from "./pages/postTemplate";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route exact path="/dashboard/:id" component={Dashboard} />
       <Route path="/dashboard/:id/edit-profile" component={EditProfilePage} />
       <Route path="/upload" component={Upload} />
+      <Route path="/post/:id" component={PostTemplate} />
     </Router>
   );
 }
