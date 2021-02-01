@@ -68,6 +68,15 @@ const Dashboard = ({ location }) => {
       dispatch(getFollowers(anyUserProfile.user.user_id));
     }
   }, [dispatch, anyUserProfile, loading, follow]);
+
+  //check if the user is following
+  useEffect(() => {
+    if (anyUserProfile && userInfo && anyUserProfile !== userInfo.returnedUserId) {
+      dispatch(checkIfUserIsFollowingAlready(anyUserProfile.user.user_id));
+    }
+  }, [dispatch, anyUserProfile, follow]);
+
+  //get users posts
   useEffect(() => {
     if (anyUserProfile && anyUserProfile.user) {
       dispatch(getAllUserPosts(anyUserProfile.user.user_id));
@@ -85,7 +94,7 @@ const Dashboard = ({ location }) => {
     }
   };
 
-  // console.log(userInfo);
+  console.log(isFollowing);
 
   return (
     <Layout>
@@ -124,7 +133,7 @@ const Dashboard = ({ location }) => {
               </Link>
             ) : userInfo && userInfo.returnedUsername ? (
               <button
-                className={`px-10 rounded text-white py-1 my-5 focus:outline-none w-40 h-8 text-center ${
+                className={`px-10 rounded text-white py-1 my-5 focus:outline-none w-40 h-8 text-center transition duration-500 ease-in-out block ${
                   isFollowing ? "bg-gray-300" : "bg-red-500"
                 }`}
                 onClick={followCommand}
@@ -132,7 +141,7 @@ const Dashboard = ({ location }) => {
                 {isFollowing ? <FiUserCheck className="mx-auto" size={16} /> : "Follow"}
               </button>
             ) : (
-              <Link to="/login" className="bg-red-500 px-10 rounded text-white py-1 my-5">
+              <Link to="/login" className="bg-red-500 px-10 rounded text-white py-1 my-5 block">
                 Login to follow
               </Link>
             )}
@@ -143,7 +152,21 @@ const Dashboard = ({ location }) => {
             {errorPosts && <h1 className="text-red-600">{errorPosts}</h1>}
             {allPosts &&
               allPosts.map((post) => (
-                <Link to={`/post/${post.upload_id}`} key={post.upload_id}>
+                <Link
+                  to={{
+                    pathname: `/post/${post.upload_id}`,
+                    state: {
+                      // title: post.title,
+                      // description: post.description,
+                      // cloudinaryId: post.cloudinary_id,
+                      // uploadedBy: post.uploaded_by,
+                      uploadId: post.upload_id,
+                      // imageUrl: post.image_url,
+                      // createdAt: post.created_at,
+                    },
+                  }}
+                  key={post.upload_id}
+                >
                   <img
                     src={post.image_url}
                     className="w-32 h-32 md:w-44 md:h-44 object-cover"
