@@ -24,7 +24,7 @@ export const login = (email, password) => async (dispatch) => {
     //   },
     // };
     // const { data } = await axios.post("/users/login", JSON.stringify({ email, password }), config);
-    const data = await fetch("http://localhost:5000/users/login", {
+    const data = await fetch("http://localhost:5000/api/users/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -52,7 +52,7 @@ export const register = (email, username, first_name, last_name, password) => as
   try {
     dispatch({ type: USER_REGISTER_REQUEST });
 
-    const data = await fetch("http://localhost:5000/users/register", {
+    const data = await fetch("http://localhost:5000/api/users/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -84,7 +84,7 @@ export const getUserDetails = () => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const data = await fetch("http://localhost:5000/dashboard/", {
+    const data = await fetch("http://localhost:5000/api/dashboard/", {
       method: "GET",
       headers: { token: `${userInfo.token}`, "Content-Type": "application/json" },
     });
@@ -100,7 +100,7 @@ export const getAnyUserDetails = (username) => async (dispatch) => {
   try {
     dispatch({ type: ANY_USER_DETAILS_REQUEST });
 
-    const data = await fetch(`http://localhost:5000/users/${username}`, {
+    const data = await fetch(`http://localhost:5000/api/users/${username}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
