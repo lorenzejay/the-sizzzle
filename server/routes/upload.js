@@ -39,24 +39,24 @@ router.post("/", authorization, async (req, res) => {
 });
 
 //GET THE image we just posted
-router.get("/retrieve-image/:cloudinary_id", authorization, async (req, res) => {
-  try {
-    //get the cloudinary_id
-    const { cloudinary_id } = req.params;
-    const user_id = req.user;
-    console.log(user_id);
-    //query based on the id
-    const query = await pool.query(
-      "SELECT * FROM uploads WHERE cloudinary_id = $1 AND uploaded_by = $2",
-      [cloudinary_id, user_id]
-    );
-    const result = query.rows[0];
+// router.get("/retrieve-image/:cloudinary_id", authorization, async (req, res) => {
+//   try {
+//     //get the cloudinary_id
+//     const { cloudinary_id } = req.params;
+//     const user_id = req.user;
+//     console.log(user_id);
+//     //query based on the id
+//     const query = await pool.query(
+//       "SELECT * FROM uploads WHERE cloudinary_id = $1 AND uploaded_by = $2",
+//       [cloudinary_id, user_id]
+//     );
+//     const result = query.rows[0];
 
-    res.status(200).json({ result });
-  } catch (error) {
-    console.log(error.message);
-  }
-});
+//     res.status(200).json({ result });
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// });
 
 //get all users posts based on their user id
 router.get("/get-user-post/:user_id", async (req, res) => {
@@ -80,6 +80,44 @@ router.get("/get-upload-details/:upload_id", async (req, res) => {
     res.status(200).json(result);
   } catch (error) {
     console.log(error);
+  }
+});
+
+//GET followings posts
+router.get("/user-following-post", authorization, async (req, res) => {
+  try {
+    const user_id = req.user;
+
+    //get the posts of the users following so we can fill the feed with this
+    // SELECT * FROM `posts`
+    // WHERE `username` = 'user1'
+    // OR `username` IN (SELECT `follower` FROM `connection` WHERE `following`='user1' AND `status`=1)
+
+    // const query = await pool.query(
+    //   "SELECT * FROM uploads WHERE uploaded_by IN (SELECT user_to FROM followers WHERE user_from = $1)",
+    //   [user_id]
+    // );
+    const query = await pool.query(
+      "SELECT * FROM uploads WHERE uploaded_by = $1 OR uploaded_by IN (SELECT user_to FROM followers WHERE user_from = $1) ORDER BY created_at DESC",
+      [user_id]
+    );
+
+    // console.log(user_id);
+    res.json(query.rows);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+router.get("/details/:upload_id", async (req, res) => {
+  try {
+    const { upload_id } = req.params;
+
+    const query = await pool.query("SELECT * FROM uploads WHERE upload_id = $1", [upload_id]);
+    const result = query.rows[0];
+    res.json(result);
+  } catch (error) {
+    console.log(error.message);
   }
 });
 
