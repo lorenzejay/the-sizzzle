@@ -12,10 +12,10 @@ app.use(express.urlencoded({ limit: "50mb", extended: true })); //allows to acce
 
 //ROUTES//
 //register and login route
-app.use("/users", require("./routes/users"));
-app.use("/dashboard", require("./routes/dashboard"));
-app.use("/followers", require("./routes/followers"));
-app.use("/upload", require("./routes/upload"));
+app.use("/api/users", require("./routes/users"));
+app.use("/api/dashboard", require("./routes/dashboard"));
+app.use("/api/followers", require("./routes/followers"));
+app.use("/api/upload", require("./routes/upload"));
 
 app.get("/", function (req, res) {
   res.send("Server Started");
