@@ -9,10 +9,9 @@ import {
   followThisUser,
   checkIfUserIsFollowingAlready,
 } from "../redux/Actions/followersAction";
-import PostImage from "../images/steak.jpg";
 import Loader from "../components/loader";
 import { Link } from "react-router-dom";
-import { FiCheckUs, FiUserCheck } from "react-icons/fi";
+import { FiUserCheck } from "react-icons/fi";
 import { getAllUserPosts } from "../redux/Actions/uploadActions";
 
 export const UserProfile = styled.div``;
@@ -23,8 +22,8 @@ const Dashboard = ({ location }) => {
   const [isLoggedInUserProfile, setIsLoggedInUserProfile] = useState(false);
 
   const path = location.pathname;
-  const queriedUser = path.substring(11, path.length);
-
+  const queriedUser = path.substring(1, path.length);
+  console.log(path);
   const dispatch = useDispatch();
 
   //if there is a logged in user
