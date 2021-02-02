@@ -103,6 +103,21 @@ router.get("/:username", async (req, res) => {
   }
 });
 
+//search bar for users
+router.get("/search/:searchTerm", async (req, res) => {
+  const { searchTerm } = req.params;
+
+  const query = await pool.query("SELECT username, user_id from users WHERE username LIKE $1", [
+    `${searchTerm}%`,
+  ]);
+
+  const result = query.rows;
+  if (result.length === 0) {
+    res.status(404).send("No users found");
+  }
+  res.json(result);
+});
+
 router.get("/is-verify", authorization, async (req, res) => {
   try {
     res.json(true);
