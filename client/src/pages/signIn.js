@@ -18,7 +18,7 @@ const SignIn = ({ history }) => {
   // userInfo && console.log(userInfo.user_id);
   useEffect(() => {
     if (userInfo) {
-      history.push(`/dashboard/${userInfo.returnedUsername}`);
+      history.push(`/${userInfo.returnedUsername}`);
     }
   }, [history, userInfo]);
 

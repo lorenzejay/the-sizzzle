@@ -23,7 +23,7 @@ const SignUp = ({ history }) => {
 
   useEffect(() => {
     if (userInfo) {
-      history.push(`/dashboard/${userInfo.returnedUsername}`);
+      history.push(`/${userInfo.returnedUsername}`);
     }
   }, [history, userInfo]);
 
