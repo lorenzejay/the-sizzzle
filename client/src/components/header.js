@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { FaBars } from "react-icons/fa";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/Actions/userActions";
-import { CgProfile } from "react-icons/cg";
 import { AiFillHome } from "react-icons/ai";
+
 export const Nav = styled.header`
   //handle transitions here
   background: #fff;
@@ -86,12 +85,31 @@ export const NavLinks = styled(Link)`
   }
 `;
 
-const Header = ({ toggle }) => {
+const Header = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const [search, setSearch] = useState("");
+  // const searchedUsername = useSelector((state) => state.searchedUsername);
+  // const { loading, error, searchedProfiles } = searchedUsername;
+
+  const [searchedProfiles, setSearchedProfile] = useState([]);
+
+  const handleSearch = async (e) => {
+    try {
+      const data = await fetch(`http://localhost:5000/api/users/search/${e.target.value}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const parsedData = await data.json();
+      setSearchedProfile(parsedData);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // console.log(searchedProfiles);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -104,16 +122,43 @@ const Header = ({ toggle }) => {
             RecipeGram
           </NavLink>
 
-          <input
-            className="hidden md:block px-5 py-1"
-            name="search"
-            type="text"
-            placeholder="Search User"
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          {/* <MobileIcon onClick={toggle}>
-            <FaBars />
-          </MobileIcon> */}
+          <div>
+            <input
+              className="hidden md:block px-5 py-1 text-left"
+              name="search"
+              type="text"
+              placeholder="Search User"
+              onChange={handleSearch}
+            />
+            {searchedProfiles && (
+              <div className="origin-top absolute top-12 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div
+                  className={` overflow-y-auto ${
+                    searchedProfiles.length === 0
+                      ? "hidden"
+                      : searchedProfiles && searchedProfiles.length === 0
+                      ? "hidden"
+                      : "block"
+                  } max-h-28`}
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="options-menu"
+                >
+                  {searchedProfiles &&
+                    searchedProfiles.map((user) => (
+                      <Link
+                        onClick={() => setSearchedProfile([])}
+                        key={user.user_id}
+                        to={`/${user.username}`}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition duration-500 ease-in-ou"
+                      >
+                        {user.username}
+                      </Link>
+                    ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           {userInfo ? (
             <NavMenu>
