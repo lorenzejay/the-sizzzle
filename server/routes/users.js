@@ -4,6 +4,8 @@ const bycrypt = require("bcrypt");
 const jwtGenerator = require("../utils/jwtGenerator.js");
 const validInfo = require("../middleware/validInfo");
 const authorization = require("../middleware/authorization");
+const { cloudinary } = require("../utils/cloudinary");
+
 //401 - person is unauthenticated
 //403 - for not authorized
 
@@ -116,6 +118,29 @@ router.get("/search/:searchTerm", async (req, res) => {
     res.status(404).send("No users found");
   }
   res.json(result);
+});
+
+//post the user profile image
+router.put("/profile-pic-upload/", authorization, async (req, res) => {
+  try {
+    const fileStr = req.body.data; //image uploaded
+    const user_id = req.user;
+
+    const uploadImageResponse = await cloudinary.uploader.upload(fileStr, {
+      use_filename: true,
+    });
+    // console.log(uploadImageResponse);
+
+    const query = await pool.query(
+      "UPDATE users SET profilepic = $1 WHERE user_id = $2 RETURNING *",
+      [uploadImageResponse.secure_url, user_id]
+    );
+    const result = query.rows[0];
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Failed to upload profile image" });
+  }
 });
 
 router.get("/is-verify", authorization, async (req, res) => {
