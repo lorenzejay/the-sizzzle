@@ -18,8 +18,8 @@ router.post("/", authorization, async (req, res) => {
       "INSERT INTO uploads (uploaded_by, title, description, cloudinary_id, image_url) VALUES ($1, $2 ,$3, $4, $5) RETURNING *",
       [user_id, title, description, uploadImageResponse.public_id, uploadImageResponse.secure_url]
     );
-
     const result = query.rows[0];
+    //select username and profile pic from the user that just posted the imag
 
     res.status(201).json({
       data: {
