@@ -38,6 +38,13 @@ CREATE TABLE uploads(
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE saved_uploads(
+    saved_upload_id SERIAL PRIMARY KEY,
+    saved_by uuid REFERENCES users(user_id) NOT NULL,
+    upload_post SERIAL REFERENCES uploads(upload_id) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 
 CREATE TABLE ingredients(
     ingredients_id SERIAL PRIMARY KEY,
@@ -49,23 +56,16 @@ CREATE TABLE ingredients(
     
 )
 
-CREATE TABLE saved_recipes(
-    id SERIAL PRIMARY KEY,
-    user_Id INT NOT NULL,
-    recipe_Id INT NOT NULL,
-    FOREIGN KEY (user_Id) REFERENCES user(id),
-    FOREIGN KEY (recipe_Id) REFERENCES recipe(id)
-);
 
 CREATE TABLE comments(
     id SERIAL PRIMARY KEY,
     recipe_id int NOT NULL,
     user_id uuid NOT NULL,
-    isReply boolean,
+    isReply boolean SET DEFAULT false,
     FOREIGN KEY (user_Id) REFERENCES user(id),
     FOREIGN KEY (recipe_Id) REFERENCES recipe(id)
 )
 
-ALTER TABLE comments
-ALTER COLUMN isReply
-SET DEFAULT false
+-- ALTER TABLE comments
+-- ALTER COLUMN isReply
+-- SET DEFAULT false
