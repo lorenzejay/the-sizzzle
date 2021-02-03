@@ -16,6 +16,7 @@ app.use("/api/users", require("./routes/users"));
 app.use("/api/dashboard", require("./routes/dashboard"));
 app.use("/api/followers", require("./routes/followers"));
 app.use("/api/upload", require("./routes/upload"));
+app.use("/api/save-uploads", require("./routes/savedUploads"));
 
 app.get("/", function (req, res) {
   res.send("Server Started");
