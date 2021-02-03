@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
   anyUserDetailsReducer,
+  updateProfilePictureReducer,
   userDetailsReducer,
   userLogInReducer,
   userRegisterReducer,
@@ -24,6 +25,7 @@ const reducers = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   anyUserDetails: anyUserDetailsReducer,
+  userUpdateProfilePicture: updateProfilePictureReducer,
 
   getFollows: followersReducer,
   follow: followUserReducer,

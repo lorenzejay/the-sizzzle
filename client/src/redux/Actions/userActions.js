@@ -12,6 +12,9 @@ import {
   ANY_USER_DETAILS_REQUEST,
   ANY_USER_DETAILS_SUCCESS,
   ANY_USER_DETAILS_FAIL,
+  USER_UPDATE_PROFILE_PICTURE_REQUEST,
+  USER_UPDATE_PROFILE_PICTURE_SUCCESS,
+  USER_UPDATE_PROFILE_PICTURE_FAIL,
 } from "../Types/userTypes";
 // import axios from "axios";
 
@@ -109,5 +112,24 @@ export const getAnyUserDetails = (username) => async (dispatch) => {
   } catch (error) {
     console.log(error.message);
     dispatch({ type: ANY_USER_DETAILS_FAIL, error: error.message });
+  }
+};
+
+export const udpateUserProfilePic = (base64EncodedImage) => async (dispatch, getState) => {
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    dispatch({ type: USER_UPDATE_PROFILE_PICTURE_REQUEST });
+    const data = await fetch("http://localhost:5000/api/users/profile-pic-upload", {
+      method: "PUT",
+      headers: { token: `${userInfo.token}`, "Content-type": "application/json" },
+      body: JSON.stringify({ data: base64EncodedImage }),
+    });
+    const parsedData = await data.json();
+    dispatch({ type: USER_UPDATE_PROFILE_PICTURE_SUCCESS, payload: parsedData });
+  } catch (error) {
+    console.log(error.message);
+    dispatch({ type: USER_UPDATE_PROFILE_PICTURE_FAIL, payload: error.message });
   }
 };

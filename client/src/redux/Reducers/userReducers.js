@@ -12,6 +12,9 @@ import {
   ANY_USER_DETAILS_REQUEST,
   ANY_USER_DETAILS_SUCCESS,
   ANY_USER_DETAILS_FAIL,
+  USER_UPDATE_PROFILE_PICTURE_REQUEST,
+  USER_UPDATE_PROFILE_PICTURE_SUCCESS,
+  USER_UPDATE_PROFILE_PICTURE_FAIL,
 } from "../Types/userTypes";
 
 export const userLogInReducer = (state = {}, action) => {
@@ -62,6 +65,18 @@ export const anyUserDetailsReducer = (state = {}, action) => {
     case ANY_USER_DETAILS_SUCCESS:
       return { loading: false, anyUserProfile: action.payload };
     case ANY_USER_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+export const updateProfilePictureReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_UPDATE_PROFILE_PICTURE_REQUEST:
+      return { loading: true };
+    case USER_UPDATE_PROFILE_PICTURE_SUCCESS:
+      return { loading: false, profilePic: action.payload };
+    case USER_UPDATE_PROFILE_PICTURE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
