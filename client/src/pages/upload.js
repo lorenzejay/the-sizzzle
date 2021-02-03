@@ -16,7 +16,7 @@ const Upload = ({ history }) => {
 
   const [fileInputState, setFileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -54,20 +54,6 @@ const Upload = ({ history }) => {
       history.push("/");
     }
   };
-
-  // const uploadImage = async (base64EncodedImage) => {
-  //   console.log(base64EncodedImage);
-  //   //will be done through redux instead later
-  //   try {
-  //     await fetch("http://localhost:5000/upload", {
-  //       method: "POST",
-  //       headers: { "Content-type": "application/json" },
-  //       body: JSON.stringify({ data: base64EncodedImage, title, description }),
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   return (
     <Layout>
