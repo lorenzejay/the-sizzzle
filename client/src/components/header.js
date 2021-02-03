@@ -131,7 +131,7 @@ const Header = () => {
               onChange={handleSearch}
             />
             {searchedProfiles && (
-              <div className="origin-top absolute top-12 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+              <div className="origin-top absolute top-12 mt-2 w-56 md:rounded-md md:shadow-lg bg-white md:ring-1 md:ring-black md:ring-opacity-5">
                 <div
                   className={` overflow-y-auto ${
                     searchedProfiles.length === 0
