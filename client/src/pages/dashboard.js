@@ -93,7 +93,7 @@ const Dashboard = ({ location }) => {
     }
   };
 
-  console.log(isFollowing);
+  console.log(anyUserProfile);
 
   return (
     <Layout>
@@ -104,7 +104,7 @@ const Dashboard = ({ location }) => {
         <UserProfile className="px-10 flex flex-col">
           <div className="flex flex-col justify-center items-center mt-10">
             <img
-              src={DefaultPP}
+              src={anyUserProfile.user.profilepic || DefaultPP}
               alt="Profile Picture"
               title="profile picture"
               className="rounded-full h-52 w-52 object-cover mb-10"
@@ -126,7 +126,12 @@ const Dashboard = ({ location }) => {
             {isLoggedInUserProfile && userInfo ? (
               <Link
                 className="bg-gray-500 px-10 rounded text-white py-1 my-5"
-                to={`/dashboard/${userInfo.returnedUsername}/edit-profile`}
+                to={{
+                  pathname: `/${userInfo.returnedUsername}/edit-profile`,
+                  state: {
+                    user: userInfo.returnedUserId,
+                  },
+                }}
               >
                 Edit Profile
               </Link>
