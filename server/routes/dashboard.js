@@ -31,6 +31,28 @@ router.delete("/delete-user", authorization, async (req, res) => {
   }
 });
 
+//update first,lastname and username
+//PUT
+//update names
+//body contains first_name lname, username
+//update users set firstname= firstname, ...  where user_id = user_id
+router.put("/update-names", authorization, async (req, res) => {
+  const user_id = req.user;
+  const { first_name, last_name, username } = req.body;
+
+  //check that the username they want to update to is taken
+  const checkUsername = await pool.query("select * from users WHERE username = $1", [username]);
+  if (checkUsername.rowCount > 0) {
+    return res.json(false);
+  }
+
+  await pool.query(
+    "UPDATE users SET first_name = $1, last_name = $2, username = $3 WHERE user_id = $4",
+    [first_name, last_name, username, user_id]
+  );
+  return res.json(true);
+});
+
 //update username
 router.put("/update-username", authorization, async (req, res) => {
   //check if the username they want to change to is the same username
