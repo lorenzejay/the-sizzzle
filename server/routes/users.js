@@ -11,7 +11,7 @@ const { cloudinary } = require("../utils/cloudinary");
 
 //registering a user to the db
 //POST to /users
-router.post("/register", validInfo, async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     //we need username, firstname, lastname,email, and password
     const { username, first_name, last_name, email, password } = req.body;
@@ -23,7 +23,10 @@ router.post("/register", validInfo, async (req, res) => {
     );
 
     if (isAlreadyRegistered.rows.length !== 0) {
-      return res.status(401).json("There is already a user associated with this account.");
+      return res.status(401).json({
+        success: false,
+        message: "There is already an account associate with the email or username.",
+      });
     }
 
     //bycrypt users password
@@ -34,9 +37,11 @@ router.post("/register", validInfo, async (req, res) => {
 
     const bycryptPassword = await bycrypt.hash(password, salt);
 
+    const noSpaceUsername = await username.split(" ").join("");
+
     const newUser = await pool.query(
       "INSERT INTO users(username, first_name, last_name, email, password) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [username, first_name, last_name, email, bycryptPassword]
+      [noSpaceUsername, first_name, last_name, email, bycryptPassword]
     );
 
     const returnedUsername = newUser.rows[0].username;
@@ -45,38 +50,53 @@ router.post("/register", validInfo, async (req, res) => {
     //genrate jwt token
     const token = jwtGenerator(newUser.rows[0].user_id);
     //this is what is returned when our call is successful
-    res.json({ token, returnedUsername, returnedUserId });
+    res.json({
+      success: true,
+      token,
+      returnedUsername,
+      returnedUserId,
+      message: "Account Created",
+    });
   } catch (error) {
     console.log(error.message);
   }
 });
 
 //post route for logining in users
-router.post("/login", validInfo, async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+
     //get the user details by checking the username
     const query = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
-    const returnedUsername = query.rows[0].username;
-    const returnedUserId = query.rows[0].user_id;
     //if there are no users associated with the given username
-    if (query.rowCount === 0) {
-      return res.status(401).json("Password or Email is incorrect");
+
+    if (query.rows.length === 0) {
+      return res.json({ success: false, message: "User Email or Password is incorrect" });
+    } else {
+      const returnedUsername = query.rows[0].username;
+      const returnedUserId = query.rows[0].user_id;
+      const savedHashPassword = query.rows[0].password;
+
+      await bycrypt.compare(password, savedHashPassword, function (err, isMatch) {
+        if (err) {
+          throw err;
+        } else if (!isMatch) {
+          return res.json({ success: false, message: "User Email or Password is incorrect" });
+        } else {
+          //passwrods match so we should authenticate user
+          const token = jwtGenerator(query.rows[0].user_id);
+
+          return res.json({
+            success: true,
+            token,
+            returnedUsername,
+            returnedUserId,
+            message: "Logged In Successfully",
+          });
+        }
+      });
     }
-    const savedHashPassword = query.rows[0].password;
-
-    await bycrypt.compare(password, savedHashPassword, function (err, isMatch) {
-      if (err) {
-        throw err;
-      } else if (!isMatch) {
-        return res.status(401).json("Password or Email is incorrect.");
-      } else {
-        //passwrods match so we should authenticate user
-        const token = jwtGenerator(query.rows[0].user_id);
-
-        return res.json({ token, returnedUsername, returnedUserId });
-      }
-    });
   } catch (error) {
     console.log(error.message);
   }
@@ -143,11 +163,12 @@ router.put("/profile-pic-upload/", authorization, async (req, res) => {
   }
 });
 
-router.get("/is-verify", authorization, async (req, res) => {
+router.post("/verify", authorization, async (req, res) => {
   try {
     res.json(true);
   } catch (error) {
     console.log(error.message);
+    res.status(500).send("Server Error");
   }
 });
 
