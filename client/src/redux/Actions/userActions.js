@@ -70,10 +70,13 @@ export const register = (email, username, first_name, last_name, password) => as
 
     const parsedData = await data.json();
 
-    // dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
-    dispatch({ type: USER_LOGIN_SUCCESS, payload: parsedData });
-    dispatch({ type: USER_REGISTER_SUCCESS, payload: parsedData });
-    localStorage.setItem("userInfo", JSON.stringify(parsedData));
+    if (parsedData.success) {
+      dispatch({ type: USER_LOGIN_SUCCESS, payload: parsedData });
+      dispatch({ type: USER_REGISTER_SUCCESS, payload: parsedData });
+      localStorage.setItem("userInfo", JSON.stringify(parsedData));
+    } else if (parsedData.success === false) {
+      dispatch({ type: USER_REGISTER_FAIL, payload: parsedData.message });
+    }
   } catch (error) {
     console.log(error.message);
     dispatch({ type: USER_REGISTER_FAIL, payload: error.message });
