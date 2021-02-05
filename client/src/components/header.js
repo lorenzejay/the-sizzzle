@@ -149,7 +149,7 @@ const Header = () => {
                       <Link
                         onClick={() => setSearchedProfile([])}
                         key={user.user_id}
-                        to={`/${user.username}`}
+                        to={`/dashboard/${user.username}`}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition duration-500 ease-in-ou"
                       >
                         {user.username}
