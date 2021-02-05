@@ -15,18 +15,16 @@ import {
   USER_UPDATE_PROFILE_PICTURE_REQUEST,
   USER_UPDATE_PROFILE_PICTURE_SUCCESS,
   USER_UPDATE_PROFILE_PICTURE_FAIL,
+  USER_UPDATE_NAMES_REQUEST,
+  USER_UPDATE_NAMES_SUCCESS,
+  USER_UPDATE_NAMES_FAIL,
 } from "../Types/userTypes";
 // import axios from "axios";
 
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
-    // const config = {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // };
-    // const { data } = await axios.post("/users/login", JSON.stringify({ email, password }), config);
+
     const data = await fetch("http://localhost:5000/api/users/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -37,16 +35,19 @@ export const login = (email, password) => async (dispatch) => {
     });
 
     const parsedData = await data.json();
-    dispatch({ type: USER_LOGIN_SUCCESS, payload: parsedData });
-
-    localStorage.setItem("userInfo", JSON.stringify(parsedData));
+    if (parsedData.success) {
+      dispatch({ type: USER_LOGIN_SUCCESS, payload: parsedData });
+      localStorage.setItem("userInfo", JSON.stringify(parsedData));
+    } else if (parsedData.success === false) {
+      dispatch({ type: USER_LOGIN_FAIL, payload: parsedData.message });
+    }
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     dispatch({ type: USER_LOGIN_FAIL, payload: error.message });
   }
 };
 
-export const logout = () => (dispatch) => {
+export const logout = () => async (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT_SUCCESS });
 };
@@ -131,5 +132,28 @@ export const udpateUserProfilePic = (base64EncodedImage) => async (dispatch, get
   } catch (error) {
     console.log(error.message);
     dispatch({ type: USER_UPDATE_PROFILE_PICTURE_FAIL, payload: error.message });
+  }
+};
+
+export const updateNames = (first_name, last_name, username) => async (dispatch, getState) => {
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    dispatch({ type: USER_UPDATE_NAMES_REQUEST });
+    const data = await fetch("http://localhost:5000/api/dashboard/update-names", {
+      method: "PUT",
+      headers: { token: `${userInfo.token}`, "Content-type": "application/json" },
+      body: JSON.stringify({
+        first_name,
+        last_name,
+        username,
+      }),
+    });
+    const parsedData = await data.json();
+    dispatch({ type: USER_UPDATE_NAMES_SUCCESS, payload: parsedData });
+  } catch (error) {
+    console.log(error.message);
+    dispatch({ type: USER_UPDATE_NAMES_FAIL, payload: error.message });
   }
 };
