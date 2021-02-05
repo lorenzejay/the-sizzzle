@@ -16,8 +16,8 @@ function App() {
       <Route exact path="/" component={Homepage} />
       <Route path="/sign-up" component={SignUp} />
       <Route path="/login" component={SignIn} />
-      <Route exact path="/:id" component={Dashboard} />
-      <Route path="/:id/edit-profile" component={EditProfilePage} />
+      <Route path="/dashboard/:id/edit-profile" component={EditProfilePage} />
+      <Route exact path="/dashboard/:id" component={Dashboard} />
       <Route path="/upload" component={Upload} />
       <Route path="/post/:id" component={PostTemplate} />
     </Router>
