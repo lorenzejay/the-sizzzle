@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/Actions/userActions";
-import { AiFillHome } from "react-icons/ai";
+import { AiFillHome, AiOutlineUpload } from "react-icons/ai";
+import DefaultPP from "../images/dpp.png";
 
 export const Nav = styled.header`
   //handle transitions here
@@ -168,11 +169,21 @@ const Header = () => {
                 </NavLinks>
               </NavItem>
               <NavItem>
-                <NavLinks to="/upload">Upload</NavLinks>
+                <NavLinks to="/upload">
+                  <AiOutlineUpload size={26} />
+                </NavLinks>
               </NavItem>
 
               <NavItem>
-                <NavLinks to="/login">Dashboard</NavLinks>
+                {
+                  <NavLinks to={`/dashboard/${userInfo.returnedUsername}`}>
+                    <img
+                      src={userInfo.profilepic || DefaultPP}
+                      alt="profile-image"
+                      className="w-10 h-10 rounded-full object-fit"
+                    />
+                  </NavLinks>
+                }
               </NavItem>
               <NavItem>
                 <button className="mt-auto h-full" type="button" onClick={handleLogout}>
