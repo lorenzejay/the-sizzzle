@@ -15,10 +15,10 @@ const SignIn = ({ history }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // userInfo && console.log(userInfo.user_id);
+
   useEffect(() => {
     if (userInfo) {
-      history.push(`/${userInfo.returnedUsername}`);
+      history.push(`/dashboard/${userInfo.returnedUsername}`);
     }
   }, [history, userInfo]);
 
@@ -36,15 +36,20 @@ const SignIn = ({ history }) => {
           placeholder="Email"
           type="email"
           value={email}
+          name="email"
+          className="mx-auto"
+          className="mx-auto lg:w-1/4 "
           onChange={(e) => setEmail(e.target.value)}
         />
         <Input
           placeholder="Password"
           type="password"
           value={password}
+          name="password"
+          className="mx-auto lg:w-1/4 "
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button className="w-3/4 md:w-1/2 uppercase" type="submit">
+        <Button className="w-3/4 md:w-1/2 lg:w-1/4  uppercase" type="submit">
           Sign In
         </Button>
         <Link to="/sign-up" className="mx-auto mt-5">
