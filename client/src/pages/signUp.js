@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../components/button";
+import ErrorMessage from "../components/errorMessage";
 import Form from "../components/form";
 import Input from "../components/input";
 import Layout from "../components/layout";
@@ -27,20 +28,11 @@ const SignUp = ({ history }) => {
     }
   }, [history, userInfo]);
 
-  const resetInputs = () => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setUsername("");
-    setPassword("");
-    setConfirmPassword("");
-  };
-
+  console.log(error);
   const handleSignUp = (e) => {
     e.preventDefault();
 
     if (password === confirmPassword) {
-      resetInputs();
       dispatch(register(email, username, firstName, lastName, password));
     } else {
       setFormError("The passwords do not match");
@@ -51,7 +43,9 @@ const SignUp = ({ history }) => {
     <Layout>
       <Form title={"Sign Up"} className="mx-auto" handleSubmit={handleSignUp}>
         {loading && <Loader />}
-        {error && <p className="mx-auto w/-1/2 shadow">{error}</p>}
+        {error && (
+          <ErrorMessage className="mx-auto w-3/4 p-3 text-red-500 shadow">{error}</ErrorMessage>
+        )}
         {formError && <p className="mx-auto w/-1/2 shadow">{formError}</p>}
         <Input
           placeholder="First Name"

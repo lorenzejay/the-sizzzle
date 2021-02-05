@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/Actions/userActions";
 import Loader from "../components/loader";
 import { Link } from "react-router-dom";
+import ErrorMessage from "../components/errorMessage";
 
 const SignIn = ({ history }) => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const SignIn = ({ history }) => {
     <Layout>
       <Form title="Sign In" handleSubmit={(e) => handleLogin(e)}>
         {loading && <Loader />}
-        {error && <p className="text-red-500 shadow">{error}</p>}
+        {error && <ErrorMessage className="text-red-500 shadow">{error}</ErrorMessage>}
         <Input
           placeholder="Email"
           type="email"
