@@ -57,7 +57,7 @@ const Dashboard = ({ location }) => {
 
   useEffect(() => {
     if (anyUserProfile) {
-      if (userInfo.returnedUserId === anyUserProfile.user.user_id) {
+      if (userInfo && userInfo.returnedUserId === anyUserProfile.user.user_id) {
         setIsLoggedInUserProfile(true);
       } else {
         setIsLoggedInUserProfile(false);
