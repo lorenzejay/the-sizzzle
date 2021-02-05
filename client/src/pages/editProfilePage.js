@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getUserDetails } from "../redux/Actions/userActions";
+import { getUserDetails, updateNames } from "../redux/Actions/userActions";
 import DefaultPP from "../images/dpp.png";
 import Layout from "../components/layout";
 import Input from "../components/input";
@@ -39,15 +39,13 @@ export const CustomLabel = styled.label`
 `;
 
 const EditProfilePage = ({ history }) => {
-  const [modalOpen, setModalOpen] = useState(false);
   const [fileInputState, setFileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
   const [inputs, setInputs] = useState({
     firstName: "",
     lastName: "",
-    username: "",
-    profilepic: "",
   });
+  const [inputError, setInputError] = useState("");
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
@@ -59,40 +57,56 @@ const EditProfilePage = ({ history }) => {
   const userUpdateProfilePicture = useSelector((state) => state.userUpdateProfilePicture);
   const { loading, error, profilePic } = userUpdateProfilePicture;
 
+  const userUpdateNames = useSelector((state) => state.userUpdateNames);
+  const { success } = userUpdateNames;
+
   const data = useLocation();
   const { state } = data;
 
   useEffect(() => {
-    if (!userInfo || !state || userInfo.returnedUserId !== state.user) {
+    if (!userInfo) {
       return history.push("/login");
     }
+    if (userInfo && !state) {
+      return history.push(`/dashboard/${userInfo.returnedUsername}`);
+    }
     dispatch(getUserDetails());
-  }, [state]);
+  }, [state, history, userInfo, dispatch]);
+  console.log(profile);
 
   useEffect(() => {
     if (profile) {
       setInputs({
         firstName: profile.first_name,
         lastName: profile.last_name,
-        username: profile.username,
-        profilepic: profile.profilepic,
       });
     }
-  }, [dispatch, profilePic]);
+  }, [dispatch, profilePic, profile, success]);
 
-  // profile && console.log(profile);
+  // console.log(userInfo);
 
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    // console.log(name);
 
-    setInputs({ inputs, name: value });
+    setInputs((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleUpdate = () => {
+    if (inputs.firstName !== "" && inputs.lastName !== "") {
+      dispatch(updateNames(inputs.firstName, inputs.lastName));
+      window.location.reload();
+      setInputError("");
+    } else {
+      setInputError("Nothing must be blank");
+    }
   };
 
   const handleFileInputState = (e) => {
     //grabs the first file
     const file = e.target.files[0];
-
     previewFile(file);
   };
 
@@ -104,11 +118,11 @@ const EditProfilePage = ({ history }) => {
     };
   };
 
-  // console.log(modalOpen);
   return (
     <Layout>
       {loading && <Loader />}
       {error && <h1>{error}</h1>}
+
       {profile && (
         <section className="px-10 pt-5 flex flex-col ">
           <div className="flex items-center gap-5">
@@ -140,7 +154,8 @@ const EditProfilePage = ({ history }) => {
               {/* {previewSource && <img className="w-64" src={previewSource} />} */}
             </div>
           </div>
-
+          {inputError && <h2 className="text-red-500 mt-8">{inputError}</h2>}
+          {success && <h2 className="text-green-500 mt-8">Profile Updated Successfully</h2>}
           <label htmlFor="name" className="mt-10 text-2xl font-bold">
             First Name
           </label>
@@ -151,10 +166,13 @@ const EditProfilePage = ({ history }) => {
           </label>
           <Input name="lastName" value={inputs.lastName} onChange={handleChange} />
 
-          <label htmlFor="name" className="mt-5 text-2xl font-bold">
-            Username
-          </label>
-          <Input name="lastName" value={inputs.username} onChange={handleChange} />
+          <button
+            type="button"
+            className="bg-gray-800 text-white w-1/2 px-6 py-1 rounded-sm"
+            onClick={handleUpdate}
+          >
+            Update Username
+          </button>
         </section>
       )}
     </Layout>
