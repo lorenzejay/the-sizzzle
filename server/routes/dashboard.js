@@ -38,18 +38,15 @@ router.delete("/delete-user", authorization, async (req, res) => {
 //update users set firstname= firstname, ...  where user_id = user_id
 router.put("/update-names", authorization, async (req, res) => {
   const user_id = req.user;
-  const { first_name, last_name, username } = req.body;
+  const { first_name, last_name } = req.body;
 
-  //check that the username they want to update to is taken
-  const checkUsername = await pool.query("select * from users WHERE username = $1", [username]);
-  if (checkUsername.rowCount > 0) {
-    return res.json(false);
-  }
+  //remove changing username - causes alot of problems on the frontend
 
-  await pool.query(
-    "UPDATE users SET first_name = $1, last_name = $2, username = $3 WHERE user_id = $4",
-    [first_name, last_name, username, user_id]
-  );
+  await pool.query("UPDATE users SET first_name = $1, last_name = $2 WHERE user_id = $3", [
+    first_name,
+    last_name,
+    user_id,
+  ]);
   return res.json(true);
 });
 
