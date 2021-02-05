@@ -23,7 +23,7 @@ const SignUp = ({ history }) => {
 
   useEffect(() => {
     if (userInfo) {
-      history.push(`/${userInfo.returnedUsername}`);
+      history.push(`/dashboard/${userInfo.returnedUsername}`);
     }
   }, [history, userInfo]);
 
@@ -58,6 +58,7 @@ const SignUp = ({ history }) => {
           type="text"
           name="firstName"
           value={firstName}
+          className="mx-auto lg:w-1/4 "
           onChange={(e) => setFirstName(e.target.value)}
         />
         <Input
@@ -65,6 +66,7 @@ const SignUp = ({ history }) => {
           type="text"
           name="lastName"
           value={lastName}
+          className="mx-auto lg:w-1/4 "
           onChange={(e) => setLastName(e.target.value)}
         />
         <Input
@@ -72,6 +74,7 @@ const SignUp = ({ history }) => {
           type="text"
           name="username"
           value={username}
+          className="mx-auto lg:w-1/4 "
           onChange={(e) => setUsername(e.target.value)}
         />
         <Input
@@ -79,6 +82,7 @@ const SignUp = ({ history }) => {
           type="email"
           name="email"
           value={email}
+          className="mx-auto lg:w-1/4 "
           onChange={(e) => setEmail(e.target.value)}
         />
         <Input
@@ -86,6 +90,7 @@ const SignUp = ({ history }) => {
           type="password"
           name="password"
           value={password}
+          className="mx-auto lg:w-1/4 "
           onChange={(e) => setPassword(e.target.value)}
         />
         <Input
@@ -93,9 +98,10 @@ const SignUp = ({ history }) => {
           type="password"
           name="confirmPassword"
           value={confirmPassword}
+          className="mx-auto lg:w-1/4 "
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <Button className="w-3/4 md:w-1/2 uppercase" type="submit">
+        <Button className="w-3/4 md:w-1/2 lg:w-1/4 uppercase" type="submit">
           Continue
         </Button>
         <Link to="/login" className="mx-auto mt-5">
