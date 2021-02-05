@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/Actions/userActions";
+import { getAnyUserDetails, logout } from "../redux/Actions/userActions";
 import { AiFillHome, AiOutlineUpload } from "react-icons/ai";
 import DefaultPP from "../images/dpp.png";
 
@@ -91,8 +91,8 @@ const Header = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  // const searchedUsername = useSelector((state) => state.searchedUsername);
-  // const { loading, error, searchedProfiles } = searchedUsername;
+  const anyUserDetails = useSelector((state) => state.anyUserDetails);
+  const { anyUserProfile } = anyUserDetails;
 
   const [searchedProfiles, setSearchedProfile] = useState([]);
 
@@ -110,7 +110,12 @@ const Header = () => {
     }
   };
 
-  // console.log(searchedProfiles);
+  //get the logged in user profilePicture
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getAnyUserDetails(userInfo.returnedUsername));
+    }
+  }, [dispatch, userInfo]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -175,15 +180,15 @@ const Header = () => {
               </NavItem>
 
               <NavItem>
-                {
+                {anyUserProfile && (
                   <NavLinks to={`/dashboard/${userInfo.returnedUsername}`}>
                     <img
-                      src={userInfo.profilepic || DefaultPP}
+                      src={anyUserProfile.user.profilepic || DefaultPP}
                       alt="profile-image"
-                      className="w-10 h-10 rounded-full object-fit"
+                      className="w-8 h-8 rounded-full object-cover"
                     />
                   </NavLinks>
-                }
+                )}
               </NavItem>
               <NavItem>
                 <button className="mt-auto h-full" type="button" onClick={handleLogout}>
