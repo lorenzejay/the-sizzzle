@@ -22,8 +22,8 @@ const Dashboard = ({ location }) => {
   const [isLoggedInUserProfile, setIsLoggedInUserProfile] = useState(false);
 
   const path = location.pathname;
-  const queriedUser = path.substring(1, path.length);
-  console.log(path);
+  const queriedUser = path.substring(11, path.length);
+
   const dispatch = useDispatch();
 
   //if there is a logged in user
@@ -53,20 +53,25 @@ const Dashboard = ({ location }) => {
   //get the user info
   useEffect(() => {
     dispatch(getAnyUserDetails(queriedUser));
-
-    if (userInfo && userInfo.returnedUsername === queriedUser) {
-      setIsLoggedInUserProfile(true);
-    } else {
-      setIsLoggedInUserProfile(false);
-    }
   }, [dispatch, queriedUser, userInfo]);
 
+  useEffect(() => {
+    if (anyUserProfile) {
+      if (userInfo.returnedUserId === anyUserProfile.user.user_id) {
+        setIsLoggedInUserProfile(true);
+      } else {
+        setIsLoggedInUserProfile(false);
+      }
+    }
+  }, [queriedUser, userInfo, anyUserProfile]);
+
+  anyUserProfile && console.log(anyUserProfile.user);
   //get followers and following count
   useEffect(() => {
     if (anyUserProfile && anyUserProfile.user) {
       dispatch(getFollowers(anyUserProfile.user.user_id));
     }
-  }, [dispatch, anyUserProfile, loading, follow]);
+  }, [dispatch, anyUserProfile, loading, userInfo, follow]);
 
   //check if the user is following
   useEffect(() => {
@@ -92,9 +97,7 @@ const Dashboard = ({ location }) => {
       dispatch(followThisUser(anyUserProfile.user.user_id));
     }
   };
-
-  console.log(anyUserProfile);
-
+  console.log(isLoggedInUserProfile);
   return (
     <Layout>
       {loading && <Loader />}
@@ -107,7 +110,7 @@ const Dashboard = ({ location }) => {
               src={anyUserProfile.user.profilepic || DefaultPP}
               alt="Profile Picture"
               title="profile picture"
-              className="rounded-full h-52 w-52 object-cover mb-10"
+              className="rounded-full w-32 h-32 md:h-52 md:w-52 object-cover mb-10"
             />
             <div className="flex flex-row font-bold text-3xl gap-3">
               <h2>{`${anyUserProfile.user.first_name}  ${anyUserProfile.user.last_name}`}</h2> |{" "}
@@ -127,7 +130,7 @@ const Dashboard = ({ location }) => {
               <Link
                 className="bg-gray-500 px-10 rounded text-white py-1 my-5"
                 to={{
-                  pathname: `/${userInfo.returnedUsername}/edit-profile`,
+                  pathname: `/dashboard/${anyUserProfile.user.username}/edit-profile`,
                   state: {
                     user: userInfo.returnedUserId,
                   },
@@ -160,13 +163,7 @@ const Dashboard = ({ location }) => {
                   to={{
                     pathname: `/post/${post.upload_id}`,
                     state: {
-                      // title: post.title,
-                      // description: post.description,
-                      // cloudinaryId: post.cloudinary_id,
-                      // uploadedBy: post.uploaded_by,
                       uploadId: post.upload_id,
-                      // imageUrl: post.image_url,
-                      // createdAt: post.created_at,
                     },
                   }}
                   key={post.upload_id}
