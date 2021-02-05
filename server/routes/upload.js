@@ -24,6 +24,7 @@ router.post("/", authorization, async (req, res) => {
     res.status(201).json({
       data: {
         message: "Image Uploaded Successfully",
+        success: true,
         user_id: result.user_id,
         title: result.title,
         description: result.description,
