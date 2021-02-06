@@ -13,6 +13,7 @@ import Loader from "../components/loader";
 import { Link } from "react-router-dom";
 import { FiUserCheck } from "react-icons/fi";
 import { getAllUserPosts } from "../redux/Actions/uploadActions";
+import ErrorMessage from "../components/errorMessage";
 
 export const UserProfile = styled.div``;
 
@@ -102,7 +103,7 @@ const Dashboard = ({ location }) => {
     <Layout>
       {loading && <Loader />}
       {error && <h1>{error}</h1>}
-      {!anyUserProfile && <h1>There is no user profile</h1>}
+      {!loading && !anyUserProfile && <ErrorMessage>There is no user profile</ErrorMessage>}
       {anyUserProfile && anyUserProfile.user && (
         <UserProfile className="px-10 flex flex-col">
           <div className="flex flex-col justify-center items-center mt-10">
