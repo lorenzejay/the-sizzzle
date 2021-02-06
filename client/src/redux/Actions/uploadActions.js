@@ -62,6 +62,7 @@ export const getAllCurrentUserFollowingsPost = () => async (dispatch, getState) 
       headers: { token: userInfo.token, "Content-type": "application/json" },
     });
     const parsedData = await data.json();
+
     dispatch({ type: GET_LOGGED_IN_USER_FOLLOWING_POSTS_SUCCESS, payload: parsedData });
   } catch (error) {
     console.log(error.message);
