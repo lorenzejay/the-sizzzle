@@ -38,7 +38,6 @@ const SignIn = ({ history }) => {
           type="email"
           value={email}
           name="email"
-          className="mx-auto"
           className="mx-auto lg:w-1/4 "
           onChange={(e) => setEmail(e.target.value)}
         />
