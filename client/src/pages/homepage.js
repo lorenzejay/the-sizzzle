@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllCurrentUserFollowingsPost } from "../redux/Actions/uploadActions";
 import Loader from "../components/loader";
 import { Link } from "react-router-dom";
+import UploaderProfileBar from "../components/uploaderProfileBar";
 
 const Homepage = () => {
   const dispatch = useDispatch();
@@ -23,14 +24,19 @@ const Homepage = () => {
 
   //if there is no user logged in get random posts
   const getRandomPosts = async () => {
-    const data = await fetch("http://localhost:5000/api/upload/random", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-    //returns the array of the random posts
-    const parsedData = await data.json();
-    setRandomPosts(parsedData);
+    try {
+      const data = await fetch("http://localhost:5000/api/upload/random", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      //returns the array of the random posts
+      const parsedData = await data.json();
+      setRandomPosts(parsedData);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   useEffect(() => {
     if (!userInfo) {
       getRandomPosts();
@@ -48,7 +54,6 @@ const Homepage = () => {
     return `${Math.round(day_difference)} days ago`;
   };
 
-  console.log(posts);
   return (
     <Layout>
       {loading && <Loader />}
@@ -70,11 +75,13 @@ const Homepage = () => {
                 className="w-full md:w-1/2 mx-auto"
                 key={post.upload_id}
               >
+                <UploaderProfileBar uploaded_by={post.uploaded_by} />
+
                 <img src={post.image_url} loading="lazy" className=" object-cover" />
                 <div className="p-5 lg:p-0 mt-3">
                   <h3 className="text-xl">{post.title}</h3>
-                  <h3 className="text-md">{post.description}</h3>
-                  <p>{diffTime(dt1, dt2)} </p>
+                  <h3 className="text-lg">{post.description}</h3>
+                  <p className="text-sm text-gray-500">{diffTime(dt1, dt2)} </p>
                 </div>
               </Link>
             );
@@ -95,11 +102,12 @@ const Homepage = () => {
                 className="w-full md:w-1/2 mx-auto"
                 key={post.upload_id}
               >
+                <UploaderProfileBar uploaded_by={post.uploaded_by} />
                 <img src={post.image_url} loading="lazy" className=" object-cover" />
                 <div className="p-5 lg:p-0 mt-3">
                   <h3 className="text-xl">{post.title}</h3>
-                  <h3 className="text-md">{post.description}</h3>
-                  <p>{diffTime(dt1, dt2)} </p>
+                  <h3 className="text-lg">{post.description}</h3>
+                  <p className="text-sm text-gray-400">{diffTime(dt1, dt2)} </p>
                 </div>
               </Link>
             );
