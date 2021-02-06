@@ -13,7 +13,7 @@ router.post("/", authorization, async (req, res) => {
     const uploadImageResponse = await cloudinary.uploader.upload(fileStr, {
       use_filename: true,
     });
-    console.log(uploadImageResponse);
+    // console.log(uploadImageResponse);
     const query = await pool.query(
       "INSERT INTO uploads (uploaded_by, title, description, cloudinary_id, image_url) VALUES ($1, $2 ,$3, $4, $5) RETURNING *",
       [user_id, title, description, uploadImageResponse.public_id, uploadImageResponse.secure_url]
@@ -39,25 +39,15 @@ router.post("/", authorization, async (req, res) => {
   }
 });
 
-//GET THE image we just posted
-// router.get("/retrieve-image/:cloudinary_id", authorization, async (req, res) => {
-//   try {
-//     //get the cloudinary_id
-//     const { cloudinary_id } = req.params;
-//     const user_id = req.user;
-//     console.log(user_id);
-//     //query based on the id
-//     const query = await pool.query(
-//       "SELECT * FROM uploads WHERE cloudinary_id = $1 AND uploaded_by = $2",
-//       [cloudinary_id, user_id]
-//     );
-//     const result = query.rows[0];
-
-//     res.status(200).json({ result });
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// });
+//get 10 random posts if there is no followers
+router.get("/random", async (req, res) => {
+  try {
+    const query = await pool.query("SELECT * FROM uploads ORDER BY RANDOM() limit 6");
+    res.send(query.rows);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 
 //get all users posts based on their user id
 router.get("/get-user-post/:user_id", async (req, res) => {
@@ -79,6 +69,22 @@ router.get("/get-upload-details/:upload_id", async (req, res) => {
     const query = await pool.query("SELECT * FROM uploads WHERE upload_id = $1", [upload_id]);
     const result = query.rows[0];
     res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//get username and profile pic from users where user_id = uploaded_by in uploads where upload_id = upload_id
+router.post("/upload-username-profilepic", async (req, res) => {
+  try {
+    const { uploaded_by } = req.body;
+    const query = await pool.query(
+      "SELECT user_id, username, profilepic from users WHERE user_id = $1",
+      [uploaded_by]
+    );
+    const result = query.rows[0];
+
+    res.json(result);
   } catch (error) {
     console.log(error);
   }
