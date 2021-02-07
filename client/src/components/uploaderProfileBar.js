@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import DfProfile from "../images/dpp.png";
-const UploaderProfileBar = ({ uploaded_by }) => {
+const UploaderProfileBar = ({ uploaded_by, className }) => {
   const [uploaderProfile, setUploaderProfile] = useState({});
 
   //get the profile pic and username from post
@@ -21,23 +22,20 @@ const UploaderProfileBar = ({ uploaded_by }) => {
   useEffect(() => {
     uploadsProfileAndUsername(uploaded_by).then((res) => setUploaderProfile(res));
   }, [uploaded_by]);
-  //   console.log(uploaderProfile);
-  //   useEffect(() => {
-  //     if (uploaderProfile) {
-  //       console.log(uploaderProfile);
-  //     }
-  //   });
 
   return (
     <div>
-      <div className="flex gap-3 px-5 mb-3 lg:p-0">
+      <Link
+        to={`/dashboard/${uploaderProfile.username}`}
+        className={`flex gap-3 px-5 mb-3 lg:p-0 ${className}`}
+      >
         <img
           src={uploaderProfile.profilepic || DfProfile}
           alt="poster profile picture"
           className="w-7 h-7 rounded-full object-cover"
         />
         <p>{uploaderProfile.username}</p>
-      </div>
+      </Link>
     </div>
   );
 };
