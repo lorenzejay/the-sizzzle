@@ -77,6 +77,7 @@ router.post("/login", async (req, res) => {
       const returnedUsername = query.rows[0].username;
       const returnedUserId = query.rows[0].user_id;
       const savedHashPassword = query.rows[0].password;
+      const returnedProfilePicture = query.rows[0].profilepic;
 
       await bycrypt.compare(password, savedHashPassword, function (err, isMatch) {
         if (err) {
@@ -92,6 +93,7 @@ router.post("/login", async (req, res) => {
             token,
             returnedUsername,
             returnedUserId,
+            returnedProfilePicture,
             message: "Logged In Successfully",
           });
         }
