@@ -4,16 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 import DefaultPP from "../images/dpp.png";
 import styled from "styled-components";
 import { getAnyUserDetails } from "../redux/Actions/userActions";
-import {
-  getFollowers,
-  followThisUser,
-  checkIfUserIsFollowingAlready,
-} from "../redux/Actions/followersAction";
 import Loader from "../components/loader";
 import { Link } from "react-router-dom";
-import { FiUserCheck } from "react-icons/fi";
 import { getAllUserPosts } from "../redux/Actions/uploadActions";
 import ErrorMessage from "../components/errorMessage";
+import FollowersTab from "../components/followersTab";
+import FollowOrEditCheck from "../components/followOrEditCheck";
 
 export const UserProfile = styled.div``;
 
@@ -35,17 +31,13 @@ const Dashboard = ({ location }) => {
   const anyUserDetails = useSelector((state) => state.anyUserDetails);
   const { loading, anyUserProfile, error } = anyUserDetails;
 
-  //get followers of queried user
-  const getFollows = useSelector((state) => state.getFollows);
-  const { loading: loadingFollowers, followers, error: getFollowersError } = getFollows;
-
-  //follow a user action.
-  const followUser = useSelector((state) => state.follow);
-  const { loading: loadFollow, follow, error: followError } = followUser;
+  // //follow a user action.
+  // const followUser = useSelector((state) => state.follow);
+  // const { loading: loadFollow, follow, error: followError } = followUser;
 
   //check if logged in user is already following the current dashboard user page they are on
-  const checkIfFollowing = useSelector((state) => state.checkIfFollowing);
-  const { isFollowing } = checkIfFollowing;
+  // const checkIfFollowing = useSelector((state) => state.checkIfFollowing);
+  // const { isFollowing } = checkIfFollowing;
 
   //get the users posts
   const allUserPosts = useSelector((state) => state.allUserPosts);
@@ -56,6 +48,13 @@ const Dashboard = ({ location }) => {
     dispatch(getAnyUserDetails(queriedUser));
   }, [dispatch, queriedUser, userInfo]);
 
+  // //check if the user is following
+  // useEffect(() => {
+  //   if (anyUserProfile && userInfo && anyUserProfile !== userInfo.returnedUserId) {
+  //     dispatch(checkIfUserIsFollowingAlready(anyUserProfile.user.user_id));
+  //   }
+  // }, [dispatch, anyUserProfile, follow]);
+
   useEffect(() => {
     if (anyUserProfile) {
       if (userInfo && userInfo.returnedUserId === anyUserProfile.user.user_id) {
@@ -65,21 +64,6 @@ const Dashboard = ({ location }) => {
       }
     }
   }, [queriedUser, userInfo, anyUserProfile]);
-
-  anyUserProfile && console.log(anyUserProfile.user);
-  //get followers and following count
-  useEffect(() => {
-    if (anyUserProfile && anyUserProfile.user) {
-      dispatch(getFollowers(anyUserProfile.user.user_id));
-    }
-  }, [dispatch, anyUserProfile, loading, userInfo, follow]);
-
-  //check if the user is following
-  useEffect(() => {
-    if (anyUserProfile && userInfo && anyUserProfile !== userInfo.returnedUserId) {
-      dispatch(checkIfUserIsFollowingAlready(anyUserProfile.user.user_id));
-    }
-  }, [dispatch, anyUserProfile, follow]);
 
   //get users posts
   useEffect(() => {
@@ -92,13 +76,6 @@ const Dashboard = ({ location }) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  const followCommand = () => {
-    //cannot follow yourself
-    if (anyUserProfile.user.user_id !== userInfo.returnedUserId) {
-      dispatch(followThisUser(anyUserProfile.user.user_id));
-    }
-  };
-  console.log(isLoggedInUserProfile);
   return (
     <Layout>
       {loading && <Loader />}
@@ -121,38 +98,13 @@ const Dashboard = ({ location }) => {
                 {anyUserProfile.user.username}
               </h2>
             </div>
-            {followers && (
-              <div className="followers flex flex-row gap-5">
-                <p>Followers: {followers.followerCount}</p>
-                <p>Following: {followers.followingCount}</p>
-              </div>
-            )}
-            {isLoggedInUserProfile && userInfo ? (
-              <Link
-                className="bg-gray-500 px-10 rounded text-white py-1 my-5"
-                to={{
-                  pathname: `/dashboard/${anyUserProfile.user.username}/edit-profile`,
-                  state: {
-                    user: userInfo.returnedUserId,
-                  },
-                }}
-              >
-                Edit Profile
-              </Link>
-            ) : userInfo && userInfo.returnedUsername ? (
-              <button
-                className={`px-10 rounded text-white py-1 my-5 focus:outline-none w-40 h-8 text-center transition duration-500 ease-in-out block ${
-                  isFollowing ? "bg-gray-300" : "bg-red-500"
-                }`}
-                onClick={followCommand}
-              >
-                {isFollowing ? <FiUserCheck className="mx-auto" size={16} /> : "Follow"}
-              </button>
-            ) : (
-              <Link to="/login" className="bg-red-500 px-10 rounded text-white py-1 my-5 block">
-                Login to follow
-              </Link>
-            )}
+            <FollowersTab anyUserProfile={anyUserProfile} userInfo={userInfo} />
+
+            <FollowOrEditCheck
+              isLoggedInUserProfile={isLoggedInUserProfile}
+              userInfo={userInfo}
+              anyUserProfile={anyUserProfile}
+            />
           </div>
 
           <div className="post-grid grid grid-cols-3 gap-5 justify-center mt-10 md:mx-auto md:gap-32">
@@ -165,6 +117,7 @@ const Dashboard = ({ location }) => {
                     pathname: `/post/${post.upload_id}`,
                     state: {
                       uploadId: post.upload_id,
+                      uploaded_by: post.uploaded_by,
                     },
                   }}
                   key={post.upload_id}
