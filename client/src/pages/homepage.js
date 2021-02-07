@@ -58,32 +58,34 @@ const Homepage = () => {
     <Layout>
       {loading && <Loader />}
       {error && <h3>{error}</h3>}
-      <div className="flex flex-col gap-10 pt-20 md:gap-20 lg:gap-24">
+      <div className="flex flex-col justify-center items-center gap-10 pt-20 md:gap-20 lg:gap-24">
         {posts &&
           posts.map((post) => {
             const dt1 = new Date(post.created_at);
             const dt2 = new Date();
 
             return (
-              <Link
-                to={{
-                  pathname: `/post/${post.upload_id}`,
-                  state: {
-                    uploadId: post.upload_id,
-                  },
-                }}
-                className="w-full md:w-1/2 mx-auto"
-                key={post.upload_id}
-              >
+              <div className="w-full md:w-1/2 mx-auto" key={post.uploadId}>
                 <UploaderProfileBar uploaded_by={post.uploaded_by} />
-
-                <img src={post.image_url} loading="lazy" className=" object-cover" />
-                <div className="p-5 lg:p-0 mt-3">
-                  <h3 className="text-xl">{post.title}</h3>
-                  <h3 className="text-lg">{post.description}</h3>
-                  <p className="text-sm text-gray-500">{diffTime(dt1, dt2)} </p>
-                </div>
-              </Link>
+                <Link
+                  to={{
+                    pathname: `/post/${post.upload_id}`,
+                    state: {
+                      uploadId: post.upload_id,
+                      uploaded_by: post.uploaded_by,
+                    },
+                  }}
+                  className="mx-auto"
+                  key={post.upload_id}
+                >
+                  <img src={post.image_url} loading="lazy" className="object-cover  max-w-2xl " />
+                  <div className="p-5 lg:p-0 mt-3">
+                    <h3 className="text-xl">{post.title}</h3>
+                    <h3 className="text-lg">{post.description}</h3>
+                    <p className="text-sm text-gray-500">{diffTime(dt1, dt2)} </p>
+                  </div>
+                </Link>
+              </div>
             );
           })}
         {randomPosts &&
@@ -92,24 +94,27 @@ const Homepage = () => {
             const dt2 = new Date();
 
             return (
-              <Link
-                to={{
-                  pathname: `/post/${post.upload_id}`,
-                  state: {
-                    uploadId: post.upload_id,
-                  },
-                }}
-                className="w-full md:w-1/2 mx-auto"
-                key={post.upload_id}
-              >
+              <div className="w-full md:w-1/2 mx-auto" key={post.uploadId}>
                 <UploaderProfileBar uploaded_by={post.uploaded_by} />
-                <img src={post.image_url} loading="lazy" className=" object-cover" />
-                <div className="p-5 lg:p-0 mt-3">
-                  <h3 className="text-xl">{post.title}</h3>
-                  <h3 className="text-lg">{post.description}</h3>
-                  <p className="text-sm text-gray-400">{diffTime(dt1, dt2)} </p>
-                </div>
-              </Link>
+                <Link
+                  to={{
+                    pathname: `/post/${post.upload_id}`,
+                    state: {
+                      uploadId: post.upload_id,
+                      uploaded_by: post.uploaded_by,
+                    },
+                  }}
+                  className="w-full md:w-1/2 mx-auto"
+                  key={post.upload_id}
+                >
+                  <img src={post.image_url} loading="lazy" className="object-cover w-full" />
+                  <div className="p-5 lg:p-0 mt-3">
+                    <h3 className="text-xl">{post.title}</h3>
+                    <h3 className="text-lg">{post.description}</h3>
+                    <p className="text-sm text-gray-400">{diffTime(dt1, dt2)} </p>
+                  </div>
+                </Link>
+              </div>
             );
           })}
       </div>
