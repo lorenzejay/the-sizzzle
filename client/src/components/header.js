@@ -180,10 +180,10 @@ const Header = () => {
               </NavItem>
 
               <NavItem>
-                {anyUserProfile && (
+                {userInfo && (
                   <NavLinks to={`/dashboard/${userInfo.returnedUsername}`}>
                     <img
-                      src={anyUserProfile.user.profilepic || DefaultPP}
+                      src={userInfo.returnedProfilePic || DefaultPP}
                       alt="profile-image"
                       className="w-8 h-8 rounded-full object-cover"
                     />
