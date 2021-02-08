@@ -22,9 +22,10 @@ const SavePostButton = ({ upload_id }) => {
   return (
     <>
       {loading && <Loader />}
+      {checkError && <ErrorMessage>{checkError}</ErrorMessage>}
       {error && <ErrorMessage>{error}</ErrorMessage>}
-      {}
-      {!isSaved && !wasSaved ? (
+
+      {!wasSaved ? (
         <BsBookmark size={24} onClick={handleSave} className="cursor-pointer" />
       ) : (
         <BsBookmarkFill size={24} onClick={handleSave} className="cursor-pointer" />
