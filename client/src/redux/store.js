@@ -20,6 +20,7 @@ import {
   postDetailsReducer,
   uploadPostReducer,
 } from "./Reducers/uploadReducer";
+import { checkIfSavedRedcuer, saveUploadReducer } from "./Reducers/savedUploadsReducer";
 
 const reducers = combineReducers({
   userLogin: userLogInReducer,
@@ -37,6 +38,9 @@ const reducers = combineReducers({
   allUserPosts: getAllUserUploadsReducer,
   userFollowingsPosts: getLoggedInUserFollowingPostsReducer,
   uploadDetails: postDetailsReducer,
+
+  saveUploads: saveUploadReducer,
+  checkIfSaved: checkIfSavedRedcuer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
