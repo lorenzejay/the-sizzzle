@@ -5,6 +5,7 @@ import { getAllCurrentUserFollowingsPost } from "../redux/Actions/uploadActions"
 import Loader from "../components/loader";
 import { Link } from "react-router-dom";
 import UploaderProfileBar from "../components/uploaderProfileBar";
+import PaddingWrapper from "../components/paddingWrapper";
 
 const Homepage = () => {
   const dispatch = useDispatch();
@@ -65,27 +66,17 @@ const Homepage = () => {
             const dt2 = new Date();
 
             return (
-              <div className="w-full md:w-1/2 mx-auto" key={post.uploadId}>
+              <PaddingWrapper key={post.uploadId}>
                 <UploaderProfileBar uploaded_by={post.uploaded_by} />
-                <Link
-                  to={{
-                    pathname: `/post/${post.upload_id}`,
-                    state: {
-                      uploadId: post.upload_id,
-                      uploaded_by: post.uploaded_by,
-                    },
-                  }}
-                  className="mx-auto"
-                  key={post.upload_id}
-                >
+                <Link to={`/post/${post.upload_id}`} className="mx-auto" key={post.upload_id}>
                   <img src={post.image_url} loading="lazy" className="object-cover w-full " />
-                  <div className="p-5 lg:p-0 mt-3">
+                  <div className=" lg:p-0 mt-3">
                     <h3 className="text-xl">{post.title}</h3>
                     <h3 className="text-lg">{post.caption}</h3>
                     <p className="text-sm text-gray-500">{diffTime(dt1, dt2)} </p>
                   </div>
                 </Link>
-              </div>
+              </PaddingWrapper>
             );
           })}
         {randomPosts &&
@@ -94,7 +85,10 @@ const Homepage = () => {
             const dt2 = new Date();
 
             return (
-              <div className="w-full md:w-1/2 mx-auto" key={post.uploadId}>
+              <PaddingWrapper
+                className="w-full mx-auto px-5 sm:px-24 md:px-48 lg:px-72"
+                key={post.uploadId}
+              >
                 <UploaderProfileBar uploaded_by={post.uploaded_by} />
                 <Link
                   to={{
@@ -108,13 +102,13 @@ const Homepage = () => {
                   key={post.upload_id}
                 >
                   <img src={post.image_url} loading="lazy" className="object-cover w-full" />
-                  <div className="p-5 lg:p-0 mt-3">
+                  <div className=" mt-3">
                     <h3 className="text-xl">{post.title}</h3>
                     <h3 className="text-lg">{post.description}</h3>
                     <p className="text-sm text-gray-400">{diffTime(dt1, dt2)} </p>
                   </div>
                 </Link>
-              </div>
+              </PaddingWrapper>
             );
           })}
       </div>
