@@ -27,7 +27,7 @@ const UploaderProfileBar = ({ uploaded_by, className }) => {
     <div>
       <Link
         to={`/dashboard/${uploaderProfile.username}`}
-        className={`flex gap-3 px-5 mb-3 lg:p-0 ${className}`}
+        className={`flex items-center gap-3 mb-3 lg:p-0 ${className}`}
       >
         <img
           src={uploaderProfile.profilepic || DfProfile}
