@@ -32,6 +32,7 @@ CREATE TABLE uploads(
     upload_id SERIAL PRIMARY KEY,
     uploaded_by uuid REFERENCES users(user_id) NOT NULL,
     title VARCHAR(50) NOT NULL,
+    caption TEXT NOT NULL,
     description TEXT NOT NULL,
     cloudinary_id VARCHAR(128) NOT NULL,
     image_url VARCHAR(128) NOT NULL,
