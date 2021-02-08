@@ -27,7 +27,7 @@ export const NavContainer = styled.div`
   height: 80px;
   z-index: 1;
   width: 100%;
-  padding: 0 12px;
+
   /* max-width: 1100px; */
 `;
 
@@ -123,7 +123,7 @@ const Header = () => {
   return (
     <>
       <Nav>
-        <NavContainer>
+        <NavContainer className="items-center px-5 sm:px-12 md:px-24 lg:px-24">
           <NavLink className="text-base" to="/">
             RecipeGram
           </NavLink>
