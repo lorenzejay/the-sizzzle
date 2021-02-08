@@ -13,7 +13,7 @@ import {
   GET_UPLOAD_DETAILS_FAIL,
 } from "../Types/uploadTypes";
 
-export const uploadUsersPost = (title, description, base64EncodedImage) => async (
+export const uploadUsersPost = (title, caption, description, base64EncodedImage) => async (
   dispatch,
   getState
 ) => {
@@ -25,7 +25,7 @@ export const uploadUsersPost = (title, description, base64EncodedImage) => async
     const data = await fetch("http://localhost:5000/api/upload", {
       method: "POST",
       headers: { token: `${userInfo.token}`, "Content-type": "application/json" },
-      body: JSON.stringify({ data: base64EncodedImage, title, description }),
+      body: JSON.stringify({ data: base64EncodedImage, title, caption, description }),
     });
     const parsedData = await data.json();
     dispatch({ type: UPLOAD_POST_SUCCESS, payload: parsedData });
