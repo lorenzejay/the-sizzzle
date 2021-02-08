@@ -78,10 +78,10 @@ const Homepage = () => {
                   className="mx-auto"
                   key={post.upload_id}
                 >
-                  <img src={post.image_url} loading="lazy" className="object-cover  max-w-2xl " />
+                  <img src={post.image_url} loading="lazy" className="object-cover w-full " />
                   <div className="p-5 lg:p-0 mt-3">
                     <h3 className="text-xl">{post.title}</h3>
-                    <h3 className="text-lg">{post.description}</h3>
+                    <h3 className="text-lg">{post.caption}</h3>
                     <p className="text-sm text-gray-500">{diffTime(dt1, dt2)} </p>
                   </div>
                 </Link>
