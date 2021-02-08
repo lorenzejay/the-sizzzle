@@ -7,7 +7,7 @@ const { cloudinary } = require("../utils/cloudinary");
 router.post("/", authorization, async (req, res) => {
   try {
     const fileStr = req.body.data; //image uploaded
-    const { title, description } = req.body;
+    const { title, caption, description } = req.body;
     const user_id = req.user;
 
     const uploadImageResponse = await cloudinary.uploader.upload(fileStr, {
@@ -15,8 +15,15 @@ router.post("/", authorization, async (req, res) => {
     });
     // console.log(uploadImageResponse);
     const query = await pool.query(
-      "INSERT INTO uploads (uploaded_by, title, description, cloudinary_id, image_url) VALUES ($1, $2 ,$3, $4, $5) RETURNING *",
-      [user_id, title, description, uploadImageResponse.public_id, uploadImageResponse.secure_url]
+      "INSERT INTO uploads (uploaded_by, title, captions, description, cloudinary_id, image_url) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *",
+      [
+        user_id,
+        title,
+        caption,
+        description,
+        uploadImageResponse.public_id,
+        uploadImageResponse.secure_url,
+      ]
     );
     const result = query.rows[0];
     //select username and profile pic from the user that just posted the imag
@@ -28,6 +35,7 @@ router.post("/", authorization, async (req, res) => {
         user_id: result.user_id,
         title: result.title,
         description: result.description,
+        caption: result.description,
         cloudinary_id: result.cloudinary_id,
         image_url: result.image_url,
       },
