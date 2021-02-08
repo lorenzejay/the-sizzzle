@@ -11,8 +11,6 @@ import ErrorMessage from "../components/errorMessage";
 import FollowersTab from "../components/followersTab";
 import FollowOrEditCheck from "../components/followOrEditCheck";
 
-export const UserProfile = styled.div``;
-
 export const PostThumnails = styled.div``;
 
 const Dashboard = ({ location }) => {
@@ -31,14 +29,6 @@ const Dashboard = ({ location }) => {
   const anyUserDetails = useSelector((state) => state.anyUserDetails);
   const { loading, anyUserProfile, error } = anyUserDetails;
 
-  // //follow a user action.
-  // const followUser = useSelector((state) => state.follow);
-  // const { loading: loadFollow, follow, error: followError } = followUser;
-
-  //check if logged in user is already following the current dashboard user page they are on
-  // const checkIfFollowing = useSelector((state) => state.checkIfFollowing);
-  // const { isFollowing } = checkIfFollowing;
-
   //get the users posts
   const allUserPosts = useSelector((state) => state.allUserPosts);
   const { allPosts, loading: loadPosts, error: errorPosts } = allUserPosts;
@@ -47,13 +37,6 @@ const Dashboard = ({ location }) => {
   useEffect(() => {
     dispatch(getAnyUserDetails(queriedUser));
   }, [dispatch, queriedUser, userInfo]);
-
-  // //check if the user is following
-  // useEffect(() => {
-  //   if (anyUserProfile && userInfo && anyUserProfile !== userInfo.returnedUserId) {
-  //     dispatch(checkIfUserIsFollowingAlready(anyUserProfile.user.user_id));
-  //   }
-  // }, [dispatch, anyUserProfile, follow]);
 
   useEffect(() => {
     if (anyUserProfile) {
@@ -82,7 +65,7 @@ const Dashboard = ({ location }) => {
       {error && <h1>{error}</h1>}
       {!loading && !anyUserProfile && <ErrorMessage>There is no user profile</ErrorMessage>}
       {anyUserProfile && anyUserProfile.user && (
-        <UserProfile className="px-10 flex flex-col">
+        <div className="px-10 flex flex-col">
           <div className="flex flex-col justify-center items-center mt-10">
             <img
               src={anyUserProfile.user.profilepic || DefaultPP}
@@ -112,16 +95,7 @@ const Dashboard = ({ location }) => {
             {errorPosts && <h1 className="text-red-600">{errorPosts}</h1>}
             {allPosts &&
               allPosts.map((post) => (
-                <Link
-                  to={{
-                    pathname: `/post/${post.upload_id}`,
-                    state: {
-                      uploadId: post.upload_id,
-                      uploaded_by: post.uploaded_by,
-                    },
-                  }}
-                  key={post.upload_id}
-                >
+                <Link to={`/post/${post.upload_id}`} key={post.upload_id}>
                   <img
                     src={post.image_url}
                     className="w-32 h-32 md:w-44 md:h-44 object-cover"
@@ -134,7 +108,7 @@ const Dashboard = ({ location }) => {
               <h2 className="flex items-center">No Posts Yet </h2>
             )}
           </div>
-        </UserProfile>
+        </div>
       )}
     </Layout>
   );
