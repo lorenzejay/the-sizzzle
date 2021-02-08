@@ -183,7 +183,7 @@ const Header = () => {
                 {userInfo && (
                   <NavLinks to={`/dashboard/${userInfo.returnedUsername}`}>
                     <img
-                      src={userInfo.returnedProfilePic || DefaultPP}
+                      src={userInfo.returnedProfilePicture || DefaultPP}
                       alt="profile-image"
                       className="w-8 h-8 rounded-full object-cover"
                     />
