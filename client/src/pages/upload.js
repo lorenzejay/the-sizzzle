@@ -4,7 +4,9 @@ import Button from "../components/button";
 import Input from "../components/input";
 import Layout from "../components/layout";
 import Loader from "../components/loader";
+// import RichTextEditor from "../components/richTextEditor";
 import { uploadUsersPost } from "../redux/Actions/uploadActions";
+import RichTextEditor from "../components/richTextEditor";
 
 const Upload = ({ history }) => {
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ const Upload = ({ history }) => {
   const [previewSource, setPreviewSource] = useState("");
 
   const [title, setTitle] = useState("");
+  const [caption, setCaption] = useState("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
@@ -47,9 +50,9 @@ const Upload = ({ history }) => {
   };
   const handleSubmitPost = (e) => {
     e.preventDefault();
-    if (!previewSource || !title || !description) return;
+    if (!previewSource || !title || !description || !caption) return;
     // uploadImage(previewSource);
-    dispatch(uploadUsersPost(title, description, previewSource));
+    dispatch(uploadUsersPost(title, caption, description, previewSource));
     if (postResult && !error) {
       history.push("/");
     }
@@ -63,33 +66,44 @@ const Upload = ({ history }) => {
           onSubmit={handleSubmitPost}
           className="flex flex-col justify-center items-center padding"
         >
-          <h1>Upload Form</h1>
+          <h1 className="text-xl uppercase">
+            Post your fire dishes <span>🔥</span>
+          </h1>
           <Input type="file" name="image" onChange={handleFileInputState} value={fileInputState} />
           <Input
             type="text"
             name="title"
-            placeholder="Title"
+            placeholder="A non-boring title here please"
             onChange={(e) => setTitle(e.target.value)}
             value={title}
           />
           <textarea
-            name="description"
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
-            rows="5"
-            placeholder="Description"
+            name="caption"
+            onChange={(e) => setCaption(e.target.value)}
+            value={caption}
+            rows="3"
+            placeholder="Insert your fire caption here."
             className="px-5 py-2 rounded outline-none w-3/4 md:w-1/2 mx-auto my-3 "
           />
+
+          <RichTextEditor description={description} setDescription={setDescription} />
+
           <Button type="submit">Submit</Button>
         </form>
-        {previewSource && (
-          <img
-            src={previewSource}
-            alt="User selected image"
-            style={{ height: "300px" }}
-            className="mx-auto mt-10"
-          />
-        )}
+
+        <div className="preview flex flex-col justify-center mx-auto">
+          {previewSource && (
+            <img
+              src={previewSource}
+              alt="User selected image"
+              style={{ height: "300px" }}
+              className="mx-auto mt-10"
+            />
+          )}
+          {title && <h3 className="text-lg">{title}</h3>}
+          {caption && <p className="text-lg">{caption}</p>}
+          {description && <p>{description}</p>}
+        </div>
       </div>
     </Layout>
   );
