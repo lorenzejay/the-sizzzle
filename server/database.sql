@@ -41,10 +41,12 @@ CREATE TABLE uploads(
 
 CREATE TABLE saved_uploads(
     saved_upload_id SERIAL PRIMARY KEY,
-    saved_by uuid REFERENCES users(user_id) NOT NULL,
-    upload_post SERIAL REFERENCES uploads(upload_id) NOT NULL,
+    saved_by uuid NOT NULL,
+    upload_post SERIAL NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+alter table saved_uploads add foreign key(upload_post) references uploads(upload_id) on delete cascade;
+alter table saved_uploads add foreign key(saved_by) references users(user_id) on delete cascade;
 
 
 CREATE TABLE ingredients(
