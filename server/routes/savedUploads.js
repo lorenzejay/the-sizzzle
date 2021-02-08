@@ -35,6 +35,28 @@ router.post("/", authorization, async (req, res) => {
   }
 });
 
+//check if loggedIn user already saved the post
+//when the user initally gets on the page
+router.get("/check/:upload_id", authorization, async (req, res) => {
+  try {
+    const user_id = req.user;
+    const { upload_id } = req.params;
+    //check
+    const query = await pool.query(
+      "SELECT * FROM saved_uploads WHERE upload_post = $1 AND saved_by = $2",
+      [upload_id, user_id]
+    );
+    const result = query.rows;
+    if (result.length > 0) {
+      res.json(true);
+    } else {
+      res.json(false);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //retrieve loggedIn user saved post
 //user_id
 //seelct all from saved_posts WHERE saved_by is user_id
