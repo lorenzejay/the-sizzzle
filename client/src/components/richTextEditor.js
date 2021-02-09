@@ -42,16 +42,17 @@ const converter = new Showdown.Converter({
   tasklists: true,
 });
 
-export default function RichTextEditor({ description, setDescription }) {
+export default function RichTextEditor({ description, setDescription, className }) {
   const commands = getDefaultToolbarCommands();
-  console.log(commands);
+  // console.log(commands);
   // const [value, setValue] = React.useState("**Hello world!!!**");
   const [selectedTab, setSelectedTab] = React.useState("write");
-  console.log(description);
+  // console.log(description);
 
   return (
-    <div className="w-3/4 md:w-1/2 my-3">
+    <div className={`w-3/4 md:w-1/2 my-3 ${className}`}>
       <RichTextTyper
+        id="description"
         value={description}
         toolbarCommands={[["header", "bold", "ordered-list", "unordered-list", "checked-list"]]}
         onChange={setDescription}
