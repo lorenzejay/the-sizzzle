@@ -74,7 +74,7 @@ const Dashboard = ({ location }) => {
               className="rounded-full w-32 h-32 md:h-52 md:w-52 object-cover mb-10"
             />
             <div className="flex flex-row font-bold text-3xl gap-3">
-              <h2>{`${anyUserProfile.user.first_name}  ${anyUserProfile.user.last_name}`}</h2> |{" "}
+              {/* <h2 className="lg:border-r-2">{`${anyUserProfile.user.first_name}  ${anyUserProfile.user.last_name}`}</h2>{" "} */}
               <h2>
                 {" "}
                 <span className="text-xl">@</span>
