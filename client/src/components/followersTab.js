@@ -20,10 +20,10 @@ const FollowersTab = ({ anyUserProfile, userInfo, follow }) => {
       {loading && <Loader />}
       {error && <ErrorMessage>{error}</ErrorMessage>}
       {followers && (
-        <>
+        <div className="text-xl flex gap-10 mt-5">
           <p>Followers: {followers.followerCount}</p>
           <p>Following: {followers.followingCount}</p>
-        </>
+        </div>
       )}
     </div>
   );
