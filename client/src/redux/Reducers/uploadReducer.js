@@ -11,6 +11,9 @@ import {
   GET_UPLOAD_DETAILS_REQUEST,
   GET_UPLOAD_DETAILS_SUCCESS,
   GET_UPLOAD_DETAILS_FAIL,
+  UPDATE_UPLOAD_REQUEST,
+  UPDATE_UPLOAD_SUCCESS,
+  UPDATE_UPLOAD_FAIL,
 } from "../Types/uploadTypes";
 
 export const uploadPostReducer = (state = {}, action) => {
@@ -58,6 +61,19 @@ export const postDetailsReducer = (state = {}, action) => {
     case GET_UPLOAD_DETAILS_SUCCESS:
       return { loading: false, details: action.payload };
     case GET_UPLOAD_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const updateUploadReaducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_UPLOAD_REQUEST:
+      return { loading: true };
+    case UPDATE_UPLOAD_SUCCESS:
+      return { loading: false, updateStatus: action.payload };
+    case UPDATE_UPLOAD_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

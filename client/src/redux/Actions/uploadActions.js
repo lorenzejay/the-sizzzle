@@ -11,6 +11,9 @@ import {
   GET_UPLOAD_DETAILS_REQUEST,
   GET_UPLOAD_DETAILS_SUCCESS,
   GET_UPLOAD_DETAILS_FAIL,
+  UPDATE_UPLOAD_REQUEST,
+  UPDATE_UPLOAD_SUCCESS,
+  UPDATE_UPLOAD_FAIL,
 } from "../Types/uploadTypes";
 
 export const uploadUsersPost = (title, caption, description, base64EncodedImage) => async (
@@ -82,5 +85,32 @@ export const getUploadDetails = (upload_id) => async (dispatch) => {
   } catch (error) {
     console.log(error.message);
     dispatch({ type: GET_UPLOAD_DETAILS_FAIL, payload: error.message });
+  }
+};
+
+export const updateUpload = (title, caption, description, upload_id) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: UPDATE_UPLOAD_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const data = await fetch(`http://localhost:5000/api/upload/update/${upload_id}`, {
+      method: "PUT",
+      headers: { token: userInfo.token, "Content-type": "application/json" },
+      body: JSON.stringify({ title, caption, description }),
+    });
+
+    const parsedData = await data.json();
+    if (parsedData.success === true) {
+      return dispatch({ type: UPDATE_UPLOAD_SUCCESS, payload: parsedData });
+    } else if (parsedData.success === false) {
+      dispatch({ type: UPDATE_UPLOAD_FAIL, payload: parsedData });
+    }
+  } catch (error) {
+    console.log(error.message);
+    dispatch({ type: UPDATE_UPLOAD_FAIL, payload: error.message });
   }
 };

@@ -18,6 +18,7 @@ import {
   getAllUserUploadsReducer,
   getLoggedInUserFollowingPostsReducer,
   postDetailsReducer,
+  updateUploadReaducer,
   uploadPostReducer,
 } from "./Reducers/uploadReducer";
 import { checkIfSavedRedcuer, saveUploadReducer } from "./Reducers/savedUploadsReducer";
@@ -38,6 +39,7 @@ const reducers = combineReducers({
   allUserPosts: getAllUserUploadsReducer,
   userFollowingsPosts: getLoggedInUserFollowingPostsReducer,
   uploadDetails: postDetailsReducer,
+  updateUpload: updateUploadReaducer,
 
   saveUploads: saveUploadReducer,
   checkIfSaved: checkIfSavedRedcuer,
