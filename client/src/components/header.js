@@ -123,7 +123,7 @@ const Header = () => {
   return (
     <>
       <Nav>
-        <NavContainer className="items-center px-5 sm:px-12 md:px-24 lg:px-24">
+        <NavContainer className="items-center px-5  lg:px-24">
           <NavLink className="text-base" to="/">
             RecipeGram
           </NavLink>
