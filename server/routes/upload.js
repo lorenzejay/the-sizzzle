@@ -15,7 +15,7 @@ router.post("/", authorization, async (req, res) => {
     });
     // console.log(uploadImageResponse);
     const query = await pool.query(
-      "INSERT INTO uploads (uploaded_by, title, captions, description, cloudinary_id, image_url) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *",
+      "INSERT INTO uploads (uploaded_by, title, caption, description, cloudinary_id, image_url) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *",
       [
         user_id,
         title,
@@ -35,7 +35,7 @@ router.post("/", authorization, async (req, res) => {
         user_id: result.user_id,
         title: result.title,
         description: result.description,
-        caption: result.description,
+        caption: result.caption,
         cloudinary_id: result.cloudinary_id,
         image_url: result.image_url,
       },
@@ -136,17 +136,78 @@ router.get("/details/:upload_id", async (req, res) => {
   }
 });
 
-// //get the images from out list of images
-// router.get("/post-image", async (req, res) => {
-//   //get resources from recipegram folder
-//   const { resources } = await cloudinary.search
-//     .expression("folder: recipegram")
-//     .sort_by("public_id", "desc")
-//     .max_results(30)
-//     .execute();
-//   const publicIds = resources.map((file) => file.public_id);
+//DELETE UPLOAD POST
+//takes in user_id and upload_id
+//delete only if user_id === uploaded_by
+//delete upload from db
+//delete image from cloudinary
+router.delete("/delete-post/:upload_id", authorization, async (req, res) => {
+  try {
+    const user_id = req.user;
+    const { upload_id } = req.params;
+    //check if post id belongs to the user
+    const check = await pool.query(
+      "SELECT * FROM uploads WHERE upload_id = $1 AND uploaded_by = $2",
+      [upload_id, user_id]
+    );
+    //should return 1
+    const checkResult = check.rows;
+    if (checkResult.length === 0) {
+      return res.send("You are not authorized to delete this post.");
+    }
+    //grab clouinary id from the check
+    const cloudinary_id = check.rows[0].cloudinary_id;
+    //if it passes above check we can delete
+    //make sure constraints towards saved posts are deleted
+    const deleteUpload = await pool.query(
+      "DELETE FROM uploads WHERE upload_id = $1 AND uploaded_by = $2",
+      [upload_id, user_id]
+    );
 
-//   res.send(publicIds);
-// });
+    //delete from cloudinary
+    await cloudinary.uploader.destroy(cloudinary_id);
+
+    res.send({ message: "Deleted Post", success: true });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//PUT EDIT POST
+//takes in upload_id and user_uploaded by from params
+//takes in title, caption, and description from req.body
+//confirm that there is a post that they will update
+//if there is a post, use update query
+router.put("/update/:upload_id", authorization, async (req, res) => {
+  try {
+    const { upload_id } = req.params;
+    const user_id = req.user;
+    //not updating images for simplicity reasons
+    const { title, caption, description } = req.body;
+    //check if post exists and if user owns it
+    const check = await pool.query(
+      "SELECT * FROM uploads WHERE upload_id = $1 AND uploaded_by = $2",
+      [upload_id, user_id]
+    );
+
+    //should return 1
+    const checkResult = check.rows;
+    if (checkResult.length === 0) {
+      return res.send("Naughty Naughty...");
+    }
+
+    const query = await pool.query(
+      "UPDATE uploads SET title = $1, caption = $2, description = $3 WHERE uploaded_by = $4 AND upload_id = $5 RETURNING *",
+      [title, caption, description, user_id, upload_id]
+    );
+    if (query.rows.length > 0) {
+      return res.json({ success: true, message: "Post Updated Successfully" });
+    } else {
+      return res.json({ success: false, message: "Something went wrong with the update..." });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 
 module.exports = router;
