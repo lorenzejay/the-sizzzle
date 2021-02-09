@@ -9,6 +9,7 @@ import Dashboard from "./pages/dashboard";
 import EditProfilePage from "./pages/editProfilePage";
 import Upload from "./pages/upload";
 import PostTemplate from "./pages/postTemplate";
+import EditUpload from "./pages/editUpload";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route exact path="/dashboard/:id" component={Dashboard} />
       <Route path="/upload" component={Upload} />
       <Route path="/post/:id" component={PostTemplate} />
+      <Route exact path="/edit-post/:id" component={EditUpload} />
     </Router>
   );
 }
