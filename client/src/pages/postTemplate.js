@@ -15,7 +15,6 @@ const PostTemplate = ({ location }) => {
   const dispatch = useDispatch();
   const path = location.pathname;
   const uploadIdFromPath = path.substring(6, path.length);
-  console.log(uploadIdFromPath);
 
   //converting markdown from description of upload to html
   const sanitizer = dompurify.sanitize;
@@ -41,6 +40,8 @@ const PostTemplate = ({ location }) => {
   useEffect(() => {
     if (userInfo && details && userInfo.returnedUserId === details.uploaded_by) {
       setIsUserLoginPost(true);
+    } else {
+      setIsUserLoginPost(false);
     }
   }, [userLogin, details]);
 
@@ -61,26 +62,29 @@ const PostTemplate = ({ location }) => {
     // return new Date(date).toString().slice(4, 15).replaceAt(6, ", ");
     return new Date(date).toLocaleString().slice(0, 8);
   };
-  details && console.log(isUserLoginPost);
+  details && console.log(details.description);
   return (
     <Layout>
       {details && (
         <>
-          <div className="px-5 lg:px-72 pt-10">
+          <PaddingWrapper className="px-5 lg:px-72 pt-10 padding-wrapper">
             {!isUserLoginPost ? (
               <span className="flex gap-3 justify-end">
                 <AiOutlineHeart size={24} />
-                <SavePostButton upload_id={details.uploadId} />
+                <SavePostButton upload_id={details.upload_id} />
               </span>
             ) : (
               <div className="flex items-center gap-3 justify-end">
-                <Link to="/" className="px-5 py-0.5 bg-gray-600 rounded-md text-white ">
+                <Link
+                  to={`/edit-post/${details.upload_id}`}
+                  className="px-5 py-0.5 bg-gray-600 rounded-md text-white "
+                >
                   Edit
                 </Link>
                 <FaTrash className="cursor-pointer" />
               </div>
             )}
-          </div>
+          </PaddingWrapper>
           {details && (
             <PaddingWrapper>
               <h2 className="text-5xl font-bold my-5">{details.title}</h2>
@@ -88,7 +92,7 @@ const PostTemplate = ({ location }) => {
                 <UploaderProfileBar uploaded_by={details.uploaded_by} className="w-full " />
                 <p className="my-4 pb-3 text-gray-400">{convertDate(details.created_at)}</p>
               </div>
-              <img src={details.image_url} className="relative object-cover " />
+              <img src={details.image_url} className="relative object-cover max-h-screen w-full" />
 
               <div className=" md:px-0">
                 <p className="mb-5">{details.caption}</p>
