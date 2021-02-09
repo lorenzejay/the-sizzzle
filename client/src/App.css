@@ -10,6 +10,12 @@ textarea {
   border: 1.2px solid #000;
 }
 
+@media screen and (min-width: 1440px) {
+  .padding-wrapper {
+    padding: 0 25vw;
+  }
+}
+
 .post-description p {
   margin: 2vh 0;
 }
@@ -22,11 +28,21 @@ textarea {
 }
 
 .post-description h1 {
-  font-size: 2.2rem;
+  font-size: 2.3rem;
+  line-height: 3rem;
 }
 .post-description h2 {
   font-size: 2rem;
+  line-height: 2.7rem;
 }
 .post-description h3 {
   font-size: 1.8rem;
+  line-height: 2.5rem;
+}
+.post-description p {
+  line-height: 1.75rem;
+  margin-top: 5vh;
+}
+
+p {
 }
