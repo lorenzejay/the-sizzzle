@@ -7,7 +7,8 @@ const FollowersTab = ({ anyUserProfile }) => {
   const dispatch = useDispatch();
   const getFollows = useSelector((state) => state.getFollows);
   const { followers, error } = getFollows;
-  //follow a user action.
+
+  //if a follow action occured this will trigger a refresh on getFollowers
   const followUser = useSelector((state) => state.follow);
   const { follow } = followUser;
 
