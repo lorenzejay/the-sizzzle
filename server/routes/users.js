@@ -91,10 +91,6 @@ router.post("/login", async (req, res) => {
           return res.json({
             success: true,
             token,
-            returnedUsername,
-            returnedUserId,
-            returnedProfilePicture,
-            message: "Logged In Successfully",
           });
         }
       });
@@ -162,6 +158,16 @@ router.put("/profile-pic-upload/", authorization, async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Failed to upload profile image" });
+  }
+});
+
+router.post("/loggedInUserDetails", authorization, async (req, res) => {
+  try {
+    const user_id = req.user;
+    const query = await pool.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
+    res.json(query.rows[0]);
+  } catch (error) {
+    console.log(error);
   }
 });
 
