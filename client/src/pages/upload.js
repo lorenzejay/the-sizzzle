@@ -16,7 +16,7 @@ const Upload = ({ history }) => {
   const uploadPost = useSelector((state) => state.uploadPost);
   const { postResult, error, loading } = uploadPost;
 
-  const [fileInputState, setFileInputState] = useState("");
+  const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
 
   const [title, setTitle] = useState("");
@@ -27,7 +27,7 @@ const Upload = ({ history }) => {
     if (!userInfo) {
       history.push("/login");
     }
-  }, [dispatch, history]);
+  }, [dispatch, history, userInfo]);
 
   // useEffect(() => {
   //   if (postResult && !error) {
@@ -95,7 +95,7 @@ const Upload = ({ history }) => {
           {previewSource && (
             <img
               src={previewSource}
-              alt="User selected image"
+              alt="Preview of upload media."
               style={{ height: "300px" }}
               className="mx-auto mt-10"
             />
