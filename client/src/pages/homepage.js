@@ -66,10 +66,15 @@ const Homepage = () => {
             const dt2 = new Date();
 
             return (
-              <PaddingWrapper key={post.uploadId}>
+              <PaddingWrapper key={post.upload_id}>
                 <UploaderProfileBar uploaded_by={post.uploaded_by} />
                 <Link to={`/post/${post.upload_id}`} className="mx-auto" key={post.upload_id}>
-                  <img src={post.image_url} loading="lazy" className="object-cover w-full " />
+                  <img
+                    src={post.image_url}
+                    loading="lazy"
+                    className="object-cover w-full"
+                    alt="user upload thumnails"
+                  />
                   <div className=" lg:p-0 mt-3">
                     <h3 className="text-xl">{post.title}</h3>
                     <h3 className="text-lg">{post.caption}</h3>
@@ -87,7 +92,7 @@ const Homepage = () => {
             return (
               <PaddingWrapper
                 className="w-full mx-auto px-5 sm:px-24 md:px-48 lg:px-72"
-                key={post.uploadId}
+                key={post.upload_id}
               >
                 <UploaderProfileBar uploaded_by={post.uploaded_by} />
                 <Link
@@ -101,7 +106,12 @@ const Homepage = () => {
                   className="w-full md:w-1/2 mx-auto"
                   key={post.upload_id}
                 >
-                  <img src={post.image_url} loading="lazy" className="object-cover w-full" />
+                  <img
+                    src={post.image_url}
+                    loading="lazy"
+                    className="object-cover w-full"
+                    alt="user upload thumnails"
+                  />
                   <div className=" mt-3">
                     <h3 className="text-xl">{post.title}</h3>
                     <h3 className="text-lg">{post.description}</h3>
