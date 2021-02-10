@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getUserDetails, updateNames } from "../redux/Actions/userActions";
+import { updateNames } from "../redux/Actions/userActions";
 import DefaultPP from "../images/dpp.png";
 import Layout from "../components/layout";
 import Input from "../components/input";
@@ -45,6 +45,7 @@ const EditProfilePage = ({ history }) => {
   const [inputs, setInputs] = useState({
     firstName: "",
     lastName: "",
+    username: "",
   });
   const [inputError, setInputError] = useState("");
 
@@ -55,9 +56,6 @@ const EditProfilePage = ({ history }) => {
   //if there is a logged in user
   const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
   const { loggedInUserDetails } = userLoggedInDetails;
-
-  const userDetails = useSelector((state) => state.userDetails);
-  const { profile } = userDetails;
 
   const userUpdateProfilePicture = useSelector((state) => state.userUpdateProfilePicture);
   const { loading, error, profilePic } = userUpdateProfilePicture;
@@ -75,18 +73,18 @@ const EditProfilePage = ({ history }) => {
     if (userInfo && !state) {
       return history.push(`/dashboard/${loggedInUserDetails.returnedUsername}`);
     }
-    dispatch(getUserDetails());
   }, [state, history, userInfo, dispatch, loggedInUserDetails]);
   // console.log(profile);
 
   useEffect(() => {
-    if (profile) {
+    if (loggedInUserDetails) {
       setInputs({
-        firstName: profile.first_name,
-        lastName: profile.last_name,
+        firstName: loggedInUserDetails.first_name,
+        lastName: loggedInUserDetails.last_name,
+        username: loggedInUserDetails.username,
       });
     }
-  }, [dispatch, profilePic, profile, success]);
+  }, [dispatch, profilePic, success, loggedInUserDetails]);
 
   // console.log(userInfo);
 
@@ -100,8 +98,8 @@ const EditProfilePage = ({ history }) => {
   };
 
   const handleUpdate = () => {
-    if (inputs.firstName !== "" && inputs.lastName !== "") {
-      dispatch(updateNames(inputs.firstName, inputs.lastName));
+    if (inputs.firstName !== "" && inputs.lastName !== "" && inputs.username !== "") {
+      dispatch(updateNames(inputs.firstName, inputs.lastName, inputs.username));
       window.location.reload();
       setInputError("");
     } else {
@@ -128,22 +126,22 @@ const EditProfilePage = ({ history }) => {
       {loading && <Loader />}
       {error && <h1>{error}</h1>}
 
-      {profile && (
+      {loggedInUserDetails && (
         <PaddingWrapper>
           <section className="px-10 pt-20 flex flex-col ">
             <div className="flex items-center gap-5">
               <img
                 src={
-                  !profile.profilepic
+                  !loggedInUserDetails.profilepic
                     ? previewSource
                       ? previewSource
                       : DefaultPP
-                    : profile.profilepic
+                    : loggedInUserDetails.profilepic
                 }
                 className="w-24 h-24 rounded-full object-cover"
               />
               <div className="flex flex-col gap-4">
-                <h3 className="font-bold text-2xl">{profile.username}</h3>
+                <h3 className="font-bold text-2xl">{loggedInUserDetails.username}</h3>
 
                 <Modal imageSrc={previewSource}>
                   <CustomInput
@@ -171,6 +169,11 @@ const EditProfilePage = ({ history }) => {
               Last Name
             </label>
             <Input name="lastName" value={inputs.lastName} onChange={handleChange} />
+
+            <label htmlFor="name" className="mt-5 text-2xl font-bold">
+              Username
+            </label>
+            <Input name="username" value={inputs.username} onChange={handleChange} />
 
             <button
               type="button"
