@@ -21,13 +21,13 @@ const Dashboard = ({ location }) => {
 
   const dispatch = useDispatch();
 
-  //if there is a logged in user
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
   //if its any other user
   const anyUserDetails = useSelector((state) => state.anyUserDetails);
   const { loading, anyUserProfile, error } = anyUserDetails;
+
+  //if there is a logged in user
+  const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
+  const { loggedInUserDetails } = userLoggedInDetails;
 
   //get the users posts
   const allUserPosts = useSelector((state) => state.allUserPosts);
@@ -36,17 +36,17 @@ const Dashboard = ({ location }) => {
   //get the user info
   useEffect(() => {
     dispatch(getAnyUserDetails(queriedUser));
-  }, [dispatch, queriedUser, userInfo]);
+  }, [dispatch, queriedUser, loggedInUserDetails]);
 
   useEffect(() => {
     if (anyUserProfile) {
-      if (userInfo && userInfo.returnedUserId === anyUserProfile.user.user_id) {
+      if (loggedInUserDetails && loggedInUserDetails.user_id === anyUserProfile.user.user_id) {
         setIsLoggedInUserProfile(true);
       } else {
         setIsLoggedInUserProfile(false);
       }
     }
-  }, [queriedUser, userInfo, anyUserProfile]);
+  }, [queriedUser, loggedInUserDetails, anyUserProfile]);
 
   //get users posts
   useEffect(() => {
@@ -63,13 +63,13 @@ const Dashboard = ({ location }) => {
     <Layout>
       {loading && <Loader />}
       {error && <h1>{error}</h1>}
-      {!loading && !anyUserProfile && <ErrorMessage>There is no user profile</ErrorMessage>}
+      {!anyUserProfile && <ErrorMessage>There is no user profile</ErrorMessage>}
       {anyUserProfile && anyUserProfile.user && (
         <div className="px-10 flex flex-col">
           <div className="flex flex-col justify-center items-center mt-10">
             <img
               src={anyUserProfile.user.profilepic || DefaultPP}
-              alt="Profile Picture"
+              alt="user profile thumnail"
               title="profile picture"
               className="rounded-full w-32 h-32 md:h-52 md:w-52 object-cover mb-10"
             />
@@ -81,11 +81,10 @@ const Dashboard = ({ location }) => {
                 {anyUserProfile.user.username}
               </h2>
             </div>
-            <FollowersTab anyUserProfile={anyUserProfile} userInfo={userInfo} />
+            <FollowersTab anyUserProfile={anyUserProfile} />
 
             <FollowOrEditCheck
               isLoggedInUserProfile={isLoggedInUserProfile}
-              userInfo={userInfo}
               anyUserProfile={anyUserProfile}
             />
           </div>
