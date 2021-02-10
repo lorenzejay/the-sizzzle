@@ -6,18 +6,18 @@ const bycrypt = require("bcrypt");
 //dashboard gets us the user details so we can update the profile
 
 //get user info
-router.get("/", authorization, async (req, res) => {
-  try {
-    const user_id = req.user;
+// router.get("/", authorization, async (req, res) => {
+//   try {
+//     const user_id = req.user;
 
-    const userInfo = await pool.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
+//     const userInfo = await pool.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
 
-    res.json(userInfo.rows[0]);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
+//     res.json(userInfo.rows[0]);
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).json("Server Error");
+//   }
+// });
 
 //delete user
 router.delete("/delete-user", authorization, async (req, res) => {
@@ -37,40 +37,21 @@ router.delete("/delete-user", authorization, async (req, res) => {
 //body contains first_name lname, username
 //update users set firstname= firstname, ...  where user_id = user_id
 router.put("/update-names", authorization, async (req, res) => {
-  const user_id = req.user;
-  const { first_name, last_name } = req.body;
-
-  //remove changing username - causes alot of problems on the frontend
-
-  await pool.query("UPDATE users SET first_name = $1, last_name = $2 WHERE user_id = $3", [
-    first_name,
-    last_name,
-    user_id,
-  ]);
-  return res.json(true);
-});
-
-//update username
-router.put("/update-username", authorization, async (req, res) => {
-  //check if the username they want to change to is the same username
   try {
     const user_id = req.user;
-    const { username } = req.body; //username they want to change to
+    const { first_name, last_name, username } = req.body;
 
-    //check if there is a user with that username alreayd
-    const userCheck = await pool.query("select * from users WHERE username = $1", [username]);
-    if (userCheck.rowCount > 0) {
-      return res.json("There is already a user with that username, please try another.");
-    }
+    const noSpaceUsernameAndMakeLowerCase = await username.split(" ").join("").toLowerCase();
 
-    const user = await pool.query("UPDATE users SET username = $1 WHERE user_id = $2 RETURNING *", [
-      username,
-      user_id,
-    ]);
-    res.json(user.rows[0]);
+    await pool.query(
+      "UPDATE users SET first_name = $1, last_name = $2, username = $3 WHERE user_id = $4",
+      [first_name, last_name, noSpaceUsernameAndMakeLowerCase, user_id]
+    );
+
+    return res.json(true);
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
+    console.log(error);
+    res.status(404).json("An Error Occurred");
   }
 });
 
