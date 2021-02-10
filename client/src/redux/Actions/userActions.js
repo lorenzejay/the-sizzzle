@@ -108,25 +108,25 @@ export const getLoggedInUserDetails = () => async (dispatch, getState) => {
   }
 };
 
-export const getUserDetails = () => async (dispatch, getState) => {
-  try {
-    dispatch({ type: USER_DETAILS_REQUEST });
+// export const getUserDetails = () => async (dispatch, getState) => {
+//   try {
+//     dispatch({ type: USER_DETAILS_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+//     const {
+//       userLogin: { userInfo },
+//     } = getState();
 
-    const data = await fetch("http://localhost:5000/api/dashboard/", {
-      method: "GET",
-      headers: { token: `${userInfo.token}`, "Content-Type": "application/json" },
-    });
-    const parsedData = await data.json();
-    dispatch({ type: USER_DETAILS_SUCCESS, payload: parsedData });
-  } catch (error) {
-    console.log(error.message);
-    dispatch({ type: USER_DETAILS_FAIL, error: error.message });
-  }
-};
+//     const data = await fetch("http://localhost:5000/api/dashboard/", {
+//       method: "GET",
+//       headers: { token: `${userInfo.token}`, "Content-Type": "application/json" },
+//     });
+//     const parsedData = await data.json();
+//     dispatch({ type: USER_DETAILS_SUCCESS, payload: parsedData });
+//   } catch (error) {
+//     console.log(error.message);
+//     dispatch({ type: USER_DETAILS_FAIL, error: error.message });
+//   }
+// };
 
 export const getAnyUserDetails = (username) => async (dispatch) => {
   try {
