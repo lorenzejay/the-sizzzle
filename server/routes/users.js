@@ -44,18 +44,12 @@ router.post("/register", async (req, res) => {
       [noSpaceUsername, first_name, last_name, email, bycryptPassword]
     );
 
-    const returnedUsername = newUser.rows[0].username;
-    const returnedUserId = newUser.rows[0].user_id;
-
     //genrate jwt token
     const token = jwtGenerator(newUser.rows[0].user_id);
     //this is what is returned when our call is successful
     res.json({
       success: true,
       token,
-      returnedUsername,
-      returnedUserId,
-      message: "Account Created",
     });
   } catch (error) {
     console.log(error.message);
@@ -74,11 +68,7 @@ router.post("/login", async (req, res) => {
     if (query.rows.length === 0) {
       return res.json({ success: false, message: "User Email or Password is incorrect" });
     } else {
-      const returnedUsername = query.rows[0].username;
-      const returnedUserId = query.rows[0].user_id;
       const savedHashPassword = query.rows[0].password;
-      const returnedProfilePicture = query.rows[0].profilepic;
-
       await bycrypt.compare(password, savedHashPassword, function (err, isMatch) {
         if (err) {
           throw err;
