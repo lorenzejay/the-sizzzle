@@ -13,15 +13,18 @@ const SignIn = ({ history }) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, userInfo, error } = userLogin;
+  //if there is a logged in user
+  const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
+  const { loggedInUserDetails } = userLoggedInDetails;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (userInfo) {
-      history.push(`/dashboard/${userInfo.returnedUsername}`);
+    if (userInfo && loggedInUserDetails) {
+      history.push(`/dashboard/${loggedInUserDetails.username}`);
     }
-  }, [history, userInfo]);
+  }, [history, userInfo, loggedInUserDetails]);
 
   const handleLogin = (e) => {
     e.preventDefault();
