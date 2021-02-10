@@ -36,7 +36,6 @@ export const followThisUser = (userTo) => async (dispatch, getState) => {
       method: "POST",
       headers: {
         token: userInfo.token,
-        logged_in_user_id: `${userInfo.returnedUserId}`,
         "Content-Type": "application/json",
       },
     });
@@ -60,7 +59,6 @@ export const checkIfUserIsFollowingAlready = (user_to) => async (dispatch, getSt
       method: "POST",
       headers: {
         token: `${userInfo.token}`,
-        logged_in_user_id: userInfo.returnedUserId,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
