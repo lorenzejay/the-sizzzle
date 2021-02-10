@@ -18,6 +18,10 @@ import {
   USER_UPDATE_NAMES_REQUEST,
   USER_UPDATE_NAMES_SUCCESS,
   USER_UPDATE_NAMES_FAIL,
+  LOGGED_IN_USER_DETAILS_REQUEST,
+  LOGGED_IN_USER_DETAILS_SUCCESS,
+  LOGGED_IN_USER_DETAILS_FAIL,
+  LOGGED_IN_USER_DETAILS_RESET,
 } from "../Types/userTypes";
 
 export const userLogInReducer = (state = {}, action) => {
@@ -29,6 +33,21 @@ export const userLogInReducer = (state = {}, action) => {
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
     case USER_LOGOUT_SUCCESS:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const loggedInUserReducer = (state = {}, action) => {
+  switch (action.type) {
+    case LOGGED_IN_USER_DETAILS_REQUEST:
+      return { loading: true };
+    case LOGGED_IN_USER_DETAILS_SUCCESS:
+      return { loading: false, loggedInUserDetails: action.payload };
+    case LOGGED_IN_USER_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    case LOGGED_IN_USER_DETAILS_RESET:
       return {};
     default:
       return state;

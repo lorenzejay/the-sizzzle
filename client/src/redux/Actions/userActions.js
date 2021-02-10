@@ -18,6 +18,10 @@ import {
   USER_UPDATE_NAMES_REQUEST,
   USER_UPDATE_NAMES_SUCCESS,
   USER_UPDATE_NAMES_FAIL,
+  LOGGED_IN_USER_DETAILS_REQUEST,
+  LOGGED_IN_USER_DETAILS_SUCCESS,
+  LOGGED_IN_USER_DETAILS_FAIL,
+  LOGGED_IN_USER_DETAILS_RESET,
 } from "../Types/userTypes";
 // import axios from "axios";
 
@@ -50,6 +54,7 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT_SUCCESS });
+  dispatch({ type: LOGGED_IN_USER_DETAILS_RESET });
 };
 
 export const register = (email, username, first_name, last_name, password) => async (dispatch) => {
@@ -80,6 +85,26 @@ export const register = (email, username, first_name, last_name, password) => as
   } catch (error) {
     console.log(error.message);
     dispatch({ type: USER_REGISTER_FAIL, payload: error.message });
+  }
+};
+
+export const getLoggedInUserDetails = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: LOGGED_IN_USER_DETAILS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const data = await fetch("http://localhost:5000/api/users/loggedInUserDetails", {
+      method: "POST",
+      headers: { token: `${userInfo.token}`, "Content-Type": "application/json" },
+    });
+    const parsedData = await data.json();
+    dispatch({ type: LOGGED_IN_USER_DETAILS_SUCCESS, payload: parsedData });
+  } catch (error) {
+    console.log(error.message);
+    dispatch({ type: LOGGED_IN_USER_DETAILS_FAIL, error: error.message });
   }
 };
 

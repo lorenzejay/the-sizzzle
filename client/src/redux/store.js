@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
   anyUserDetailsReducer,
+  loggedInUserReducer,
   updateNamesReducer,
   updateProfilePictureReducer,
   userDetailsReducer,
@@ -25,6 +26,7 @@ import { checkIfSavedRedcuer, saveUploadReducer } from "./Reducers/savedUploadsR
 
 const reducers = combineReducers({
   userLogin: userLogInReducer,
+  userLoggedInDetails: loggedInUserReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   anyUserDetails: anyUserDetailsReducer,
