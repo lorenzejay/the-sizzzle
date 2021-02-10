@@ -19,7 +19,7 @@ router.post("/register", async (req, res) => {
     //check if user exists already then throw error
     const isAlreadyRegistered = await pool.query(
       "SELECT * FROM users WHERE email = $1 OR username = $2",
-      [email, username]
+      [email, removedSpacesOnUsernameAndLowercase]
     );
 
     if (isAlreadyRegistered.rows.length !== 0) {
@@ -37,11 +37,11 @@ router.post("/register", async (req, res) => {
 
     const bycryptPassword = await bycrypt.hash(password, salt);
 
-    const noSpaceUsername = await username.split(" ").join("");
+    const noSpaceUsernameAndMakeLowerCase = await username.split(" ").join("").toLowerCase();
 
     const newUser = await pool.query(
       "INSERT INTO users(username, first_name, last_name, email, password) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [noSpaceUsername, first_name, last_name, email, bycryptPassword]
+      [noSpaceUsernameAndMakeLowerCase, first_name, last_name, email, bycryptPassword]
     );
 
     //genrate jwt token
