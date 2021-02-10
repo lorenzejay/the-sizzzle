@@ -29,7 +29,7 @@ router.get("/:userId", async (req, res) => {
 //authorized (logged in user) follows user with associated user_id
 router.post("/follow/:userId", authorization, async (req, res) => {
   try {
-    const userFrom = req.headers.logged_in_user_id;
+    const userFrom = req.user;
     const { userId: userTo } = req.params;
 
     //check if the userFrom is already following userFrom
@@ -67,7 +67,7 @@ router.post("/check-if-following", authorization, async (req, res) => {
     const { user_to } = req.body;
 
     //this will be passed from userInfo from userLogin state
-    const user_from = req.headers.logged_in_user_id;
+    const user_from = req.user;
 
     const checkFollow = await pool.query(
       "SELECT * FROM followers WHERE user_to = $1 AND user_from = $2",
