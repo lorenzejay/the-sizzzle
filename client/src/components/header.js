@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { getAnyUserDetails, logout } from "../redux/Actions/userActions";
+import { getLoggedInUserDetails, logout } from "../redux/Actions/userActions";
 import { AiFillHome, AiOutlineUpload } from "react-icons/ai";
 import DefaultPP from "../images/dpp.png";
 
@@ -91,8 +91,9 @@ const Header = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const anyUserDetails = useSelector((state) => state.anyUserDetails);
-  const { anyUserProfile } = anyUserDetails;
+  //if there is a logged in user
+  const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
+  const { loggedInUserDetails } = userLoggedInDetails;
 
   const [searchedProfiles, setSearchedProfile] = useState([]);
 
@@ -113,13 +114,14 @@ const Header = () => {
   //get the logged in user profilePicture
   useEffect(() => {
     if (userInfo) {
-      dispatch(getAnyUserDetails(userInfo.returnedUsername));
+      dispatch(getLoggedInUserDetails());
     }
   }, [dispatch, userInfo]);
 
   const handleLogout = () => {
     dispatch(logout());
   };
+
   return (
     <>
       <Nav>
@@ -166,7 +168,7 @@ const Header = () => {
             )}
           </div>
 
-          {userInfo ? (
+          {loggedInUserDetails ? (
             <NavMenu>
               <NavItem>
                 <NavLinks to="/">
@@ -180,11 +182,11 @@ const Header = () => {
               </NavItem>
 
               <NavItem>
-                {userInfo && (
-                  <NavLinks to={`/dashboard/${userInfo.returnedUsername}`}>
+                {loggedInUserDetails && (
+                  <NavLinks to={`/dashboard/${loggedInUserDetails.username}`}>
                     <img
-                      src={userInfo.returnedProfilePicture || DefaultPP}
-                      alt="profile-image"
+                      src={loggedInUserDetails.profilepic || DefaultPP}
+                      alt="profile of the user"
                       className="w-8 h-8 rounded-full object-cover"
                     />
                   </NavLinks>
