@@ -8,6 +8,7 @@ import Input from "../components/input";
 import Modal from "../components/modal";
 import styled from "styled-components";
 import Loader from "../components/loader";
+import PaddingWrapper from "../components/paddingWrapper";
 
 export const CustomInput = styled.input`
   width: 0.1px;
@@ -51,6 +52,10 @@ const EditProfilePage = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  //if there is a logged in user
+  const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
+  const { loggedInUserDetails } = userLoggedInDetails;
+
   const userDetails = useSelector((state) => state.userDetails);
   const { profile } = userDetails;
 
@@ -68,11 +73,11 @@ const EditProfilePage = ({ history }) => {
       return history.push("/login");
     }
     if (userInfo && !state) {
-      return history.push(`/dashboard/${userInfo.returnedUsername}`);
+      return history.push(`/dashboard/${loggedInUserDetails.returnedUsername}`);
     }
     dispatch(getUserDetails());
-  }, [state, history, userInfo, dispatch]);
-  console.log(profile);
+  }, [state, history, userInfo, dispatch, loggedInUserDetails]);
+  // console.log(profile);
 
   useEffect(() => {
     if (profile) {
@@ -124,56 +129,58 @@ const EditProfilePage = ({ history }) => {
       {error && <h1>{error}</h1>}
 
       {profile && (
-        <section className="px-10 pt-5 flex flex-col ">
-          <div className="flex items-center gap-5">
-            <img
-              src={
-                !profile.profilepic
-                  ? previewSource
+        <PaddingWrapper>
+          <section className="px-10 pt-20 flex flex-col ">
+            <div className="flex items-center gap-5">
+              <img
+                src={
+                  !profile.profilepic
                     ? previewSource
-                    : DefaultPP
-                  : profile.profilepic
-              }
-              className="w-24 h-24 rounded-full object-cover"
-            />
-            <div className="flex flex-col gap-4">
-              <h3 className="font-bold text-2xl">{profile.username}</h3>
+                      ? previewSource
+                      : DefaultPP
+                    : profile.profilepic
+                }
+                className="w-24 h-24 rounded-full object-cover"
+              />
+              <div className="flex flex-col gap-4">
+                <h3 className="font-bold text-2xl">{profile.username}</h3>
 
-              <Modal imageSrc={previewSource}>
-                <CustomInput
-                  type="file"
-                  name="image"
-                  id="file"
-                  className="inputfile"
-                  onChange={handleFileInputState}
-                  value={fileInputState}
-                />
-                <CustomLabel htmlFor="file">Choose a file</CustomLabel>
-                <button className="w-full text-red-500">Remove Current Photo</button>
-              </Modal>
-              {/* {previewSource && <img className="w-64" src={previewSource} />} */}
+                <Modal imageSrc={previewSource}>
+                  <CustomInput
+                    type="file"
+                    name="image"
+                    id="file"
+                    className="inputfile"
+                    onChange={handleFileInputState}
+                    value={fileInputState}
+                  />
+                  <CustomLabel htmlFor="file">Choose a file</CustomLabel>
+                  <button className="w-full text-red-500">Remove Current Photo</button>
+                </Modal>
+                {/* {previewSource && <img className="w-64" src={previewSource} />} */}
+              </div>
             </div>
-          </div>
-          {inputError && <h2 className="text-red-500 mt-8">{inputError}</h2>}
-          {success && <h2 className="text-green-500 mt-8">Profile Updated Successfully</h2>}
-          <label htmlFor="name" className="mt-10 text-2xl font-bold">
-            First Name
-          </label>
-          <Input name="firstName" value={inputs.firstName} onChange={handleChange} />
+            {inputError && <h2 className="text-red-500 mt-8">{inputError}</h2>}
+            {success && <h2 className="text-green-500 mt-8">Profile Updated Successfully</h2>}
+            <label htmlFor="name" className="mt-10 text-2xl font-bold">
+              First Name
+            </label>
+            <Input name="firstName" value={inputs.firstName} onChange={handleChange} />
 
-          <label htmlFor="name" className="mt-5 text-2xl font-bold">
-            Last Name
-          </label>
-          <Input name="lastName" value={inputs.lastName} onChange={handleChange} />
+            <label htmlFor="name" className="mt-5 text-2xl font-bold">
+              Last Name
+            </label>
+            <Input name="lastName" value={inputs.lastName} onChange={handleChange} />
 
-          <button
-            type="button"
-            className="bg-gray-800 text-white w-1/2 px-6 py-1 rounded-sm"
-            onClick={handleUpdate}
-          >
-            Update Username
-          </button>
-        </section>
+            <button
+              type="button"
+              className="bg-gray-800 text-white w-1/2 px-6 py-1 rounded-sm"
+              onClick={handleUpdate}
+            >
+              Update Username
+            </button>
+          </section>
+        </PaddingWrapper>
       )}
     </Layout>
   );
