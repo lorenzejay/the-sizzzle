@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import { udpateUserProfilePic } from "../redux/Actions/userActions";
 
 export default function Modal({ children, imageSrc }) {
