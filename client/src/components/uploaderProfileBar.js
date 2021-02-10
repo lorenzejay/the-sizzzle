@@ -25,17 +25,21 @@ const UploaderProfileBar = ({ uploaded_by, className }) => {
 
   return (
     <div>
-      <Link
-        to={`/dashboard/${uploaderProfile.username}`}
-        className={`flex items-center gap-3 mb-3 lg:p-0 ${className}`}
-      >
-        <img
-          src={uploaderProfile.profilepic || DfProfile}
-          alt="poster profile picture"
-          className="w-7 h-7 rounded-full object-cover"
-        />
-        <p>{uploaderProfile.username}</p>
-      </Link>
+      {uploaded_by && (
+        <>
+          <Link
+            to={`/dashboard/${uploaderProfile.username}`}
+            className={`flex items-center gap-3 mb-3 lg:p-0 ${className}`}
+          >
+            <img
+              src={uploaderProfile.profilepic || DfProfile}
+              alt="poster profile picture"
+              className="w-7 h-7 rounded-full object-cover"
+            />
+            <p>{uploaderProfile.username}</p>
+          </Link>
+        </>
+      )}
     </div>
   );
 };
