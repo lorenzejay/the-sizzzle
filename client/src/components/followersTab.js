@@ -4,7 +4,7 @@ import { getFollowers } from "../redux/Actions/followersAction";
 import ErrorMessage from "./errorMessage";
 import Loader from "./loader";
 
-const FollowersTab = ({ anyUserProfile, userInfo, follow }) => {
+const FollowersTab = ({ anyUserProfile, follow }) => {
   const dispatch = useDispatch();
   const getFollows = useSelector((state) => state.getFollows);
   const { loading, followers, error } = getFollows;
@@ -13,7 +13,7 @@ const FollowersTab = ({ anyUserProfile, userInfo, follow }) => {
     if (anyUserProfile && anyUserProfile.user) {
       dispatch(getFollowers(anyUserProfile.user.user_id));
     }
-  }, [dispatch, anyUserProfile, userInfo, follow]);
+  }, [dispatch, anyUserProfile, follow]);
 
   return (
     <div className="followers flex flex-row gap-5">
