@@ -4,11 +4,12 @@ import Layout from "../components/layout";
 import PaddingWrapper from "../components/paddingWrapper";
 import UploaderProfileBar from "../components/uploaderProfileBar";
 import { getUploadDetails, updateUpload } from "../redux/Actions/uploadActions";
-import * as Showdown from "showdown";
-import dompurify from "dompurify";
+// import * as Showdown from "showdown";
+// import dompurify from "dompurify";
 import RichTextEditor from "../components/richTextEditor";
 import ErrorMessage from "../components/errorMessage";
 import Button from "../components/button";
+import Loader from "../components/loader";
 
 const EditUpload = ({ location }) => {
   const dispatch = useDispatch();
@@ -20,13 +21,13 @@ const EditUpload = ({ location }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const sanitizer = dompurify.sanitize;
-  const converter = new Showdown.Converter({
-    tables: true,
-    simplifiedAutoLink: true,
-    strikethrough: true,
-    tasklists: true,
-  });
+  // const sanitizer = dompurify.sanitize;
+  // const converter = new Showdown.Converter({
+  //   tables: true,
+  //   simplifiedAutoLink: true,
+  //   strikethrough: true,
+  //   tasklists: true,
+  // });
 
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
@@ -36,7 +37,7 @@ const EditUpload = ({ location }) => {
     if (userInfo) {
       dispatch(getUploadDetails(uploadIdFromPath));
     }
-  }, [dispatch]);
+  }, [dispatch, uploadIdFromPath, userInfo]);
 
   useEffect(() => {
     if (details) {
@@ -47,14 +48,14 @@ const EditUpload = ({ location }) => {
   }, [details]);
 
   //convert markdown to html function
-  const [mdToHtml, setMdToHtml] = useState();
+  // const [mdToHtml, setMdToHtml] = useState();
 
-  useEffect(() => {
-    if (details) {
-      var html = details && converter.makeHtml(details.description);
-      setMdToHtml(html);
-    }
-  }, [details]);
+  // useEffect(() => {
+  //   if (details) {
+  //     var html = details && converter.makeHtml(details.description);
+  //     setMdToHtml(html);
+  //   }
+  // }, [details]);
 
   const convertDate = (date) => {
     // return new Date(date).toString().slice(4, 15).replaceAt(6, ", ");
@@ -72,9 +73,11 @@ const EditUpload = ({ location }) => {
     }
   };
 
-  details && console.log(title);
+  // details && console.log(title);
   return (
     <Layout>
+      {loading && <Loader />}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
       {details && (
         <PaddingWrapper>
           {updateError && <ErrorMessage>{updateError}</ErrorMessage>}
@@ -100,10 +103,10 @@ const EditUpload = ({ location }) => {
                 onChange={(e) => setCaption(e.target.value)}
                 className="border-none text-xl mt-5 mb-2 w-full"
               />
-              <div
+              {/* <div
                 dangerouslySetInnerHTML={{ __html: sanitizer(mdToHtml) }}
                 className="post-description text-xl"
-              ></div>
+              ></div> */}
             </div>
             <RichTextEditor
               className="w-full md:w-full mt-10"
