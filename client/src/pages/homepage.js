@@ -39,7 +39,7 @@ const Homepage = () => {
   };
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo || posts.length === 0) {
       getRandomPosts();
     }
   }, [userInfo]);
@@ -114,7 +114,7 @@ const Homepage = () => {
                   />
                   <div className=" mt-3">
                     <h3 className="text-xl">{post.title}</h3>
-                    <h3 className="text-lg">{post.description}</h3>
+                    <h3 className="text-lg">{post.caption}</h3>
                     <p className="text-sm text-gray-400">{diffTime(dt1, dt2)} </p>
                   </div>
                 </Link>
