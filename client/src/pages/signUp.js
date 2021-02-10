@@ -14,6 +14,10 @@ const SignUp = ({ history }) => {
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, userInfo, error } = userRegister;
 
+  //if there is a logged in user
+  const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
+  const { loggedInUserDetails } = userLoggedInDetails;
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,15 +27,14 @@ const SignUp = ({ history }) => {
   const [formError, setFormError] = useState("");
 
   useEffect(() => {
-    if (userInfo) {
-      history.push(`/dashboard/${userInfo.returnedUsername}`);
+    if (userInfo && loggedInUserDetails) {
+      history.push(`/dashboard/${loggedInUserDetails.username}`);
     }
-  }, [history, userInfo]);
+  }, [history, userInfo, loggedInUserDetails]);
 
-  console.log(error);
   const handleSignUp = (e) => {
     e.preventDefault();
-
+    setFormError("");
     if (password === confirmPassword) {
       dispatch(register(email, username, firstName, lastName, password));
     } else {
@@ -46,7 +49,7 @@ const SignUp = ({ history }) => {
         {error && (
           <ErrorMessage className="mx-auto w-3/4 p-3 text-red-500 shadow">{error}</ErrorMessage>
         )}
-        {formError && <p className="mx-auto w/-1/2 shadow">{formError}</p>}
+        {formError && <ErrorMessage>{formError}</ErrorMessage>}
         <Input
           placeholder="First Name"
           type="text"
