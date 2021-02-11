@@ -48,6 +48,15 @@ CREATE TABLE saved_uploads(
 alter table saved_uploads add foreign key(upload_post) references uploads(upload_id) on delete cascade;
 alter table saved_uploads add foreign key(saved_by) references users(user_id) on delete cascade;
 
+CREATE TABLE liked_uploads(
+    liked_upload_id SERIAL PRIMARY KEY,
+    liked_by uuid NOT NULL,
+    upload_post SERIAL NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+alter table liked_uploads add foreign key(upload_post) references uploads(upload_id) on delete cascade;
+alter table liked_uploads add foreign key(liked_by) references users(user_id) on delete cascade;
+
 
 -- CREATE TABLE comments(
 --     id SERIAL PRIMARY KEY,
