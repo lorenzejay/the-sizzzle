@@ -21,6 +21,9 @@ import {
   LOGGED_IN_USER_DETAILS_SUCCESS,
   LOGGED_IN_USER_DETAILS_FAIL,
   LOGGED_IN_USER_DETAILS_RESET,
+  USER_GET_PROFILE_PIC_REQUEST,
+  USER_GET_PROFILE_PIC_FAIL,
+  USER_GET_PROFILE_PIC_SUCCESS,
 } from "../Types/userTypes";
 // import axios from "axios";
 
@@ -184,5 +187,23 @@ export const updateNames = (first_name, last_name, username) => async (dispatch,
   } catch (error) {
     console.log(error.message);
     dispatch({ type: USER_UPDATE_NAMES_FAIL, payload: error.message });
+  }
+};
+export const getUserProfilePicture = (userProfilePic) => async (dispatch) => {
+  try {
+    dispatch({ type: USER_GET_PROFILE_PIC_REQUEST });
+    const data = await fetch(`http://localhost:5000/api/users/profile-pic/${userProfilePic}`, {
+      method: "GET",
+      headers: { "Content-type": "application/json" },
+    });
+    const parsedData = await data.json();
+    if (parsedData) {
+      dispatch({ type: USER_GET_PROFILE_PIC_SUCCESS, payload: parsedData });
+    } else {
+      dispatch({ type: USER_GET_PROFILE_PIC_FAIL, payload: null });
+    }
+  } catch (error) {
+    console.log(error.message);
+    dispatch({ type: USER_GET_PROFILE_PIC_FAIL, payload: error.message });
   }
 };

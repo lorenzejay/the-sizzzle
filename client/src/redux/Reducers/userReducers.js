@@ -19,6 +19,10 @@ import {
   LOGGED_IN_USER_DETAILS_SUCCESS,
   LOGGED_IN_USER_DETAILS_FAIL,
   LOGGED_IN_USER_DETAILS_RESET,
+  USER_GET_PROFILE_PIC_REQUEST,
+  USER_GET_PROFILE_PIC_SUCCESS,
+  USER_GET_PROFILE_PIC_FAIL,
+  USER_GET_PROFILE_PIC_RESET,
 } from "../Types/userTypes";
 
 export const userLogInReducer = (state = {}, action) => {
@@ -97,6 +101,21 @@ export const updateNamesReducer = (state = {}, action) => {
       return { loading: false, success: action.payload };
     case USER_UPDATE_NAMES_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userProfilePictureReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_GET_PROFILE_PIC_REQUEST:
+      return { loading: true };
+    case USER_GET_PROFILE_PIC_SUCCESS:
+      return { loading: false, profilePic: action.payload };
+    case USER_GET_PROFILE_PIC_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_GET_PROFILE_PIC_RESET:
+      return {};
     default:
       return state;
   }
