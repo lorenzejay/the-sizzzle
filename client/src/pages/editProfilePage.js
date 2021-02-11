@@ -9,6 +9,7 @@ import Modal from "../components/modal";
 import styled from "styled-components";
 import Loader from "../components/loader";
 import PaddingWrapper from "../components/paddingWrapper";
+import RemoveProfilePictureButton from "../components/removeProfilePictureButton";
 
 export const CustomInput = styled.input`
   width: 0.1px;
@@ -40,6 +41,7 @@ export const CustomLabel = styled.label`
 `;
 
 const EditProfilePage = ({ history }) => {
+  const [showModal, setShowModal] = useState(false);
   const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
   const [inputs, setInputs] = useState({
@@ -67,6 +69,9 @@ const EditProfilePage = ({ history }) => {
   const userUpdateNames = useSelector((state) => state.userUpdateNames);
   const { success } = userUpdateNames;
 
+  const userRemoveProfilePicture = useSelector((state) => state.userRemoveProfilePicture);
+  const { success: removePPSuccess } = userUpdateNames;
+
   const data = useLocation();
   const { state } = data;
 
@@ -90,31 +95,11 @@ const EditProfilePage = ({ history }) => {
     }
   }, [dispatch, profilePic, success, loggedInUserDetails]);
 
-  //get loggedInUser Profile Pic
-  const getuserProfileImage = async () => {
-    try {
-      const data = await fetch(
-        `http://localhost:5000/api/users/profile-pic/${loggedInUserDetails.profilepic}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      const parsedData = await data.json();
-      if (parsedData) {
-        setUserLoggedInProfileSrc(parsedData);
-      } else {
-        setUserLoggedInProfileSrc(null);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
     if (loggedInUserDetails) {
       dispatch(getUserProfilePicture(loggedInUserDetails.profilepic));
     }
-  }, [dispatch, loggedInUserDetails]);
+  }, [dispatch, loggedInUserDetails, removePPSuccess]);
 
   // console.log(userInfo);
 
@@ -170,7 +155,7 @@ const EditProfilePage = ({ history }) => {
               <div className="flex flex-col gap-4">
                 <h3 className="font-bold text-2xl">{loggedInUserDetails.username}</h3>
 
-                <Modal imageSrc={previewSource}>
+                <Modal imageSrc={previewSource} showModal={showModal} setShowModal={setShowModal}>
                   <CustomInput
                     type="file"
                     name="image"
@@ -180,7 +165,7 @@ const EditProfilePage = ({ history }) => {
                     value={fileInputState}
                   />
                   <CustomLabel htmlFor="file">Choose a file</CustomLabel>
-                  <button className="w-full text-red-500">Remove Current Photo</button>
+                  <RemoveProfilePictureButton setShowModal={setShowModal}/>
                 </Modal>
                 {/* {previewSource && <img className="w-64" src={previewSource} />} */}
               </div>
