@@ -14,6 +14,8 @@ export default function Modal({ children, imageSrc }) {
     setShowModal(false);
   };
 
+  // console.log(imageSrc);
+
   return (
     <>
       <button
