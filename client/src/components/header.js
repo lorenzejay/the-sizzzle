@@ -96,6 +96,7 @@ const Header = () => {
   const { loggedInUserDetails } = userLoggedInDetails;
 
   const [searchedProfiles, setSearchedProfile] = useState([]);
+  const [loggedInUserProfileImage, setLoggedInUserProfileImage] = useState();
 
   const handleSearch = async (e) => {
     try {
@@ -111,13 +112,31 @@ const Header = () => {
     }
   };
 
+  const getUserProfileImage = async () => {
+    try {
+      const data = await fetch(
+        `http://localhost:5000/api/users/profile-pic/${loggedInUserDetails.profilepic}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      const parsedData = await data.json();
+      setLoggedInUserProfileImage(parsedData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //get the logged in user profilePicture
   useEffect(() => {
     if (userInfo) {
       dispatch(getLoggedInUserDetails());
+      getUserProfileImage();
     }
   }, [dispatch, userInfo]);
 
+  // console.log(loggedInUserProfileImage);
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -185,7 +204,7 @@ const Header = () => {
                 {loggedInUserDetails && (
                   <NavLinks to={`/dashboard/${loggedInUserDetails.username}`}>
                     <img
-                      src={loggedInUserDetails.profilepic || DefaultPP}
+                      src={loggedInUserProfileImage || DefaultPP}
                       alt="profile of the user"
                       className="w-8 h-8 rounded-full object-cover"
                     />
