@@ -48,6 +48,7 @@ const EditProfilePage = ({ history }) => {
     username: "",
   });
   const [inputError, setInputError] = useState("");
+  const [userLoggedInProfileSrc, setUserLoggedInProfileSrc] = useState("");
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
@@ -86,11 +87,35 @@ const EditProfilePage = ({ history }) => {
     }
   }, [dispatch, profilePic, success, loggedInUserDetails]);
 
+  //get loggedInUser Profile Pic
+  const getuserProfileImage = async () => {
+    try {
+      const data = await fetch(
+        `http://localhost:5000/api/users/profile-pic/${loggedInUserDetails.profilepic}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      const parsedData = await data.json();
+      if (parsedData) {
+        setUserLoggedInProfileSrc(parsedData);
+      } else {
+        setUserLoggedInProfileSrc(null);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (loggedInUserDetails.profilepic) {
+      getuserProfileImage();
+    }
+  }, [dispatch, loggedInUserDetails]);
+
   // console.log(userInfo);
 
   const handleChange = (e) => {
-    // console.log(name);
-
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -120,12 +145,11 @@ const EditProfilePage = ({ history }) => {
       setPreviewSource(reader.result);
     };
   };
-  console.log(previewSource);
+  console.log(userLoggedInProfileSrc);
   return (
     <Layout>
       {loading && <Loader />}
       {error && <h1>{error}</h1>}
-
       {loggedInUserDetails && (
         <PaddingWrapper>
           <section className="px-10 pt-20 flex flex-col ">
@@ -133,8 +157,8 @@ const EditProfilePage = ({ history }) => {
               <img
                 src={
                   !previewSource
-                    ? loggedInUserDetails
-                      ? loggedInUserDetails.profilepic
+                    ? loggedInUserDetails.profilepic
+                      ? userLoggedInProfileSrc
                       : DefaultPP
                     : previewSource
                 }
