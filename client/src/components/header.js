@@ -105,6 +105,9 @@ const Header = () => {
   //user profile pic
   const userProfilePicture = useSelector((state) => state.userProfilePicture);
   const { profilePic } = userProfilePicture;
+  //removing profilePic
+  const userRemoveProfilePicture = useSelector((state) => state.userRemoveProfilePicture);
+  const { success } = userRemoveProfilePicture;
 
   const userUpdateProfilePicture = useSelector((state) => state.userUpdateProfilePicture);
   const { profilePic: updateProfilePic } = userUpdateProfilePicture;
@@ -136,7 +139,7 @@ const Header = () => {
     if (loggedInUserDetails) {
       dispatch(getUserProfilePicture(loggedInUserDetails.profilepic));
     }
-  }, [dispatch, userInfo, loggedInUserDetails, updateProfilePic]);
+  }, [dispatch, userInfo, loggedInUserDetails, updateProfilePic, success]);
 
   // console.log(loggedInUserProfileImage);
   const handleLogout = () => {
