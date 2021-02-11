@@ -18,6 +18,7 @@ export const Nav = styled.header`
   position: sticky;
   top: 0;
   z-index: 60;
+  overflow: none;
 `;
 
 export const NavContainer = styled.div`
@@ -31,18 +32,21 @@ export const NavContainer = styled.div`
   /* max-width: 1100px; */
 `;
 
-//we are grabbing the link from gatsby link
+//logo
 export const NavLink = styled(Link)`
   color: #000;
   justify-self: flex-start;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   display: flex;
   align-items: center;
   margin-left: 6px;
   font-weight: bold;
   text-decoration: none;
   text-transform: uppercase;
+  @media screen and (min-width: 1024px) {
+    font-size: 1.5rem;
+  }
 `;
 
 export const MobileIcon = styled.div`
@@ -62,9 +66,9 @@ export const MobileIcon = styled.div`
 export const NavMenu = styled.ul`
   display: flex;
   align-items: center;
+  justify-content: center;
   list-style: none;
   text-align: center;
-  margin-right: 22px;
 `;
 
 export const NavItem = styled.li`
@@ -128,13 +132,17 @@ const Header = () => {
     }
   };
 
-  //get the logged in user profilePicture
   useEffect(() => {
     if (userInfo) {
       dispatch(getLoggedInUserDetails());
-      getUserProfileImage();
     }
   }, [dispatch, userInfo]);
+  //get the logged in user profilePicture
+  useEffect(() => {
+    if (loggedInUserDetails) {
+      getUserProfileImage();
+    }
+  }, [dispatch, userInfo, loggedInUserDetails]);
 
   // console.log(loggedInUserProfileImage);
   const handleLogout = () => {
@@ -220,7 +228,9 @@ const Header = () => {
           ) : (
             <NavMenu>
               <NavItem>
-                <NavLinks to="/">Home</NavLinks>
+                <NavLinks to="/">
+                  <AiFillHome size={24} />
+                </NavLinks>
               </NavItem>
 
               <NavItem>
