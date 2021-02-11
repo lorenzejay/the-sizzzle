@@ -28,7 +28,6 @@ const reducers = combineReducers({
   userLogin: userLogInReducer,
   userLoggedInDetails: loggedInUserReducer,
   userRegister: userRegisterReducer,
-  userDetails: userDetailsReducer,
   anyUserDetails: anyUserDetailsReducer,
   userUpdateProfilePicture: updateProfilePictureReducer,
   userUpdateNames: updateNamesReducer,
