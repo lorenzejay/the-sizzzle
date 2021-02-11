@@ -26,7 +26,7 @@ CREATE TABLE followers(
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO followers(user_to, user_from) VALUES ('7e253413-c371-4a3c-84bf-12ef45861795', '8e96a151-7882-4002-abb1-f1b3b411c754');
+-- INSERT INTO followers(user_to, user_from) VALUES ('7e253413-c371-4a3c-84bf-12ef45861795', '8e96a151-7882-4002-abb1-f1b3b411c754');
 
 CREATE TABLE uploads(
     upload_id SERIAL PRIMARY KEY,
@@ -49,25 +49,14 @@ alter table saved_uploads add foreign key(upload_post) references uploads(upload
 alter table saved_uploads add foreign key(saved_by) references users(user_id) on delete cascade;
 
 
-CREATE TABLE ingredients(
-    ingredients_id SERIAL PRIMARY KEY,
-    ingredient VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_recipes
-    FOREIGN KEY(recipe_id)
-    REFERENCES recipes(recipe_id)
-    
-)
-
-
-CREATE TABLE comments(
-    id SERIAL PRIMARY KEY,
-    recipe_id int NOT NULL,
-    user_id uuid NOT NULL,
-    isReply boolean SET DEFAULT false,
-    FOREIGN KEY (user_Id) REFERENCES user(id),
-    FOREIGN KEY (recipe_Id) REFERENCES recipe(id)
-)
+-- CREATE TABLE comments(
+--     id SERIAL PRIMARY KEY,
+--     recipe_id int NOT NULL,
+--     user_id uuid NOT NULL,
+--     isReply boolean SET DEFAULT false,
+--     FOREIGN KEY (user_Id) REFERENCES user(id),
+--     FOREIGN KEY (recipe_Id) REFERENCES recipe(id)
+-- )
 
 -- ALTER TABLE comments
 -- ALTER COLUMN isReply
