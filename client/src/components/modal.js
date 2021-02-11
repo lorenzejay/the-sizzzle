@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { udpateUserProfilePic } from "../redux/Actions/userActions";
+import DefaultPP from "../images/dpp.png";
 
 export default function Modal({ children, imageSrc }) {
   const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();
+  //user profile pic
+  const userProfilePicture = useSelector((state) => state.userProfilePicture);
+  const { profilePic } = userProfilePicture;
 
   const handleChangeImage = () => {
     if (imageSrc) {
@@ -42,6 +46,10 @@ export default function Modal({ children, imageSrc }) {
                     You must press save changes before closing otherwise your picture won't be
                     updated.{" "}
                   </p>
+                  <img
+                    src={imageSrc || profilePic || DefaultPP}
+                    className="w-24 h-24 rounded-full object-cover mx-auto mt-5"
+                  />
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => setShowModal(false)}
