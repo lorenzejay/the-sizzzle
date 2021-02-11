@@ -165,11 +165,26 @@ router.get("/profile-pic/:public_id", async (req, res) => {
   }
 });
 
-//remove the user profile image
-router.delete("/profile-pic-delete/:cloudinary_id", authorization, async (req, res) => {
-  const user_id = req.user;
-  const query = await pool.query("SELECT profilepic from users WHERE user_id = $1", [user_id]);
-  res.send(query.rows[0]);
+//remove the user profile image by updating profilepic to empty and then deleting the file from cloudinary
+router.put("/delete-profile-pic", authorization, async (req, res) => {
+  try {
+    const user_id = req.user;
+    //user details
+    const query = await pool.query("SELECT profilepic from users WHERE user_id = $1", [user_id]);
+    const cloudinary_id = query.rows[0].profilepic;
+
+    if (cloudinary_id) {
+      await cloudinary.uploader.destroy(cloudinary_id);
+      //update db to clear profilepic
+      await pool.query("UPDATE users SET profilepic = '' WHERE user_id = $1 RETURNING * ", [
+        user_id,
+      ]);
+      res.json({ message: "Profile Picture removed :(" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
   //we should have the cloudinary id here
   //if there is an id we need to delete what was previously on cloudinary
   //delete from cloudinary
@@ -185,7 +200,6 @@ router.post("/loggedInUserDetails", authorization, async (req, res) => {
     console.log(error);
   }
 });
-3;
 
 router.post("/verify", authorization, async (req, res) => {
   try {
