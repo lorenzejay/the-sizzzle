@@ -106,6 +106,9 @@ const Header = () => {
   const userProfilePicture = useSelector((state) => state.userProfilePicture);
   const { profilePic } = userProfilePicture;
 
+  const userUpdateProfilePicture = useSelector((state) => state.userUpdateProfilePicture);
+  const { profilePic: updateProfilePic } = userUpdateProfilePicture;
+
   const [searchedProfiles, setSearchedProfile] = useState([]);
 
   //search function
@@ -133,7 +136,7 @@ const Header = () => {
     if (loggedInUserDetails) {
       dispatch(getUserProfilePicture(loggedInUserDetails.profilepic));
     }
-  }, [dispatch, userInfo, loggedInUserDetails]);
+  }, [dispatch, userInfo, loggedInUserDetails, updateProfilePic]);
 
   // console.log(loggedInUserProfileImage);
   const handleLogout = () => {
