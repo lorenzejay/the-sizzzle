@@ -24,6 +24,7 @@ import {
   USER_GET_PROFILE_PIC_REQUEST,
   USER_GET_PROFILE_PIC_FAIL,
   USER_GET_PROFILE_PIC_SUCCESS,
+  USER_GET_PROFILE_PIC_RESET,
 } from "../Types/userTypes";
 // import axios from "axios";
 
@@ -59,6 +60,7 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: LOGGED_IN_USER_DETAILS_RESET });
   dispatch({ type: GET_LOGGED_IN_USER_FOLLOWING_POSTS_RESET });
   dispatch({ type: FOLLOWERS_GET_RESET });
+  dispatch({ type: USER_GET_PROFILE_PIC_RESET });
 };
 
 export const register = (email, username, first_name, last_name, password) => async (dispatch) => {
