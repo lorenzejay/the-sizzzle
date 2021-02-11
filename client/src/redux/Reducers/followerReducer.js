@@ -4,6 +4,7 @@ import {
   CHECK_IF_FOLLOWING_SUCCESS,
   FOLLOWERS_GET_FAIL,
   FOLLOWERS_GET_REQUEST,
+  FOLLOWERS_GET_RESET,
   FOLLOWERS_GET_SUCCESS,
   FOLLOW_USER_FAIL,
   FOLLOW_USER_REQUEST,
@@ -18,6 +19,8 @@ export const followersReducer = (state = {}, action) => {
       return { loading: false, followers: action.payload };
     case FOLLOWERS_GET_FAIL:
       return { loading: false, error: action.payload };
+    case FOLLOWERS_GET_RESET:
+      return {};
     default:
       return state;
   }

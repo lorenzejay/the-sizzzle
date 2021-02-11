@@ -8,6 +8,7 @@ import {
   GET_LOGGED_IN_USER_FOLLOWING_POSTS_REQUEST,
   GET_LOGGED_IN_USER_FOLLOWING_POSTS_SUCCESS,
   GET_LOGGED_IN_USER_FOLLOWING_POSTS_FAIL,
+  GET_LOGGED_IN_USER_FOLLOWING_POSTS_RESET,
   GET_UPLOAD_DETAILS_REQUEST,
   GET_UPLOAD_DETAILS_SUCCESS,
   GET_UPLOAD_DETAILS_FAIL,
@@ -49,6 +50,8 @@ export const getLoggedInUserFollowingPostsReducer = (state = { posts: [] }, acti
       return { loading: false, posts: action.payload };
     case GET_LOGGED_IN_USER_FOLLOWING_POSTS_FAIL:
       return { loading: false, error: action.payload };
+    case GET_LOGGED_IN_USER_FOLLOWING_POSTS_RESET:
+      return {};
     default:
       return state;
   }
