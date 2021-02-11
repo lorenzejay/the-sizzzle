@@ -23,6 +23,9 @@ import {
   USER_GET_PROFILE_PIC_SUCCESS,
   USER_GET_PROFILE_PIC_FAIL,
   USER_GET_PROFILE_PIC_RESET,
+  USER_REMOVE_PROFILE_PIC_REQUEST,
+  USER_REMOVE_PROFILE_PIC_SUCCESS,
+  USER_REMOVE_PROFILE_PIC_FAIL,
 } from "../Types/userTypes";
 
 export const userLogInReducer = (state = {}, action) => {
@@ -116,6 +119,19 @@ export const userProfilePictureReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case USER_GET_PROFILE_PIC_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const userRemoveProfilePicReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_REMOVE_PROFILE_PIC_REQUEST:
+      return { loading: true };
+    case USER_REMOVE_PROFILE_PIC_SUCCESS:
+      return { loading: false, success: true };
+    case USER_REMOVE_PROFILE_PIC_FAIL:
+      return { loading: false, error: action.payload, success: false };
     default:
       return state;
   }

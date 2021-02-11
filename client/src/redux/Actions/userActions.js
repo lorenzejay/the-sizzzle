@@ -25,6 +25,9 @@ import {
   USER_GET_PROFILE_PIC_FAIL,
   USER_GET_PROFILE_PIC_SUCCESS,
   USER_GET_PROFILE_PIC_RESET,
+  USER_REMOVE_PROFILE_PIC_REQUEST,
+  USER_REMOVE_PROFILE_PIC_SUCCESS,
+  USER_REMOVE_PROFILE_PIC_FAIL,
 } from "../Types/userTypes";
 // import axios from "axios";
 
@@ -207,5 +210,25 @@ export const getUserProfilePicture = (userProfilePic) => async (dispatch) => {
   } catch (error) {
     console.log(error.message);
     dispatch({ type: USER_GET_PROFILE_PIC_FAIL, payload: error.message });
+  }
+};
+
+export const removeProfilePicture = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_REMOVE_PROFILE_PIC_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const data = await fetch(`http://localhost:5000/api/users/delete-profile-pic`, {
+      method: "PUT",
+      headers: { token: userInfo.token, "Content-type": "application/json" },
+    });
+    await data.json();
+
+    dispatch({ type: USER_REMOVE_PROFILE_PIC_SUCCESS });
+  } catch (error) {
+    console.log(error.message);
+    dispatch({ type: USER_REMOVE_PROFILE_PIC_FAIL, payload: error.message });
   }
 };

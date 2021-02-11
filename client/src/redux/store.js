@@ -9,6 +9,7 @@ import {
   userLogInReducer,
   userProfilePictureReducer,
   userRegisterReducer,
+  userRemoveProfilePicReducer,
 } from "./Reducers/userReducers";
 import {
   followCheckerReducer,
@@ -32,6 +33,7 @@ const reducers = combineReducers({
   userUpdateProfilePicture: updateProfilePictureReducer,
   userUpdateNames: updateNamesReducer,
   userProfilePicture: userProfilePictureReducer,
+  userRemoveProfilePicture: userRemoveProfilePicReducer,
 
   getFollows: followersReducer,
   follow: followUserReducer,
