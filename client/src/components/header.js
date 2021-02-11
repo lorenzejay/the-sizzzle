@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { getLoggedInUserDetails, logout } from "../redux/Actions/userActions";
+import {
+  getLoggedInUserDetails,
+  logout,
+  getUserProfilePicture,
+} from "../redux/Actions/userActions";
 import { AiFillHome, AiOutlineUpload } from "react-icons/ai";
 import DefaultPP from "../images/dpp.png";
 
@@ -98,10 +102,13 @@ const Header = () => {
   //if there is a logged in user
   const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
   const { loggedInUserDetails } = userLoggedInDetails;
+  //user profile pic
+  const userProfilePicture = useSelector((state) => state.userProfilePicture);
+  const { profilePic } = userProfilePicture;
 
   const [searchedProfiles, setSearchedProfile] = useState([]);
-  const [loggedInUserProfileImage, setLoggedInUserProfileImage] = useState();
 
+  //search function
   const handleSearch = async (e) => {
     try {
       const data = await fetch(`http://localhost:5000/api/users/search/${e.target.value}`, {
@@ -116,22 +123,6 @@ const Header = () => {
     }
   };
 
-  const getUserProfileImage = async () => {
-    try {
-      const data = await fetch(
-        `http://localhost:5000/api/users/profile-pic/${loggedInUserDetails.profilepic}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      const parsedData = await data.json();
-      setLoggedInUserProfileImage(parsedData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     if (userInfo) {
       dispatch(getLoggedInUserDetails());
@@ -140,7 +131,7 @@ const Header = () => {
   //get the logged in user profilePicture
   useEffect(() => {
     if (loggedInUserDetails) {
-      getUserProfileImage();
+      dispatch(getUserProfilePicture(loggedInUserDetails.profilepic));
     }
   }, [dispatch, userInfo, loggedInUserDetails]);
 
@@ -212,7 +203,7 @@ const Header = () => {
                 {loggedInUserDetails && (
                   <NavLinks to={`/dashboard/${loggedInUserDetails.username}`}>
                     <img
-                      src={loggedInUserProfileImage || DefaultPP}
+                      src={profilePic || DefaultPP}
                       alt="profile of the user"
                       className="w-8 h-8 rounded-full object-cover"
                     />
