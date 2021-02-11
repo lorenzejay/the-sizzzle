@@ -40,7 +40,7 @@ export const CustomLabel = styled.label`
 `;
 
 const EditProfilePage = ({ history }) => {
-  const [fileInputState, setFileInputState] = useState("");
+  const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
   const [inputs, setInputs] = useState({
     firstName: "",
@@ -120,7 +120,7 @@ const EditProfilePage = ({ history }) => {
       setPreviewSource(reader.result);
     };
   };
-
+  console.log(previewSource);
   return (
     <Layout>
       {loading && <Loader />}
@@ -132,11 +132,11 @@ const EditProfilePage = ({ history }) => {
             <div className="flex items-center gap-5">
               <img
                 src={
-                  !loggedInUserDetails.profilepic
-                    ? previewSource
-                      ? previewSource
+                  !previewSource
+                    ? loggedInUserDetails
+                      ? loggedInUserDetails.profilepic
                       : DefaultPP
-                    : loggedInUserDetails.profilepic
+                    : previewSource
                 }
                 className="w-24 h-24 rounded-full object-cover"
               />
