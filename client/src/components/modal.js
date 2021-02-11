@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { udpateUserProfilePic } from "../redux/Actions/userActions";
 import DefaultPP from "../images/dpp.png";
 
-export default function Modal({ children, imageSrc }) {
-  const [showModal, setShowModal] = useState(false);
+export default function Modal({ children, imageSrc, setShowModal, showModal }) {
+  // const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();
   //user profile pic
@@ -36,7 +36,7 @@ export default function Modal({ children, imageSrc }) {
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
             // onClick={() => setShowModal(false)}
           >
-            <div className="relative w-3/4 lg:w-1/4 my-6 mx-auto max-w-3xl">
+            <div className="relative w-3/4 lg:w-1/2 mt-20 mx-auto max-w-3xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
