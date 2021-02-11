@@ -39,11 +39,11 @@ const Homepage = () => {
   };
 
   useEffect(() => {
-    if (!userInfo || posts.length === 0) {
+    if (!userInfo || !posts) {
       getRandomPosts();
     }
-  }, [userInfo]);
-
+  }, [userInfo, posts]);
+  console.log(posts);
   //set the time
   const diffTime = (dt1, dt2) => {
     var diff = (dt2.getTime() - dt1.getTime()) / 1000;
