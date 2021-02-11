@@ -66,14 +66,14 @@ const Upload = ({ history }) => {
           onSubmit={handleSubmitPost}
           className="flex flex-col justify-center items-center padding"
         >
-          <h1 className="text-xl uppercase">
+          <h1 className="text-4xl font-bold uppercase my-10">
             Post your fire dishes <span>🔥</span>
           </h1>
           <Input type="file" name="image" onChange={handleFileInputState} value={fileInputState} />
           <Input
             type="text"
             name="title"
-            placeholder="A non-boring title here please"
+            placeholder="A non-boring title here."
             onChange={(e) => setTitle(e.target.value)}
             value={title}
           />
@@ -83,7 +83,7 @@ const Upload = ({ history }) => {
             value={caption}
             rows="3"
             placeholder="Insert your fire caption here."
-            className="px-5 py-2 rounded outline-none w-3/4 md:w-1/2 mx-auto my-3 "
+            className="px-5 py-2 rounded w-3/4 md:w-1/2 mx-auto my-3 "
           />
 
           <RichTextEditor description={description} setDescription={setDescription} />
