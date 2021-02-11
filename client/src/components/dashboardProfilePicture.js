@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import DefaultPP from "../images/dpp.png";
+import Loader from "./loader";
 
 const LoggedInUserProfilePicture = () => {
   const [dashboardUserProfilePicture, setDashboardUserProfilePicture] = useState("");
   const anyUserDetails = useSelector((state) => state.anyUserDetails);
-  const { loading, anyUserProfile, error } = anyUserDetails;
+  const { loading, anyUserProfile } = anyUserDetails;
 
   const getuserProfileImage = async () => {
     try {
@@ -28,14 +29,17 @@ const LoggedInUserProfilePicture = () => {
       getuserProfileImage();
     }
   }, [anyUserProfile]);
-  console.log(dashboardUserProfilePicture);
+  // console.log(dashboardUserProfilePicture);
   return (
-    <img
-      src={dashboardUserProfilePicture || DefaultPP}
-      alt="user profile thumnail"
-      title="profile picture"
-      className="rounded-full w-32 h-32 md:h-52 md:w-52 object-cover mb-10"
-    />
+    <>
+      {loading && <Loader />}
+      <img
+        src={dashboardUserProfilePicture || DefaultPP}
+        alt="user profile thumnail"
+        title="profile picture"
+        className="rounded-full w-32 h-32 md:h-52 md:w-52 object-cover mb-10"
+      />
+    </>
   );
 };
 
