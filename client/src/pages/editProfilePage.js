@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { updateNames } from "../redux/Actions/userActions";
+import { getUserProfilePicture, updateNames } from "../redux/Actions/userActions";
 import DefaultPP from "../images/dpp.png";
 import Layout from "../components/layout";
 import Input from "../components/input";
@@ -61,6 +61,9 @@ const EditProfilePage = ({ history }) => {
   const userUpdateProfilePicture = useSelector((state) => state.userUpdateProfilePicture);
   const { loading, error, profilePic } = userUpdateProfilePicture;
 
+  const userProfilePicture = useSelector((state) => state.userProfilePicture);
+  const { profilePic: loggedInUserPP } = userProfilePicture;
+
   const userUpdateNames = useSelector((state) => state.userUpdateNames);
   const { success } = userUpdateNames;
 
@@ -108,8 +111,8 @@ const EditProfilePage = ({ history }) => {
     }
   };
   useEffect(() => {
-    if (loggedInUserDetails.profilepic) {
-      getuserProfileImage();
+    if (loggedInUserDetails) {
+      dispatch(getUserProfilePicture(loggedInUserDetails.profilepic));
     }
   }, [dispatch, loggedInUserDetails]);
 
@@ -158,7 +161,7 @@ const EditProfilePage = ({ history }) => {
                 src={
                   !previewSource
                     ? loggedInUserDetails.profilepic
-                      ? userLoggedInProfileSrc
+                      ? loggedInUserPP
                       : DefaultPP
                     : previewSource
                 }
