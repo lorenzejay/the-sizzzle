@@ -34,7 +34,6 @@ const SavePostButton = ({ upload_id }) => {
       dispatch(checkIfSavedAlready(upload_id));
       const amountOfUsersThatSaved = fetchSavedUploadsNumber();
       amountOfUsersThatSaved.then((res) => {
-        console.log(res);
         setSavedNumber(res);
       });
     }
