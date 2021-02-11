@@ -2,9 +2,9 @@ const router = require("express").Router();
 const pool = require("../db.js");
 const bycrypt = require("bcrypt");
 const jwtGenerator = require("../utils/jwtGenerator.js");
-const validInfo = require("../middleware/validInfo");
 const authorization = require("../middleware/authorization");
 const { cloudinary } = require("../utils/cloudinary");
+const cloudMedia = require("cloudinary").v2;
 
 //401 - person is unauthenticated
 //403 - for not authorized
@@ -128,7 +128,7 @@ router.get("/search/:searchTerm", async (req, res) => {
   res.json(result);
 });
 
-//post the user profile image
+//post the user profile image / update
 router.put("/profile-pic-upload/", authorization, async (req, res) => {
   try {
     const fileStr = req.body.data; //image uploaded
@@ -141,7 +141,7 @@ router.put("/profile-pic-upload/", authorization, async (req, res) => {
 
     const query = await pool.query(
       "UPDATE users SET profilepic = $1 WHERE user_id = $2 RETURNING *",
-      [uploadImageResponse.secure_url, user_id]
+      [uploadImageResponse.public_id, user_id]
     );
     const result = query.rows[0];
     res.status(200).json(result);
@@ -149,6 +149,31 @@ router.put("/profile-pic-upload/", authorization, async (req, res) => {
     console.log(error);
     res.status(500).send({ message: "Failed to upload profile image" });
   }
+});
+
+//get the profile picture based on the profilepic which is the cloudinary public_id
+router.get("/profile-pic/:public_id", async (req, res) => {
+  try {
+    const { public_id } = req.params;
+    const imageDetails = await cloudMedia.api.resource(public_id);
+    if (imageDetails.secure_url) {
+      return res.json(imageDetails.secure_url);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(404).json(error.message);
+  }
+});
+
+//remove the user profile image
+router.delete("/profile-pic-delete/:cloudinary_id", authorization, async (req, res) => {
+  const user_id = req.user;
+  const query = await pool.query("SELECT profilepic from users WHERE user_id = $1", [user_id]);
+  res.send(query.rows[0]);
+  //we should have the cloudinary id here
+  //if there is an id we need to delete what was previously on cloudinary
+  //delete from cloudinary
+  //await cloudinary.uploader.destroy(cloudinary_id);
 });
 
 router.post("/loggedInUserDetails", authorization, async (req, res) => {
@@ -160,6 +185,7 @@ router.post("/loggedInUserDetails", authorization, async (req, res) => {
     console.log(error);
   }
 });
+3;
 
 router.post("/verify", authorization, async (req, res) => {
   try {
