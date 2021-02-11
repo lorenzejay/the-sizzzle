@@ -2,7 +2,7 @@ const router = require("express").Router();
 const pool = require("../db.js");
 const authorization = require("../middleware/authorization");
 const { cloudinary } = require("../utils/cloudinary");
-
+const cloudMedia = require("cloudinary").v2;
 //submit post
 router.post("/", authorization, async (req, res) => {
   try {
@@ -91,8 +91,12 @@ router.post("/upload-username-profilepic", async (req, res) => {
       [uploaded_by]
     );
     const result = query.rows[0];
+    const cloudinaryId = query.rows[0].profilepic;
 
-    res.json(result);
+    //use the cloudinary id to get the resource / picture
+    const imageDetails = await cloudMedia.api.resource(cloudinaryId);
+    const { username, user_id } = result;
+    res.json({ username, user_id, imageUrl: imageDetails.secure_url });
   } catch (error) {
     console.log(error);
   }
