@@ -22,17 +22,17 @@ const UploaderProfileBar = ({ uploaded_by, className }) => {
   useEffect(() => {
     uploadsProfileAndUsername(uploaded_by).then((res) => setUploaderProfile(res));
   }, [uploaded_by]);
-
+  // console.log(uploaderProfile);
   return (
     <div>
-      {uploaded_by && (
+      {uploaded_by && uploaderProfile && (
         <>
           <Link
             to={`/dashboard/${uploaderProfile.username}`}
             className={`flex items-center gap-3 mb-3 lg:p-0 ${className}`}
           >
             <img
-              src={uploaderProfile.profilepic || DfProfile}
+              src={uploaderProfile.imageUrl || DfProfile}
               alt="poster profile picture"
               className="w-7 h-7 rounded-full object-cover"
             />
