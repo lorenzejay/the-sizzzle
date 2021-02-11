@@ -1,3 +1,5 @@
+import { FOLLOWERS_GET_RESET } from "../Types/followerTypes";
+import { GET_LOGGED_IN_USER_FOLLOWING_POSTS_RESET } from "../Types/uploadTypes";
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -6,9 +8,6 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
-  USER_DETAILS_REQUEST,
-  USER_DETAILS_SUCCESS,
-  USER_DETAILS_FAIL,
   ANY_USER_DETAILS_REQUEST,
   ANY_USER_DETAILS_SUCCESS,
   ANY_USER_DETAILS_FAIL,
@@ -55,6 +54,8 @@ export const logout = () => async (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT_SUCCESS });
   dispatch({ type: LOGGED_IN_USER_DETAILS_RESET });
+  dispatch({ type: GET_LOGGED_IN_USER_FOLLOWING_POSTS_RESET });
+  dispatch({ type: FOLLOWERS_GET_RESET });
 };
 
 export const register = (email, username, first_name, last_name, password) => async (dispatch) => {
