@@ -7,7 +7,7 @@ import Loader from "../components/loader";
 import ErrorMessage from "../components/errorMessage";
 import FollowersTab from "../components/followersTab";
 import FollowOrEditCheck from "../components/followOrEditCheck";
-import LoggedInUserProfilePicture from "../components/loggedInUserProfilePicture";
+import LoggedInUserProfilePicture from "../components/dashboardProfilePicture";
 import DashboardPosts from "../components/dashboardPosts";
 
 export const PostThumnails = styled.div``;
