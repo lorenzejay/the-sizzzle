@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkIfSavedAlready, saveUpload } from "../redux/Actions/saveUploadsActions";
 import Loader from "../components/loader";
 import ErrorMessage from "../components/errorMessage";
-const SavePostButton = ({ upload_id, upload_post }) => {
+
+const SavePostButton = ({ upload_id }) => {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -19,7 +20,7 @@ const SavePostButton = ({ upload_id, upload_post }) => {
   //get the amount of saves
   const fetchSavedUploadsNumber = async () => {
     const data = await fetch(
-      `http://localhost:5000/api/save-uploads/count-amount-saved/${upload_post}`,
+      `http://localhost:5000/api/save-uploads/count-amount-saved/${upload_id}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
