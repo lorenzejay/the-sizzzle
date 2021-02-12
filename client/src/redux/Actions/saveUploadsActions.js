@@ -14,7 +14,7 @@ export const saveUpload = (upload_id) => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const data = await fetch("http://localhost:5000/api/save-uploads/", {
+    const data = await fetch("/api/save-uploads/", {
       method: "POST",
       headers: { token: `${userInfo.token}`, "Content-Type": "application/json" },
       body: JSON.stringify({ upload_id }),
@@ -34,7 +34,7 @@ export const checkIfSavedAlready = (upload_id) => async (dispatch, getState) => 
       userLogin: { userInfo },
     } = getState();
 
-    const data = await fetch(`http://localhost:5000/api/save-uploads/check/${upload_id}`, {
+    const data = await fetch(`/api/save-uploads/check/${upload_id}`, {
       method: "GET",
       headers: { token: `${userInfo.token}`, "Content-Type": "application/json" },
     });

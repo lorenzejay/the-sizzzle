@@ -14,7 +14,7 @@ export const likePost = (upload_id) => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const data = await fetch("http://localhost:5000/api/like-uploads/", {
+    const data = await fetch("/api/like-uploads/", {
       method: "POST",
       headers: { token: `${userInfo.token}`, "Content-Type": "application/json" },
       body: JSON.stringify({ upload_id }),
@@ -34,7 +34,7 @@ export const checkIfLikedAlready = (upload_id) => async (dispatch, getState) => 
       userLogin: { userInfo },
     } = getState();
 
-    const data = await fetch(`http://localhost:5000/api/like-uploads/check/${upload_id}`, {
+    const data = await fetch(`/api/like-uploads/check/${upload_id}`, {
       method: "GET",
       headers: { token: `${userInfo.token}`, "Content-Type": "application/json" },
     });

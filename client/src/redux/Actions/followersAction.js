@@ -12,7 +12,7 @@ import {
 export const getFollowers = (userId) => async (dispatch) => {
   try {
     dispatch({ type: FOLLOWERS_GET_REQUEST });
-    const data = await fetch(`http://localhost:5000/api/followers/${userId}`, {
+    const data = await fetch(`/api/followers/${userId}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -32,7 +32,7 @@ export const followThisUser = (userTo) => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const data = await fetch(`http://localhost:5000/api/followers/follow/${userTo}`, {
+    const data = await fetch(`/api/followers/follow/${userTo}`, {
       method: "POST",
       headers: {
         token: userInfo.token,
@@ -55,7 +55,7 @@ export const checkIfUserIsFollowingAlready = (user_to) => async (dispatch, getSt
       userLogin: { userInfo },
     } = getState();
 
-    const data = await fetch("http://localhost:5000/api/followers/check-if-following", {
+    const data = await fetch("/api/followers/check-if-following", {
       method: "POST",
       headers: {
         token: `${userInfo.token}`,

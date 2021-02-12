@@ -35,7 +35,7 @@ export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
 
-    const data = await fetch("http://localhost:5000/api/users/login", {
+    const data = await fetch("/api/users/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -70,7 +70,7 @@ export const register = (email, username, first_name, last_name, password) => as
   try {
     dispatch({ type: USER_REGISTER_REQUEST });
 
-    const data = await fetch("http://localhost:5000/api/users/register", {
+    const data = await fetch("/api/users/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -105,7 +105,7 @@ export const getLoggedInUserDetails = () => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const data = await fetch("http://localhost:5000/api/users/loggedInUserDetails", {
+    const data = await fetch("/api/users/loggedInUserDetails", {
       method: "POST",
       headers: { token: `${userInfo.token}`, "Content-Type": "application/json" },
     });
@@ -117,31 +117,11 @@ export const getLoggedInUserDetails = () => async (dispatch, getState) => {
   }
 };
 
-// export const getUserDetails = () => async (dispatch, getState) => {
-//   try {
-//     dispatch({ type: USER_DETAILS_REQUEST });
-
-//     const {
-//       userLogin: { userInfo },
-//     } = getState();
-
-//     const data = await fetch("http://localhost:5000/api/dashboard/", {
-//       method: "GET",
-//       headers: { token: `${userInfo.token}`, "Content-Type": "application/json" },
-//     });
-//     const parsedData = await data.json();
-//     dispatch({ type: USER_DETAILS_SUCCESS, payload: parsedData });
-//   } catch (error) {
-//     console.log(error.message);
-//     dispatch({ type: USER_DETAILS_FAIL, error: error.message });
-//   }
-// };
-
 export const getAnyUserDetails = (username) => async (dispatch) => {
   try {
     dispatch({ type: ANY_USER_DETAILS_REQUEST });
 
-    const data = await fetch(`http://localhost:5000/api/users/${username}`, {
+    const data = await fetch(`/api/users/${username}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -159,7 +139,7 @@ export const udpateUserProfilePic = (base64EncodedImage) => async (dispatch, get
       userLogin: { userInfo },
     } = getState();
     dispatch({ type: USER_UPDATE_PROFILE_PICTURE_REQUEST });
-    const data = await fetch("http://localhost:5000/api/users/profile-pic-upload", {
+    const data = await fetch("/api/users/profile-pic-upload", {
       method: "PUT",
       headers: { token: `${userInfo.token}`, "Content-type": "application/json" },
       body: JSON.stringify({ data: base64EncodedImage }),
@@ -178,7 +158,7 @@ export const updateNames = (first_name, last_name, username) => async (dispatch,
       userLogin: { userInfo },
     } = getState();
     dispatch({ type: USER_UPDATE_NAMES_REQUEST });
-    const data = await fetch("http://localhost:5000/api/dashboard/update-names", {
+    const data = await fetch("/api/dashboard/update-names", {
       method: "PUT",
       headers: { token: `${userInfo.token}`, "Content-type": "application/json" },
       body: JSON.stringify({
@@ -197,7 +177,7 @@ export const updateNames = (first_name, last_name, username) => async (dispatch,
 export const getUserProfilePicture = (userProfilePic) => async (dispatch) => {
   try {
     dispatch({ type: USER_GET_PROFILE_PIC_REQUEST });
-    const data = await fetch(`http://localhost:5000/api/users/profile-pic/${userProfilePic}`, {
+    const data = await fetch(`/api/users/profile-pic/${userProfilePic}`, {
       method: "GET",
       headers: { "Content-type": "application/json" },
     });
@@ -220,7 +200,7 @@ export const removeProfilePicture = () => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const data = await fetch(`http://localhost:5000/api/users/delete-profile-pic`, {
+    const data = await fetch(`/api/users/delete-profile-pic`, {
       method: "PUT",
       headers: { token: userInfo.token, "Content-type": "application/json" },
     });

@@ -25,7 +25,7 @@ export const uploadUsersPost = (title, caption, description, base64EncodedImage)
       userLogin: { userInfo },
     } = getState();
     dispatch({ type: UPLOAD_POST_REQUEST });
-    const data = await fetch("http://localhost:5000/api/upload", {
+    const data = await fetch("/api/upload", {
       method: "POST",
       headers: { token: `${userInfo.token}`, "Content-type": "application/json" },
       body: JSON.stringify({ data: base64EncodedImage, title, caption, description }),
@@ -41,7 +41,7 @@ export const uploadUsersPost = (title, caption, description, base64EncodedImage)
 export const getAllUserPosts = (user_id) => async (dispatch) => {
   try {
     dispatch({ type: GET_ALL_USER_UPLOADS_REQUEST });
-    const data = await fetch(`http://localhost:5000/api/upload/get-user-post/${user_id}`, {
+    const data = await fetch(`/api/upload/get-user-post/${user_id}`, {
       method: "GET",
       headers: { "Content-type": "application/json" },
     });
@@ -60,7 +60,7 @@ export const getAllCurrentUserFollowingsPost = () => async (dispatch, getState) 
       userLogin: { userInfo },
     } = getState();
 
-    const data = await fetch(`http://localhost:5000/api/upload/user-following-post`, {
+    const data = await fetch(`/api/upload/user-following-post`, {
       method: "GET",
       headers: { token: userInfo.token, "Content-type": "application/json" },
     });
@@ -76,7 +76,7 @@ export const getAllCurrentUserFollowingsPost = () => async (dispatch, getState) 
 export const getUploadDetails = (upload_id) => async (dispatch) => {
   try {
     dispatch({ type: GET_UPLOAD_DETAILS_REQUEST });
-    const data = await fetch(`http://localhost:5000/api/upload/details/${upload_id}`, {
+    const data = await fetch(`/api/upload/details/${upload_id}`, {
       method: "GET",
       headers: { "Content-type": "application/json" },
     });
@@ -97,7 +97,7 @@ export const updateUpload = (title, caption, description, upload_id) => async (
     const {
       userLogin: { userInfo },
     } = getState();
-    const data = await fetch(`http://localhost:5000/api/upload/update/${upload_id}`, {
+    const data = await fetch(`/api/upload/update/${upload_id}`, {
       method: "PUT",
       headers: { token: userInfo.token, "Content-type": "application/json" },
       body: JSON.stringify({ title, caption, description }),
