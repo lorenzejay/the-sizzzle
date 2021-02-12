@@ -19,13 +19,10 @@ const SavePostButton = ({ upload_id }) => {
 
   //get the amount of saves
   const fetchSavedUploadsNumber = async () => {
-    const data = await fetch(
-      `http://localhost:5000/api/save-uploads/count-amount-saved/${upload_id}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const data = await fetch(`/api/save-uploads/count-amount-saved/${upload_id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
     return data.json();
   };
 

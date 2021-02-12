@@ -17,7 +17,7 @@ const LikePostButton = ({ upload_id }) => {
   //fetch number of likes this post has
 
   const fetchSavedUploadsNumber = async (id) => {
-    const data = await fetch(`http://localhost:5000/api/like-uploads/count-amount-saved/${id}`, {
+    const data = await fetch(`/api/like-uploads/count-amount-saved/${id}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });

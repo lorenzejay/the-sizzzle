@@ -10,13 +10,10 @@ const LoggedInUserProfilePicture = () => {
 
   const getuserProfileImage = async () => {
     try {
-      const data = await fetch(
-        `http://localhost:5000/api/users/profile-pic/${anyUserProfile.user.profilepic}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const data = await fetch(`/api/users/profile-pic/${anyUserProfile.user.profilepic}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
       const parsedData = await data.json();
       setDashboardUserProfilePicture(parsedData);
     } catch (error) {

@@ -117,7 +117,7 @@ const Header = () => {
   //search function
   const handleSearch = async (e) => {
     try {
-      const data = await fetch(`http://localhost:5000/api/users/search/${e.target.value}`, {
+      const data = await fetch(`/api/users/search/${e.target.value}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });

@@ -7,7 +7,7 @@ const UploaderProfileBar = ({ uploaded_by, className }) => {
   //get the profile pic and username from post
   const uploadsProfileAndUsername = async (uploaded_by) => {
     try {
-      const data = await fetch("http://localhost:5000/api/upload/upload-username-profilepic", {
+      const data = await fetch("/api/upload/upload-username-profilepic", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ uploaded_by }),

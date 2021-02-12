@@ -26,7 +26,7 @@ const Homepage = () => {
   //if there is no user logged in get random posts
   const getRandomPosts = async () => {
     try {
-      const data = await fetch("http://localhost:5000/api/upload/random", {
+      const data = await fetch("/api/upload/random", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
