@@ -13,12 +13,12 @@ router.post("/", authorization, async (req, res) => {
     const user_id = req.user;
     //check if post is already saved
     const check = await pool.query(
-      "SELECT * FROM liked_uploads WHERE upload_post = $1 AND saved_by = $2",
+      "SELECT * FROM liked_uploads WHERE upload_post = $1 AND liked_by = $2",
       [upload_id, user_id]
     );
     if (check.rowCount !== 0) {
       //means user saved it already so we delete
-      await pool.query("DELETE FROM liked_uploads WHERE upload_post = $1 AND saved_by = $2", [
+      await pool.query("DELETE FROM liked_uploads WHERE upload_post = $1 AND liked_by = $2", [
         upload_id,
         user_id,
       ]);
