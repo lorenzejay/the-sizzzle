@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/layout";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AiOutlineHeart } from "react-icons/ai";
 import { getUploadDetails } from "../redux/Actions/uploadActions";
 import UploaderProfileBar from "../components/uploaderProfileBar";
 import SavePostButton from "../components/savePostButton";
@@ -12,6 +11,7 @@ import { FaTrash } from "react-icons/fa";
 import PaddingWrapper from "../components/paddingWrapper";
 import Loader from "../components/loader";
 import ErrorMessage from "../components/errorMessage";
+import LikePostButton from "../components/likePostButton";
 
 const PostTemplate = ({ location }) => {
   const dispatch = useDispatch();
@@ -75,7 +75,7 @@ const PostTemplate = ({ location }) => {
           <PaddingWrapper className="px-5 lg:px-72 pt-10 padding-wrapper">
             {!isUserLoginPost ? (
               <span className="flex gap-3 justify-end">
-                <AiOutlineHeart size={24} />
+                <LikePostButton upload_id={details.upload_id} />
                 <SavePostButton upload_id={details.upload_id} upload_post={uploadIdFromPath} />
               </span>
             ) : (
