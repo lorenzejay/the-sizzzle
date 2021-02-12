@@ -24,6 +24,7 @@ import {
   uploadPostReducer,
 } from "./Reducers/uploadReducer";
 import { checkIfSavedRedcuer, saveUploadReducer } from "./Reducers/savedUploadsReducer";
+import { likeUploadsReducer, checkIfUploadLikedReducer } from "./Reducers/likedUploadsReducer";
 
 const reducers = combineReducers({
   userLogin: userLogInReducer,
@@ -47,6 +48,9 @@ const reducers = combineReducers({
 
   saveUploads: saveUploadReducer,
   checkIfSaved: checkIfSavedRedcuer,
+
+  likeUpload: likeUploadsReducer,
+  checkIfLiked: checkIfUploadLikedReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
