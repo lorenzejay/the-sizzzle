@@ -157,19 +157,20 @@ router.delete("/delete-post/:upload_id", authorization, async (req, res) => {
     //should return 1
     const checkResult = check.rows;
     if (checkResult.length === 0) {
-      return res.send("You are not authorized to delete this post.");
+      return res.status(403).send("You are not authorized to delete this post.");
     }
     //grab clouinary id from the check
     const cloudinary_id = check.rows[0].cloudinary_id;
+
+    //delete from cloudinary
+    await cloudinary.uploader.destroy(cloudinary_id);
+
     //if it passes above check we can delete
     //make sure constraints towards saved posts are deleted
     const deleteUpload = await pool.query(
       "DELETE FROM uploads WHERE upload_id = $1 AND uploaded_by = $2",
       [upload_id, user_id]
     );
-
-    //delete from cloudinary
-    await cloudinary.uploader.destroy(cloudinary_id);
 
     res.send({ message: "Deleted Post", success: true });
   } catch (error) {

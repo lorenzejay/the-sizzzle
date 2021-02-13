@@ -15,6 +15,9 @@ import {
   UPDATE_UPLOAD_REQUEST,
   UPDATE_UPLOAD_SUCCESS,
   UPDATE_UPLOAD_FAIL,
+  DELETE_UPLOAD_REQUEST,
+  DELETE_UPLOAD_SUCCESS,
+  DELETE_UPLOAD_FAIL,
 } from "../Types/uploadTypes";
 
 export const uploadPostReducer = (state = {}, action) => {
@@ -77,6 +80,19 @@ export const updateUploadReaducer = (state = {}, action) => {
     case UPDATE_UPLOAD_SUCCESS:
       return { loading: false, updateStatus: action.payload };
     case UPDATE_UPLOAD_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const deleteUploadReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DELETE_UPLOAD_REQUEST:
+      return { loading: true };
+    case DELETE_UPLOAD_SUCCESS:
+      return { loading: false, deleteStatus: action.payload };
+    case DELETE_UPLOAD_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
