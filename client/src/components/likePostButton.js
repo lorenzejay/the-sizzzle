@@ -3,16 +3,16 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { checkIfLikedAlready, likePost } from "../redux/Actions/likeUploadAction";
 
-const LikePostButton = ({ upload_id }) => {
+const LikePostButton = ({ upload_id, setShowModal }) => {
   const dispatch = useDispatch();
   const [postLikesCount, setPostLikesCount] = useState(0);
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   const likeUpload = useSelector((state) => state.likeUpload);
-  const { loading, isLiked, error } = likeUpload;
+  const { isLiked } = likeUpload;
   const checkIfLiked = useSelector((state) => state.checkIfLiked);
-  const { wasLiked, error: checkError } = checkIfLiked;
+  const { wasLiked } = checkIfLiked;
 
   //fetch number of likes this post has
 
@@ -34,9 +34,13 @@ const LikePostButton = ({ upload_id }) => {
       });
     }
   }, [dispatch, isLiked, upload_id, userInfo]);
-  console.log(postLikesCount);
+  // console.log(postLikesCount);
   const handleLikingTheUpload = () => {
-    dispatch(likePost(upload_id));
+    if (userInfo) {
+      dispatch(likePost(upload_id));
+    } else {
+      setShowModal(true);
+    }
   };
   return (
     <div className="flex gap-5">

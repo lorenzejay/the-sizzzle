@@ -5,7 +5,7 @@ import { checkIfSavedAlready, saveUpload } from "../redux/Actions/saveUploadsAct
 import Loader from "../components/loader";
 import ErrorMessage from "../components/errorMessage";
 
-const SavePostButton = ({ upload_id }) => {
+const SavePostButton = ({ upload_id, setShowModal }) => {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -37,7 +37,11 @@ const SavePostButton = ({ upload_id }) => {
   }, [dispatch, isSaved, upload_id, userInfo]);
 
   const handleSave = () => {
-    dispatch(saveUpload(upload_id));
+    if (userInfo) {
+      return dispatch(saveUpload(upload_id));
+    } else {
+      setShowModal(true);
+    }
   };
 
   return (
