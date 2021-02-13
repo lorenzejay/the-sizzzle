@@ -1,8 +1,10 @@
 import React from "react";
 
-const PaddingWrapper = ({ children }) => {
+const PaddingWrapper = ({ children, className }) => {
   return (
-    <div className="padding-wrapper w-full mx-auto px-5 pt-5 pb-10 sm:px-24 md:px-48 lg:px-72">
+    <div
+      className={`padding-wrapper w-full mx-auto px-5 pt-5 sm:px-24 md:px-48 lg:px-72 ${className}`}
+    >
       {children}
     </div>
   );
