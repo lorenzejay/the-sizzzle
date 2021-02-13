@@ -134,7 +134,7 @@ const Header = () => {
   }, [dispatch, userInfo]);
   //get the logged in user profilePicture
   useEffect(() => {
-    if (loggedInUserDetails) {
+    if (loggedInUserDetails && loggedInUserDetails.profilepic) {
       dispatch(getUserProfilePicture(loggedInUserDetails.profilepic));
     }
   }, [dispatch, userInfo, loggedInUserDetails, updateProfilePic, success]);
