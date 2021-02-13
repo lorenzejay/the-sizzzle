@@ -7,11 +7,11 @@ import UploaderProfileBar from "../components/uploaderProfileBar";
 import SavePostButton from "../components/savePostButton";
 import * as Showdown from "showdown";
 import dompurify from "dompurify";
-import { FaTrash } from "react-icons/fa";
 import PaddingWrapper from "../components/paddingWrapper";
 import Loader from "../components/loader";
 import ErrorMessage from "../components/errorMessage";
 import LikePostButton from "../components/likePostButton";
+import NoUserInfoModalPopup from "../components/noUserInfoModal";
 
 const PostTemplate = ({ location }) => {
   const dispatch = useDispatch();
@@ -26,6 +26,9 @@ const PostTemplate = ({ location }) => {
     strikethrough: true,
     tasklists: true,
   });
+
+  //trigger when there is no userinfo but they are tryinhg to like or save post
+  const [showModal, setShowModal] = useState(false);
 
   const [isUserLoginPost, setIsUserLoginPost] = useState(false);
   const [mdToHtml, setMdToHtml] = useState();
@@ -65,32 +68,37 @@ const PostTemplate = ({ location }) => {
     // return new Date(date).toString().slice(4, 15).replaceAt(6, ", ");
     return new Date(date).toLocaleString().slice(0, 8);
   };
-  // details && console.log(isUserLoginPost);
+  details && console.log(showModal);
   return (
     <Layout>
+      {showModal && <NoUserInfoModalPopup showModal={showModal} setShowModal={setShowModal} />}
       {loading && <Loader />}
       {error && <ErrorMessage>{error}</ErrorMessage>}
       {details && (
         <>
-          <PaddingWrapper className="px-5 lg:px-72 pt-10 padding-wrapper">
+          <PaddingWrapper className="padding-wrapper px-5 lg:px-72 padding-wrapper pb-0 pt-20">
             {!isUserLoginPost ? (
-              <span className="flex gap-3 justify-end">
-                <LikePostButton upload_id={details.upload_id} />
-                <SavePostButton upload_id={details.upload_id} upload_post={uploadIdFromPath} />
+              <span className="flex gap-3 justify-end mt-5 xl:pt-20">
+                <LikePostButton upload_id={details.upload_id} setShowModal={setShowModal} />
+                <SavePostButton
+                  upload_id={details.upload_id}
+                  upload_post={uploadIdFromPath}
+                  setShowModal={setShowModal}
+                />
               </span>
             ) : (
-              <div className="flex items-center gap-3 justify-end">
+              <div className="flex items-center gap-3 justify-end mt-5">
                 <Link
                   to={`/edit-post/${details.upload_id}`}
                   className="px-5 py-0.5 bg-gray-600 rounded-md text-white "
                 >
                   Edit
                 </Link>
-                <FaTrash className="cursor-pointer" />
+                {/* <DeleteUpload upload_id={details.upload_id} /> */}
               </div>
             )}
           </PaddingWrapper>
-          {details && (
+          {details && !showModal && (
             <PaddingWrapper>
               <h2 className="text-5xl font-bold my-5">{details.title}</h2>
               <div className="flex items-center gap-5">
