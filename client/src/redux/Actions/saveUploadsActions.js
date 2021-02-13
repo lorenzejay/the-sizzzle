@@ -2,6 +2,9 @@ import {
   CHECK_IF_SAVED_FAIL,
   CHECK_IF_SAVED_REQUEST,
   CHECK_IF_SAVED_SUCCESS,
+  GET_USER_SAVED_UPLOADS_FAIL,
+  GET_USER_SAVED_UPLOADS_REQUEST,
+  GET_USER_SAVED_UPLOADS_SUCCESS,
   SAVE_UPLOAD_FAIL,
   SAVE_UPLOAD_REQUEST,
   SAVE_UPLOAD_SUCCESS,
@@ -43,5 +46,23 @@ export const checkIfSavedAlready = (upload_id) => async (dispatch, getState) => 
   } catch (error) {
     console.log(error.message);
     dispatch({ type: CHECK_IF_SAVED_FAIL, payload: error.message });
+  }
+};
+export const getSavedUploads = (upload_id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_USER_SAVED_UPLOADS_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const data = await fetch(`/api/save-uploads/retrieve-saved-posts`, {
+      method: "GET",
+      headers: { token: `${userInfo.token}`, "Content-Type": "application/json" },
+    });
+    const parsedData = await data.json();
+    dispatch({ type: GET_USER_SAVED_UPLOADS_SUCCESS, payload: parsedData });
+  } catch (error) {
+    console.log(error.message);
+    dispatch({ type: GET_USER_SAVED_UPLOADS_FAIL, payload: error.message });
   }
 };
