@@ -3,13 +3,10 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getLoggedInUserDetails,
-  logout,
-  getUserProfilePicture,
-} from "../redux/Actions/userActions";
+import { getLoggedInUserDetails, getUserProfilePicture } from "../redux/Actions/userActions";
 import { AiFillHome, AiOutlineUpload } from "react-icons/ai";
 import DefaultPP from "../images/dpp.png";
+import ProfileOptionsDropdown from "./profileOptionsDropdown";
 
 export const Nav = styled.header`
   //handle transitions here
@@ -113,6 +110,7 @@ const Header = () => {
   const { profilePic: updateProfilePic } = userUpdateProfilePicture;
 
   const [searchedProfiles, setSearchedProfile] = useState([]);
+  const [profileDropdown, setProfileDropdown] = useState(true);
 
   //search function
   const handleSearch = async (e) => {
@@ -142,9 +140,6 @@ const Header = () => {
   }, [dispatch, userInfo, loggedInUserDetails, updateProfilePic, success]);
 
   // console.log(loggedInUserProfileImage);
-  const handleLogout = () => {
-    dispatch(logout());
-  };
 
   return (
     <>
@@ -192,7 +187,7 @@ const Header = () => {
             )}
           </div>
 
-          {loggedInUserDetails ? (
+          {userInfo ? (
             <NavMenu>
               <NavItem>
                 <NavLinks to="/">
@@ -207,19 +202,20 @@ const Header = () => {
 
               <NavItem>
                 {loggedInUserDetails && (
-                  <NavLinks to={`/dashboard/${loggedInUserDetails.username}`}>
+                  // <NavLinks to={`/dashboard/${loggedInUserDetails.username}`}>
+                  <span
+                    className="flex items-center h-full mr-3"
+                    onClick={() => setProfileDropdown(!profileDropdown)}
+                  >
                     <img
                       src={profilePic || DefaultPP}
                       alt="profile of the user"
-                      className="w-8 h-8 rounded-full object-cover"
+                      className="w-8 h-8 rounded-full object-cover cursor-pointer"
                     />
-                  </NavLinks>
+                    {<ProfileOptionsDropdown profileDropdown={profileDropdown} />}
+                  </span>
+                  // </NavLinks>
                 )}
-              </NavItem>
-              <NavItem>
-                <button className="mt-auto h-full" type="button" onClick={handleLogout}>
-                  Logout
-                </button>
               </NavItem>
             </NavMenu>
           ) : (
