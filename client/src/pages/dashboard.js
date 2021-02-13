@@ -52,7 +52,7 @@ const Dashboard = ({ location }) => {
     <Layout>
       {loading && <Loader />}
       {error && <h1>{error}</h1>}
-      {!anyUserProfile && <ErrorMessage>There is no user profile</ErrorMessage>}
+      {!anyUserProfile && !loading && <ErrorMessage>There is no user profile</ErrorMessage>}
       {anyUserProfile && anyUserProfile.user && (
         <div className="px-10 flex flex-col">
           <div className="flex flex-col justify-center items-center mt-10">
