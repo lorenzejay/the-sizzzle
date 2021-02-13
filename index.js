@@ -1,6 +1,9 @@
+const path = require("path");
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const PORT = process.env.PORT || 5000;
+//process.env.NODE_ENV
 
 //middleware
 app.use(cors()); //integrates backend and frontend ports
@@ -19,10 +22,18 @@ app.use("/api/upload", require("./routes/upload"));
 app.use("/api/save-uploads", require("./routes/savedUploads"));
 app.use("/api/like-uploads", require("./routes/likedUploads"));
 
+if (process.env.NODE_ENV === "Production") {
+  //serve our static content by getting the build folder from our client side
+  app.use(express.static(path.join(__dirname, "client/build")));
+}
+
 app.get("/", function (req, res) {
   res.send("Server Started");
 });
 
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
