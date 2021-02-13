@@ -64,7 +64,10 @@ router.get("/retrieve-saved-posts", authorization, async (req, res) => {
   try {
     const user_id = req.user;
     //get all posts from saved_by
-    const query = await pool.query("SELECT * FROM saved_uploads WHERE saved_by = $1", [user_id]);
+    const query = await pool.query(
+      "SELECT * FROM uploads WHERE upload_id IN (SELECT upload_post FROM saved_uploads WHERE saved_by = $1) ORDER BY created_at DESC",
+      [user_id]
+    );
     const result = query.rows;
 
     res.json(result);
