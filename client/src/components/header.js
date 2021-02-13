@@ -110,7 +110,7 @@ const Header = () => {
   const { profilePic: updateProfilePic } = userUpdateProfilePicture;
 
   const [searchedProfiles, setSearchedProfile] = useState([]);
-  const [profileDropdown, setProfileDropdown] = useState(true);
+  const [profileDropdown, setProfileDropdown] = useState(false);
 
   //search function
   const handleSearch = async (e) => {
