@@ -17,13 +17,18 @@ import {
   followUserReducer,
 } from "./Reducers/followerReducer";
 import {
+  deleteUploadReducer,
   getAllUserUploadsReducer,
   getLoggedInUserFollowingPostsReducer,
   postDetailsReducer,
   updateUploadReaducer,
   uploadPostReducer,
 } from "./Reducers/uploadReducer";
-import { checkIfSavedRedcuer, saveUploadReducer } from "./Reducers/savedUploadsReducer";
+import {
+  checkIfSavedRedcuer,
+  getUserSavedUploadsReducer,
+  saveUploadReducer,
+} from "./Reducers/savedUploadsReducer";
 import { likeUploadsReducer, checkIfUploadLikedReducer } from "./Reducers/likedUploadsReducer";
 
 const reducers = combineReducers({
@@ -45,9 +50,11 @@ const reducers = combineReducers({
   userFollowingsPosts: getLoggedInUserFollowingPostsReducer,
   uploadDetails: postDetailsReducer,
   updateUpload: updateUploadReaducer,
+  deleteUpload: deleteUploadReducer,
 
   saveUploads: saveUploadReducer,
   checkIfSaved: checkIfSavedRedcuer,
+  savedPosts: getUserSavedUploadsReducer,
 
   likeUpload: likeUploadsReducer,
   checkIfLiked: checkIfUploadLikedReducer,
