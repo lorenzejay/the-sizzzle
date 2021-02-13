@@ -29,11 +29,11 @@ const Upload = ({ history }) => {
     }
   }, [dispatch, history, userInfo]);
 
-  // useEffect(() => {
-  //   if (postResult && !error) {
-  //     history.push("/");
-  //   }
-  // }, [dispatch, history, postResult]);
+  useEffect(() => {
+    if (postResult && !error) {
+      history.push("/");
+    }
+  }, [dispatch, history, postResult]);
 
   const handleFileInputState = (e) => {
     //grabs the first file
@@ -100,9 +100,9 @@ const Upload = ({ history }) => {
               className="mx-auto mt-10"
             />
           )}
-          {title && <h3 className="text-lg">{title}</h3>}
+          {/* {title && <h3 className="text-lg">{title}</h3>}
           {caption && <p className="text-lg">{caption}</p>}
-          {description && <p>{description}</p>}
+          {description && <p>{description}</p>} */}
         </div>
       </div>
     </Layout>
