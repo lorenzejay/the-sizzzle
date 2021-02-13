@@ -139,7 +139,7 @@ const EditProfilePage = ({ history }) => {
       {loading && <Loader />}
       {error && <h1>{error}</h1>}
       {loggedInUserDetails && (
-        <PaddingWrapper>
+        <PaddingWrapper className="pb-10">
           <section className="px-10 pt-20 flex flex-col ">
             <div className="flex items-center gap-5">
               <img
@@ -165,7 +165,7 @@ const EditProfilePage = ({ history }) => {
                     value={fileInputState}
                   />
                   <CustomLabel htmlFor="file">Choose a file</CustomLabel>
-                  <RemoveProfilePictureButton setShowModal={setShowModal}/>
+                  <RemoveProfilePictureButton setShowModal={setShowModal} />
                 </Modal>
                 {/* {previewSource && <img className="w-64" src={previewSource} />} */}
               </div>
