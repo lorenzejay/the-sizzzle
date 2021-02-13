@@ -25,11 +25,11 @@ app.use("/api/like-uploads", require("./routes/likedUploads"));
 if (process.env.NODE_ENV === "Production") {
   //serve our static content by getting the build folder from our client side
   app.use(express.static(path.join(__dirname, "client/build")));
+} else {
+  app.get("/", function (req, res) {
+    res.send("Server Started");
+  });
 }
-
-app.get("/", function (req, res) {
-  res.send("Server Started");
-});
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build/index.html"));
