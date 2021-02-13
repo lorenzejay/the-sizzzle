@@ -14,6 +14,9 @@ import {
   UPDATE_UPLOAD_REQUEST,
   UPDATE_UPLOAD_SUCCESS,
   UPDATE_UPLOAD_FAIL,
+  DELETE_UPLOAD_SUCCESS,
+  DELETE_UPLOAD_REQUEST,
+  DELETE_UPLOAD_FAIL,
 } from "../Types/uploadTypes";
 
 export const uploadUsersPost = (title, caption, description, base64EncodedImage) => async (
@@ -112,5 +115,24 @@ export const updateUpload = (title, caption, description, upload_id) => async (
   } catch (error) {
     console.log(error.message);
     dispatch({ type: UPDATE_UPLOAD_FAIL, payload: error.message });
+  }
+};
+
+export const deleteUpload = (upload_id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: DELETE_UPLOAD_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const data = await fetch(`/api/upload/delete-post/${upload_id}`, {
+      method: "DELETE",
+      headers: { token: userInfo.token, "Content-type": "application/json" },
+    });
+
+    const parsedData = await data.json();
+    dispatch({ type: DELETE_UPLOAD_SUCCESS, payload: parsedData });
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: DELETE_UPLOAD_FAIL, payload: error });
   }
 };
