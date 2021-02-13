@@ -10,6 +10,7 @@ import EditProfilePage from "./pages/editProfilePage";
 import Upload from "./pages/upload";
 import PostTemplate from "./pages/postTemplate";
 import EditUpload from "./pages/editUpload";
+import SavedPosts from "./pages/savedPosts";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route path="/upload" component={Upload} />
       <Route path="/post/:id" component={PostTemplate} />
       <Route exact path="/edit-post/:id" component={EditUpload} />
+      <Route exact path="/saved" component={SavedPosts} />
     </Router>
   );
 }
