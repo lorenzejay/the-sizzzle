@@ -4,35 +4,33 @@ import Layout from "../components/layout";
 import PaddingWrapper from "../components/paddingWrapper";
 import UploaderProfileBar from "../components/uploaderProfileBar";
 import { getUploadDetails, updateUpload } from "../redux/Actions/uploadActions";
-// import * as Showdown from "showdown";
-// import dompurify from "dompurify";
 import RichTextEditor from "../components/richTextEditor";
 import ErrorMessage from "../components/errorMessage";
 import Button from "../components/button";
 import Loader from "../components/loader";
+import DeleteUpload from "../components/deleteUpload";
 
-const EditUpload = ({ location }) => {
+const EditUpload = ({ location, history }) => {
   const dispatch = useDispatch();
   const path = location.pathname;
   const uploadIdFromPath = path.substring(11, path.length);
 
   const uploadDetails = useSelector((state) => state.uploadDetails);
   const { details, loading, error } = uploadDetails;
+
+  const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
+  const { loggedInUserDetails } = userLoggedInDetails;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  // const sanitizer = dompurify.sanitize;
-  // const converter = new Showdown.Converter({
-  //   tables: true,
-  //   simplifiedAutoLink: true,
-  //   strikethrough: true,
-  //   tasklists: true,
-  // });
+  const deleteUpload = useSelector((state) => state.deleteUpload);
+  const { deleteStatus } = deleteUpload;
 
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
   const [description, setDescription] = useState("");
   const [updateError, setUpdateError] = useState("");
+
   useEffect(() => {
     if (userInfo) {
       dispatch(getUploadDetails(uploadIdFromPath));
@@ -46,6 +44,18 @@ const EditUpload = ({ location }) => {
       setTitle(details.title);
     }
   }, [details]);
+
+  useEffect(() => {
+    if (deleteStatus && deleteStatus.status) {
+      history.push(`/dashboard/${loggedInUserDetails.username}`);
+    }
+  }, [deleteStatus]);
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push("/login");
+    }
+  }, [userInfo]);
 
   //convert markdown to html function
   // const [mdToHtml, setMdToHtml] = useState();
@@ -73,7 +83,7 @@ const EditUpload = ({ location }) => {
     }
   };
 
-  // details && console.log(title);
+  // details && console.log(details.upload_id);
   return (
     <Layout>
       {loading && <Loader />}
@@ -81,6 +91,7 @@ const EditUpload = ({ location }) => {
       {details && (
         <PaddingWrapper>
           {updateError && <ErrorMessage>{updateError}</ErrorMessage>}
+          <DeleteUpload upload_id={details.upload_id} className="float-right" />
           <form onSubmit={updateUploadPost}>
             <input
               placeholder="Title"
