@@ -6,6 +6,7 @@ import Loader from "../components/loader";
 import { Link } from "react-router-dom";
 import UploaderProfileBar from "../components/uploaderProfileBar";
 import PaddingWrapper from "../components/paddingWrapper";
+import UploadPreview from "../components/postPreview";
 
 const Homepage = () => {
   const dispatch = useDispatch();
@@ -43,17 +44,7 @@ const Homepage = () => {
       getRandomPosts();
     }
   }, [userInfo, posts]);
-  console.log(posts);
-  //set the time
-  const diffTime = (dt1, dt2) => {
-    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
-    diff /= 60 * 60;
-    if (Math.abs(Math.round(diff)) < 24) {
-      return `${Math.abs(Math.round(diff))} hours ago`;
-    }
-    var day_difference = (dt2.getTime() - dt1.getTime()) / 1000 / 60 / 60 / 24;
-    return `${Math.round(day_difference)} days ago`;
-  };
+  // console.log(posts);
 
   return (
     <Layout>
@@ -62,62 +53,17 @@ const Homepage = () => {
       <div className="flex flex-col justify-center items-center gap-10 pt-20 md:gap-20 lg:gap-24">
         {posts &&
           posts.map((post) => {
-            const dt1 = new Date(post.created_at);
-            const dt2 = new Date();
-
             return (
               <PaddingWrapper key={post.upload_id}>
-                <UploaderProfileBar uploaded_by={post.uploaded_by} />
-                <Link to={`/post/${post.upload_id}`} className="mx-auto" key={post.upload_id}>
-                  <img
-                    src={post.image_url}
-                    loading="lazy"
-                    className="object-cover w-full"
-                    alt="user upload thumnails"
-                  />
-                  <div className=" lg:p-0 mt-3">
-                    <h3 className="text-xl">{post.title}</h3>
-                    <h3 className="text-lg">{post.caption}</h3>
-                    <p className="text-sm text-gray-500">{diffTime(dt1, dt2)} </p>
-                  </div>
-                </Link>
+                <UploadPreview post={post} />
               </PaddingWrapper>
             );
           })}
         {randomPosts &&
           randomPosts.map((post) => {
-            const dt1 = new Date(post.created_at);
-            const dt2 = new Date();
-
             return (
-              <PaddingWrapper
-                className="w-full mx-auto px-5 sm:px-24 md:px-48 lg:px-72"
-                key={post.upload_id}
-              >
-                <UploaderProfileBar uploaded_by={post.uploaded_by} />
-                <Link
-                  to={{
-                    pathname: `/post/${post.upload_id}`,
-                    state: {
-                      uploadId: post.upload_id,
-                      uploaded_by: post.uploaded_by,
-                    },
-                  }}
-                  className="w-full md:w-1/2 mx-auto"
-                  key={post.upload_id}
-                >
-                  <img
-                    src={post.image_url}
-                    loading="lazy"
-                    className="object-cover w-full"
-                    alt="user upload thumnails"
-                  />
-                  <div className=" mt-3">
-                    <h3 className="text-xl">{post.title}</h3>
-                    <h3 className="text-lg">{post.caption}</h3>
-                    <p className="text-sm text-gray-400">{diffTime(dt1, dt2)} </p>
-                  </div>
-                </Link>
+              <PaddingWrapper key={post.upload_id}>
+                <UploadPreview post={post} />
               </PaddingWrapper>
             );
           })}
