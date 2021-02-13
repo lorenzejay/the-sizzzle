@@ -33,32 +33,34 @@ const SignIn = ({ history }) => {
 
   return (
     <Layout>
-      <Form title="Sign In" handleSubmit={(e) => handleLogin(e)}>
-        {loading && <Loader />}
-        {error && <ErrorMessage className="text-red-500 shadow">{error}</ErrorMessage>}
-        <Input
-          placeholder="Email"
-          type="email"
-          value={email}
-          name="email"
-          className="mx-auto lg:w-1/4 "
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          placeholder="Password"
-          type="password"
-          value={password}
-          name="password"
-          className="mx-auto lg:w-1/4 "
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button className="w-3/4 md:w-1/2 lg:w-1/4  uppercase" type="submit">
-          Sign In
-        </Button>
-        <Link to="/sign-up" className="mx-auto mt-5">
-          If you don't have an account, <span style={{ color: "#ff0078" }}>Sign Up</span>
-        </Link>
-      </Form>
+      <div className="h-screen w-full flex items-center justify-center overflow-y-hidden -mt-20">
+        <Form title="Sign In" handleSubmit={(e) => handleLogin(e)}>
+          {loading && <Loader />}
+          {error && <ErrorMessage className="text-red-500 shadow">{error}</ErrorMessage>}
+          <Input
+            placeholder="Email"
+            type="email"
+            value={email}
+            name="email"
+            className="mx-auto lg:w-1/4 "
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            placeholder="Password"
+            type="password"
+            value={password}
+            name="password"
+            className="mx-auto lg:w-1/4 "
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button className="w-3/4 md:w-1/2 lg:w-1/4  uppercase" type="submit">
+            Sign In
+          </Button>
+          <Link to="/sign-up" className="mx-auto mt-5">
+            If you don't have an account, <span style={{ color: "#ff0078" }}>Sign Up</span>
+          </Link>
+        </Form>
+      </div>
     </Layout>
   );
 };
