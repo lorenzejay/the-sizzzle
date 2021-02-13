@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/Actions/userActions";
 import DefaultPP from "../images/dpp.png";
 import { Link } from "react-router-dom";
 
-const ProfileOptionsDropdown = ({ profileDropdown }) => {
+const ProfileOptionsDropdown = ({ profileDropdown, location }) => {
   const dispatch = useDispatch();
   //if there is a logged in user
   const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
@@ -17,10 +17,14 @@ const ProfileOptionsDropdown = ({ profileDropdown }) => {
   const handleLogout = () => {
     dispatch(logout());
   };
+
+  useEffect(() => {
+    console.log(location);
+  }, [location]);
   return (
     <div
       className={` shadow-lg absolute top-20 right-0 lg:right-24 min-h-48 w-72 transition-all duration-500 z-10 bg-white  ${
-        profileDropdown ? "opacity-100" : "opacity-0"
+        profileDropdown ? "block" : "hidden"
       }`}
     >
       {loggedInUserDetails && (
