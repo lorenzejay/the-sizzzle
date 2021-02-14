@@ -38,7 +38,7 @@ export const NavLink = styled(Link)`
   color: #000;
   justify-self: flex-start;
   cursor: pointer;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   display: flex;
   align-items: center;
   margin-left: 6px;
@@ -46,7 +46,7 @@ export const NavLink = styled(Link)`
   text-decoration: none;
   text-transform: uppercase;
   @media screen and (min-width: 1024px) {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 `;
 
@@ -221,16 +221,11 @@ const Header = () => {
           ) : (
             <NavMenu>
               <NavItem>
-                <NavLinks to="/">
-                  <AiFillHome size={24} />
-                </NavLinks>
-              </NavItem>
-
-              <NavItem>
-                <NavLinks to="/login">Sign In</NavLinks>
-              </NavItem>
-              <NavItem>
-                <NavLinks to="/sign-up">Sign Up</NavLinks>
+                <Link className=" px-5 flex items-center h-full " to="/sign-up">
+                  <button className=" bg-gray-900 px-5 py-2 my-auto m-full rounded-sm text-white">
+                    Get Started
+                  </button>
+                </Link>
               </NavItem>
             </NavMenu>
           )}
