@@ -44,7 +44,7 @@ const SignUp = ({ history }) => {
 
   return (
     <Layout>
-      <div className="h-screen w-full flex items-center justify-center overflow-y-hidden -mt-20">
+      <div className="h-screen w-full flex items-center justify-center ">
         <Form title={"Sign Up"} className="mx-auto" handleSubmit={handleSignUp}>
           {loading && <Loader />}
           {error && (
