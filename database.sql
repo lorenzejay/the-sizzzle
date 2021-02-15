@@ -45,6 +45,13 @@ CREATE TABLE uploads(
 );
 
 alter table uploads add foreign key(uploaded_by) references users(user_id) on delete cascade;
+--deleting the column comments and directions
+alter table uploads drop column caption;
+alter table uploads drop column description;
+--add column of ingredients which is type array 
+alter table uploads add ingredients text[];
+alter table uploads add directions text[];
+
 -- alter table followers drop constraint followers_user_to_fkey;
 
 CREATE TABLE saved_uploads(
@@ -66,15 +73,4 @@ alter table liked_uploads add foreign key(upload_post) references uploads(upload
 alter table liked_uploads add foreign key(liked_by) references users(user_id) on delete cascade;
 
 
--- CREATE TABLE comments(
---     id SERIAL PRIMARY KEY,
---     recipe_id int NOT NULL,
---     user_id uuid NOT NULL,
---     isReply boolean SET DEFAULT false,
---     FOREIGN KEY (user_Id) REFERENCES user(id),
---     FOREIGN KEY (recipe_Id) REFERENCES recipe(id)
--- )
-
--- ALTER TABLE comments
--- ALTER COLUMN isReply
--- SET DEFAULT false
+-- 
