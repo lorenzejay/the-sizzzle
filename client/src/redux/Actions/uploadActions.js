@@ -19,7 +19,7 @@ import {
   DELETE_UPLOAD_FAIL,
 } from "../Types/uploadTypes";
 
-export const uploadUsersPost = (title, caption, description, base64EncodedImage) => async (
+export const uploadUsersPost = (title, ingredients, directions, base64EncodedImage) => async (
   dispatch,
   getState
 ) => {
@@ -31,7 +31,7 @@ export const uploadUsersPost = (title, caption, description, base64EncodedImage)
     const data = await fetch("/api/upload", {
       method: "POST",
       headers: { token: `${userInfo.token}`, "Content-type": "application/json" },
-      body: JSON.stringify({ data: base64EncodedImage, title, caption, description }),
+      body: JSON.stringify({ data: base64EncodedImage, title, ingredients, directions }),
     });
     const parsedData = await data.json();
     dispatch({ type: UPLOAD_POST_SUCCESS, payload: parsedData });
@@ -91,7 +91,7 @@ export const getUploadDetails = (upload_id) => async (dispatch) => {
   }
 };
 
-export const updateUpload = (title, caption, description, upload_id) => async (
+export const updateUpload = (title, ingredients, directions, upload_id) => async (
   dispatch,
   getState
 ) => {
@@ -103,7 +103,7 @@ export const updateUpload = (title, caption, description, upload_id) => async (
     const data = await fetch(`/api/upload/update/${upload_id}`, {
       method: "PUT",
       headers: { token: userInfo.token, "Content-type": "application/json" },
-      body: JSON.stringify({ title, caption, description }),
+      body: JSON.stringify({ title, ingredients, directions }),
     });
 
     const parsedData = await data.json();
