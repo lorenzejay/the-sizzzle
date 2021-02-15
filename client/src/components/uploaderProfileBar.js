@@ -29,12 +29,12 @@ const UploaderProfileBar = ({ uploaded_by, className }) => {
         <>
           <Link
             to={`/dashboard/${uploaderProfile.username}`}
-            className={`flex items-center gap-3 mb-3 lg:p-0 ${className}`}
+            className={`flex items-center mb-3 lg:p-0 ${className}`}
           >
             <img
               src={uploaderProfile.imageUrl || DfProfile}
               alt="poster profile picture"
-              className="w-7 h-7 rounded-full object-cover"
+              className="w-7 h-7 rounded-full object-cover mr-3"
             />
             <p className="text-sm sm:text-lg lg:text-xl">{uploaderProfile.username}</p>
           </Link>
