@@ -3,11 +3,13 @@ const pool = require("../db.js");
 const authorization = require("../middleware/authorization");
 const { cloudinary } = require("../utils/cloudinary");
 const cloudMedia = require("cloudinary").v2;
+
 //submit post
+//gets in title image ingredient list (array) and description (array)
 router.post("/", authorization, async (req, res) => {
   try {
     const fileStr = req.body.data; //image uploaded
-    const { title, caption, description } = req.body;
+    const { title, ingredients, directions } = req.body;
     const user_id = req.user;
 
     const uploadImageResponse = await cloudinary.uploader.upload(fileStr, {
@@ -15,12 +17,12 @@ router.post("/", authorization, async (req, res) => {
     });
     // console.log(uploadImageResponse);
     const query = await pool.query(
-      "INSERT INTO uploads (uploaded_by, title, caption, description, cloudinary_id, image_url) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *",
+      "INSERT INTO uploads (uploaded_by, title, ingredients, directions, cloudinary_id, image_url) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *",
       [
         user_id,
         title,
-        caption,
-        description,
+        ingredients,
+        directions,
         uploadImageResponse.public_id,
         uploadImageResponse.secure_url,
       ]
@@ -30,14 +32,8 @@ router.post("/", authorization, async (req, res) => {
 
     res.status(201).json({
       data: {
-        message: "Image Uploaded Successfully",
         success: true,
-        user_id: result.user_id,
-        title: result.title,
-        description: result.description,
-        caption: result.caption,
-        cloudinary_id: result.cloudinary_id,
-        image_url: result.image_url,
+        result,
       },
     });
     // console.log("success");
@@ -180,7 +176,7 @@ router.delete("/delete-post/:upload_id", authorization, async (req, res) => {
 
 //PUT EDIT POST
 //takes in upload_id and user_uploaded by from params
-//takes in title, caption, and description from req.body
+//takes in title, ingredients, and directions from req.body
 //confirm that there is a post that they will update
 //if there is a post, use update query
 router.put("/update/:upload_id", authorization, async (req, res) => {
@@ -188,7 +184,7 @@ router.put("/update/:upload_id", authorization, async (req, res) => {
     const { upload_id } = req.params;
     const user_id = req.user;
     //not updating images for simplicity reasons
-    const { title, caption, description } = req.body;
+    const { title, ingredients, directions } = req.body;
     //check if post exists and if user owns it
     const check = await pool.query(
       "SELECT * FROM uploads WHERE upload_id = $1 AND uploaded_by = $2",
@@ -202,8 +198,8 @@ router.put("/update/:upload_id", authorization, async (req, res) => {
     }
 
     const query = await pool.query(
-      "UPDATE uploads SET title = $1, caption = $2, description = $3 WHERE uploaded_by = $4 AND upload_id = $5 RETURNING *",
-      [title, caption, description, user_id, upload_id]
+      "UPDATE uploads SET title = $1, ingredients = $2, directions = $3 WHERE uploaded_by = $4 AND upload_id = $5 RETURNING *",
+      [title, ingredients, directions, user_id, upload_id]
     );
     if (query.rows.length > 0) {
       return res.json({ success: true, message: "Post Updated Successfully" });
