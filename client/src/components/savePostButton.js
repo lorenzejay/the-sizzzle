@@ -46,7 +46,7 @@ const SavePostButton = ({ upload_id, setShowModal }) => {
 
   return (
     <>
-      {loading && <Loader />}
+      {/* {loading && <Loader />} */}
       {checkError && <ErrorMessage>{checkError}</ErrorMessage>}
       {error && <ErrorMessage>{error}</ErrorMessage>}
       {!wasSaved ? (
