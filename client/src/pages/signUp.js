@@ -36,7 +36,11 @@ const SignUp = ({ history }) => {
     e.preventDefault();
     setFormError("");
     if (password === confirmPassword) {
-      dispatch(register(email, username, firstName, lastName, password));
+      if (username !== "" && firstName !== "" && lastName !== "" && password !== "" && email !== "")
+        dispatch(register(email, username, firstName, lastName, password));
+      else {
+        return setFormError("Nothing must be blank.");
+      }
     } else {
       setFormError("The passwords do not match");
     }
