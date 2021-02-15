@@ -4,9 +4,10 @@ import Button from "../components/button";
 import Input from "../components/input";
 import Layout from "../components/layout";
 import Loader from "../components/loader";
-// import RichTextEditor from "../components/richTextEditor";
+import IngredientPreviews from "../components/ingredientPreviews";
 import { uploadUsersPost } from "../redux/Actions/uploadActions";
 import ErrorMessage from "../components/errorMessage";
+import DirectionPreviews from "../components/directionsPreviews";
 
 const Upload = ({ history }) => {
   const dispatch = useDispatch();
@@ -119,29 +120,9 @@ const Upload = ({ history }) => {
                   className="relative object-cover max-h-screen w-full"
                 />
               )}
-              <h3 className="font-bold text-3xl">Ingredients</h3>
-              <ul>
-                {ingredientList &&
-                  ingredientList.map((item, i) => {
-                    return (
-                      <li className="flex flex-row gap-3 items-center my-1 text-lg" key={i}>
-                        <input type="checkbox" />
-                        {item}
-                      </li>
-                    );
-                  })}
-              </ul>
-              <h3 className="font-bold text-3xl">Directions</h3>
-              <ol className="list-decimal">
-                {directionList &&
-                  directionList.map((item, i) => {
-                    return (
-                      <li className="ml-4 my-1 text-lg " key={i}>
-                        {item}
-                      </li>
-                    );
-                  })}
-              </ol>
+              <IngredientPreviews ingredientList={ingredientList} />
+
+              <DirectionPreviews directionList={directionList} />
             </div>
           )}
           <Input type="file" name="image" onChange={handleFileInputState} value={fileInputState} />
