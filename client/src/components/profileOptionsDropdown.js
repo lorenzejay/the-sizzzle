@@ -28,12 +28,12 @@ const ProfileOptionsDropdown = ({ profileDropdown, location }) => {
     >
       {loggedInUserDetails && (
         <div>
-          <section className="flex items-center gap-5 border-b-2 border-opacity-5 border-black w-full p-5">
+          <section className="flex items-center justify-between border-b-2 border-opacity-5 border-black w-full p-5">
             <Link to={`/dashboard/${loggedInUserDetails.username}`}>
               <img
                 src={profilePic || DefaultPP}
                 alt="user profile thumnail"
-                className="w-8 h-8 rounded-full object-cover"
+                className="w-12 h-12 rounded-full object-cover"
               />
             </Link>
             <div className="flex flex-col items-start">
@@ -49,7 +49,7 @@ const ProfileOptionsDropdown = ({ profileDropdown, location }) => {
             </div>
           </section>
           {loggedInUserDetails && (
-            <ul className="flex flex-col justify-start items-start gap-3 p-5 text-md font-medium text-gray-500   transition-all duration-500">
+            <ul className="flex flex-col justify-around items-start p-5 text-md font-medium text-gray-500   transition-all duration-500 profile-dropdown">
               <li>
                 <Link to="/upload" className="hover:text-black">
                   Write a dish

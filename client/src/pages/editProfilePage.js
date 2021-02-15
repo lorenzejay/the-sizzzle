@@ -138,7 +138,7 @@ const EditProfilePage = ({ history, location }) => {
       {error && <h1>{error}</h1>}
       {loggedInUserDetails && (
         <PaddingWrapper className="pb-10">
-          <section className="px-10 pt-20 flex flex-col ">
+          <section className=" pt-5 flex flex-col ">
             <div className="flex items-center gap-5">
               <img
                 src={
@@ -151,7 +151,7 @@ const EditProfilePage = ({ history, location }) => {
                 className="w-24 h-24 rounded-full object-cover"
               />
               <div className="flex flex-col gap-4">
-                <h3 className="font-bold text-2xl">{loggedInUserDetails.username}</h3>
+                <h3 className="font-bold text-sm  md:text-2xl">@{loggedInUserDetails.username}</h3>
 
                 <Modal imageSrc={previewSource} showModal={showModal} setShowModal={setShowModal}>
                   <CustomInput
@@ -190,7 +190,7 @@ const EditProfilePage = ({ history, location }) => {
               className="bg-gray-800 text-white w-1/2 px-6 py-1 rounded-sm"
               onClick={handleUpdate}
             >
-              Update Username
+              Update
             </button>
           </section>
         </PaddingWrapper>

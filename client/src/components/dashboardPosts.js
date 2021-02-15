@@ -25,15 +25,15 @@ const DashboardPosts = () => {
   }, [dispatch, anyUserProfile]);
 
   return (
-    <div className="post-grid grid grid-cols-3 gap-5 justify-center mt-10 md:mx-auto md:gap-32">
+    <div className="post-grid grid grid-cols-3 my-10 justify-center md:mx-auto md:gap-32">
       {loadPosts && <Loader />}
-      {errorPosts && <ErrorMessage className="text-red-600">{errorPosts}</ErrorMessage>}
+      {errorPosts && <ErrorMessage className="text-red-600 w-full">{errorPosts}</ErrorMessage>}
       {allPosts &&
         allPosts.map((post) => (
           <Link to={`/post/${post.upload_id}`} key={post.upload_id}>
             <img
               src={post.image_url}
-              className="w-36 h-36  md:w-48 md:h-48 xl:w-64 xl:h-64 object-cover"
+              className="w-full h-36  md:w-48 md:h-48 xl:w-64 xl:h-64 object-cover"
               loading="lazy"
               alt="post"
             />

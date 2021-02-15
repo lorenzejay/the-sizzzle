@@ -45,32 +45,24 @@ const SavePostButton = ({ upload_id, setShowModal }) => {
   };
 
   return (
-    <>
-      {/* {loading && <Loader />} */}
-      {checkError && <ErrorMessage>{checkError}</ErrorMessage>}
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+    <div className="flex justify-between items-center w-12">
       {!wasSaved ? (
-        <>
-          <BsBookmark
-            size={24}
-            onClick={handleSave}
-            className="cursor-pointer"
-            aria-disabled={!userInfo && "true"}
-          />
-          <p>{savedNumber}</p>
-        </>
+        <BsBookmark
+          size={30}
+          onClick={handleSave}
+          className="cursor-pointer"
+          aria-disabled={!userInfo && "true"}
+        />
       ) : (
-        <>
-          <BsBookmarkFill
-            size={24}
-            onClick={handleSave}
-            className="cursor-pointer"
-            aria-disabled={!userInfo && "true"}
-          />
-          <p>{savedNumber}</p>
-        </>
+        <BsBookmarkFill
+          size={30}
+          onClick={handleSave}
+          className="cursor-pointer"
+          aria-disabled={!userInfo && "true"}
+        />
       )}
-    </>
+      <p>{savedNumber}</p>
+    </div>
   );
 };
 

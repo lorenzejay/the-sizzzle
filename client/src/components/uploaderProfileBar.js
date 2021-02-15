@@ -36,7 +36,7 @@ const UploaderProfileBar = ({ uploaded_by, className }) => {
               alt="poster profile picture"
               className="w-7 h-7 rounded-full object-cover"
             />
-            <p>{uploaderProfile.username}</p>
+            <p className="text-sm sm:text-lg lg:text-xl">{uploaderProfile.username}</p>
           </Link>
         </>
       )}

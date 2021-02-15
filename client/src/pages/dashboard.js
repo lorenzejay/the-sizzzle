@@ -54,10 +54,10 @@ const Dashboard = ({ location }) => {
       {error && <h1>{error}</h1>}
       {!anyUserProfile && !loading && <ErrorMessage>There is no user profile</ErrorMessage>}
       {anyUserProfile && anyUserProfile.user && (
-        <div className="px-10 flex flex-col">
-          <div className="flex flex-col justify-center items-center mt-10">
+        <div className="flex flex-col">
+          <div className="flex flex-col justify-center items-center mt-10 px-10 ">
             <LoggedInUserProfilePicture />
-            <div className="flex flex-row font-bold text-3xl gap-3">
+            <div className="flex flex-row font-bold text-2xl gap-3">
               <h2>
                 <span className="text-xl">@</span>
                 {anyUserProfile.user.username}

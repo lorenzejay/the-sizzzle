@@ -19,11 +19,11 @@ const FollowersTab = ({ anyUserProfile }) => {
   }, [dispatch, anyUserProfile, follow]);
 
   return (
-    <div className="followers flex flex-row gap-5">
+    <div className="followers ">
       {error && <ErrorMessage>{error}</ErrorMessage>}
       {followers && (
-        <div className="text-xl flex gap-10 mt-5">
-          <p>Followers: {followers.followerCount}</p>
+        <div className="text-lg md:text-xl flex justify-between mt-5">
+          <p className="mr-3">Followers: {followers.followerCount}</p>
           <p>Following: {followers.followingCount}</p>
         </div>
       )}

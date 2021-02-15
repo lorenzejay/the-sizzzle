@@ -19,7 +19,7 @@ const UploadPreview = ({ post }) => {
   const dt1 = new Date(post.created_at);
   const dt2 = new Date();
   return (
-    <>
+    <div className="mb-10">
       <UploaderProfileBar uploaded_by={post.uploaded_by} />
       <Link to={`/post/${post.upload_id}`} className="mx-auto" key={post.upload_id}>
         <img
@@ -34,7 +34,7 @@ const UploadPreview = ({ post }) => {
           <p className="text-sm text-gray-500">{diffTime(dt1, dt2)} </p>
         </div>
       </Link>
-    </>
+    </div>
   );
 };
 

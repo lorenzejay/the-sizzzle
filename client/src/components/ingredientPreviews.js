@@ -8,8 +8,8 @@ const IngredientPreviews = ({ ingredientList }) => {
         {ingredientList &&
           ingredientList.map((item, i) => {
             return (
-              <li className="flex flex-row gap-3 items-center my-1 text-lg" key={i}>
-                <input type="checkbox" />
+              <li className="flex flex-row items-center my-3 text-lg" key={i}>
+                <input type="checkbox" className="mr-3" />
                 {item}
               </li>
             );

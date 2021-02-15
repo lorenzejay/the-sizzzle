@@ -48,7 +48,7 @@ const Homepage = () => {
     <Layout>
       {loading && <Loader />}
       {error && <h3>{error}</h3>}
-      <div className="flex flex-col justify-center items-center gap-10 pt-20 md:gap-20 lg:gap-24">
+      <div className="flex flex-col justify-center items-center gap-10 pt-5 md:gap-20 lg:gap-24">
         {posts &&
           posts.map((post) => {
             return (

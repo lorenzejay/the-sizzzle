@@ -43,13 +43,17 @@ const LikePostButton = ({ upload_id, setShowModal }) => {
     }
   };
   return (
-    <div className="flex gap-5">
+    <div className="flex justify-between items-center w-12">
       {!wasLiked ? (
-        <AiOutlineHeart size={24} onClick={handleLikingTheUpload} className="cursor-pointer" />
+        <AiOutlineHeart size={30} onClick={handleLikingTheUpload} className="cursor-pointer" />
       ) : (
-        <AiFillHeart size={24} onClick={handleLikingTheUpload} className="cursor-pointer" />
+        <AiFillHeart
+          size={30}
+          onClick={handleLikingTheUpload}
+          className="cursor-pointer text-red-600"
+        />
       )}
-      {postLikesCount}
+      <p className="text-lg">{postLikesCount}</p>
     </div>
   );
 };

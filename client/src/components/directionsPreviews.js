@@ -8,7 +8,7 @@ const DirectionPreviews = ({ directionList }) => {
         {directionList &&
           directionList.map((item, i) => {
             return (
-              <li className="ml-4 my-1 text-lg " key={i}>
+              <li className="ml-4 my-3 text-lg " key={i}>
                 {item}
               </li>
             );

@@ -82,7 +82,7 @@ export const NavLinks = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
-  padding: 0 1rem;
+  padding: 0.65rem;
   height: 100%;
   cursor: pointer;
 
@@ -189,12 +189,12 @@ const Header = () => {
 
           {userInfo ? (
             <NavMenu>
-              <NavItem>
+              <NavItem className="hidden lg:block">
                 <NavLinks to="/">
                   <AiFillHome size={26} />
                 </NavLinks>
               </NavItem>
-              <NavItem>
+              <NavItem className="hidden lg:block">
                 <NavLinks to="/upload">
                   <AiOutlineUpload size={26} />
                 </NavLinks>
@@ -222,7 +222,7 @@ const Header = () => {
             <NavMenu>
               <NavItem>
                 <Link className=" px-5 flex items-center h-full " to="/sign-up">
-                  <button className=" bg-gray-900 px-5 py-2 my-auto m-full rounded-sm text-white">
+                  <button className=" bg-gray-900 px-3 py-2 my-auto rounded-sm text-white text-sm">
                     Get Started
                   </button>
                 </Link>

@@ -47,3 +47,7 @@ textarea {
   line-height: 1.75rem;
   margin-top: 5vh;
 }
+
+.profile-dropdown li {
+  margin: 10px 0;
+}

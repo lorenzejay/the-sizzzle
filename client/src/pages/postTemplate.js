@@ -51,7 +51,7 @@ const PostTemplate = ({ location }) => {
       {error && <ErrorMessage>{error}</ErrorMessage>}
       {details && (
         <>
-          <PaddingWrapper className="padding-wrapper px-5 lg:px-72 padding-wrapper pb-0 pt-20">
+          <PaddingWrapper className="padding-wrapper px-5 lg:px-72 padding-wrapper pb-0 pt-5">
             {!isUserLoginPost ? (
               <span className="flex gap-3 justify-end mt-5 xl:pt-20">
                 <LikePostButton upload_id={details.upload_id} setShowModal={setShowModal} />

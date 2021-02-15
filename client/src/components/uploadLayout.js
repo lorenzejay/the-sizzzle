@@ -13,9 +13,11 @@ const UploadLayout = ({ details, title, imageSrc, ingredients, directions }) => 
     <PaddingWrapper>
       <h2 className="text-5xl font-bold my-5">{details.title || title}</h2>
       {details && (
-        <div className="flex items-center gap-5">
+        <div className="flex items-center justify-between ">
           <UploaderProfileBar uploaded_by={details.uploaded_by} className="w-full " />
-          <p className="my-4 pb-3 text-gray-400">{convertDate(details.created_at)}</p>
+          <p className="my-4 pb-3 text-gray-400 text-sm sm:text-lg lg:text-xl">
+            {convertDate(details.created_at)}
+          </p>
         </div>
       )}
       <img
@@ -24,7 +26,7 @@ const UploadLayout = ({ details, title, imageSrc, ingredients, directions }) => 
         alt="Visual of the recipe posted."
       />
 
-      <div className=" md:px-0">
+      <div className="my-5">
         <ul>
           {details ? (
             <IngredientPreviews ingredientList={details.ingredients} />

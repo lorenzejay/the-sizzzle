@@ -101,7 +101,7 @@ const Upload = ({ history }) => {
       <div>
         {loading && <Loader />}
         <form onSubmit={handleSubmitPost} className="flex flex-col justify-center items-center">
-          <h1 className="text-4xl font-bold uppercase my-10">
+          <h1 className="text-4xl font-bold uppercase my-10 text-center">
             Post your fire dishes <span>🔥</span>
           </h1>
           {uploadError && (
