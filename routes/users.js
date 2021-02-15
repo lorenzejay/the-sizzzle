@@ -17,12 +17,13 @@ router.post("/register", async (req, res) => {
     const { username, first_name, last_name, email, password } = req.body;
 
     //check if user exists already then throw error
-    const isAlreadyRegistered = await pool.query(
-      "SELECT * FROM users WHERE email = $1 OR username = $2",
-      [email, username]
-    );
+    const checker = await pool.query("SELECT * FROM users WHERE email = $1 OR username = $2", [
+      email,
+      username,
+    ]);
+    const isTaken = checker.rowCount;
 
-    if (isAlreadyRegistered.rows.length !== 0) {
+    if (isTaken !== 0) {
       return res.status(401).json({
         success: false,
         message: "There is already an account associate with the email or username.",
