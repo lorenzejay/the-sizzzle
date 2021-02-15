@@ -41,12 +41,7 @@ const FollowOrEditCheck = ({ isLoggedInUserProfile, anyUserProfile }) => {
           {isLoggedInUserProfile && loggedInUserDetails ? (
             <Link
               className="bg-gray-500 px-10 rounded text-white py-1 my-5"
-              to={{
-                pathname: `/dashboard/${loggedInUserDetails.username}/edit-profile`,
-                state: {
-                  user: loggedInUserDetails.user_id,
-                },
-              }}
+              to={`/dashboard/${loggedInUserDetails.username}/edit-profile`}
             >
               Edit Profile
             </Link>
