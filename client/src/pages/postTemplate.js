@@ -3,35 +3,23 @@ import Layout from "../components/layout";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUploadDetails } from "../redux/Actions/uploadActions";
-import UploaderProfileBar from "../components/uploaderProfileBar";
 import SavePostButton from "../components/savePostButton";
-import * as Showdown from "showdown";
-import dompurify from "dompurify";
 import PaddingWrapper from "../components/paddingWrapper";
 import Loader from "../components/loader";
 import ErrorMessage from "../components/errorMessage";
 import LikePostButton from "../components/likePostButton";
 import NoUserInfoModalPopup from "../components/noUserInfoModal";
+import UploadLayout from "../components/uploadLayout";
 
 const PostTemplate = ({ location }) => {
   const dispatch = useDispatch();
   const path = location.pathname;
   const uploadIdFromPath = path.substring(6, path.length);
 
-  //converting markdown from description of upload to html
-  const sanitizer = dompurify.sanitize;
-  const converter = new Showdown.Converter({
-    tables: true,
-    simplifiedAutoLink: true,
-    strikethrough: true,
-    tasklists: true,
-  });
-
   //trigger when there is no userinfo but they are tryinhg to like or save post
   const [showModal, setShowModal] = useState(false);
 
   const [isUserLoginPost, setIsUserLoginPost] = useState(false);
-  const [mdToHtml, setMdToHtml] = useState();
 
   //if there is a logged in user
   const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
@@ -55,20 +43,7 @@ const PostTemplate = ({ location }) => {
     dispatch(getUploadDetails(uploadIdFromPath));
   }, [dispatch, uploadIdFromPath]);
 
-  //   console.log(userInfo);
-  // console.log(details.description);
-  useEffect(() => {
-    if (details) {
-      var html = details && converter.makeHtml(details.description);
-      setMdToHtml(html);
-    }
-  }, [details]);
-
-  const convertDate = (date) => {
-    // return new Date(date).toString().slice(4, 15).replaceAt(6, ", ");
-    return new Date(date).toLocaleString().slice(0, 8);
-  };
-  details && console.log(showModal);
+  // details && console.log(details);
   return (
     <Layout>
       {showModal && <NoUserInfoModalPopup showModal={showModal} setShowModal={setShowModal} />}
@@ -98,28 +73,7 @@ const PostTemplate = ({ location }) => {
               </div>
             )}
           </PaddingWrapper>
-          {details && !showModal && (
-            <PaddingWrapper>
-              <h2 className="text-5xl font-bold my-5">{details.title}</h2>
-              <div className="flex items-center gap-5">
-                <UploaderProfileBar uploaded_by={details.uploaded_by} className="w-full " />
-                <p className="my-4 pb-3 text-gray-400">{convertDate(details.created_at)}</p>
-              </div>
-              <img
-                src={details.image_url}
-                className="relative object-cover max-h-screen w-full"
-                alt="Visual of the recipe posted."
-              />
-
-              <div className=" md:px-0">
-                <p className="mb-5">{details.caption}</p>
-                <div
-                  dangerouslySetInnerHTML={{ __html: sanitizer(mdToHtml) }}
-                  className="post-description text-xl"
-                ></div>
-              </div>
-            </PaddingWrapper>
-          )}
+          {details && !showModal && <UploadLayout details={details} />}
         </>
       )}
     </Layout>
