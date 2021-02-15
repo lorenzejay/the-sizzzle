@@ -3,10 +3,8 @@ import Layout from "../components/layout";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllCurrentUserFollowingsPost } from "../redux/Actions/uploadActions";
 import Loader from "../components/loader";
-import { Link } from "react-router-dom";
-import UploaderProfileBar from "../components/uploaderProfileBar";
 import PaddingWrapper from "../components/paddingWrapper";
-import UploadPreview from "../components/postPreview";
+import PostPreview from "../components/postPreview";
 
 const Homepage = () => {
   const dispatch = useDispatch();
@@ -44,7 +42,7 @@ const Homepage = () => {
       getRandomPosts();
     }
   }, [userInfo, posts]);
-  // console.log(posts);
+  // console.log(randomPosts);
 
   return (
     <Layout>
@@ -55,7 +53,7 @@ const Homepage = () => {
           posts.map((post) => {
             return (
               <PaddingWrapper key={post.upload_id}>
-                <UploadPreview post={post} />
+                <PostPreview post={post} />
               </PaddingWrapper>
             );
           })}
@@ -63,7 +61,7 @@ const Homepage = () => {
           randomPosts.map((post) => {
             return (
               <PaddingWrapper key={post.upload_id}>
-                <UploadPreview post={post} />
+                <PostPreview post={post} />
               </PaddingWrapper>
             );
           })}
