@@ -40,7 +40,9 @@ export const CustomLabel = styled.label`
   padding: 5px 15px;
 `;
 
-const EditProfilePage = ({ history }) => {
+const EditProfilePage = ({ history, location }) => {
+  const pathUsername = location.pathname.split("/")[2];
+
   const [showModal, setShowModal] = useState(false);
   const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
@@ -70,19 +72,15 @@ const EditProfilePage = ({ history }) => {
   const { success } = userUpdateNames;
 
   const userRemoveProfilePicture = useSelector((state) => state.userRemoveProfilePicture);
-  const { success: removePPSuccess } = userUpdateNames;
-
-  const data = useLocation();
-  const { state } = data;
+  const { success: removePPSuccess } = userRemoveProfilePicture;
 
   useEffect(() => {
     if (!userInfo) {
       return history.push("/login");
+    } else if (loggedInUserDetails && loggedInUserDetails.username !== pathUsername) {
+      return history.push(`/dashboard/${loggedInUserDetails.username}`);
     }
-    if (userInfo && !state) {
-      return history.push(`/dashboard/${loggedInUserDetails.returnedUsername}`);
-    }
-  }, [state, history, userInfo, dispatch, loggedInUserDetails]);
+  }, [history, userInfo, dispatch, loggedInUserDetails]);
   // console.log(profile);
 
   useEffect(() => {
