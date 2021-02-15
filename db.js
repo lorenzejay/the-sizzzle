@@ -11,6 +11,9 @@ const devConfig = {
 
 const prodConfig = {
   connectionString: process.env.DATABASE_URL, //THIS COMES FROM HEROKU ADD ON
+  ssl: {
+    rejectUnauthorized: false,
+  },
 };
 
 const pool = new Pool(process.env.NODE_ENV === "Production" ? prodConfig : devConfig);
