@@ -6,6 +6,10 @@ const UploadPreview = ({ post }) => {
   const diffTime = (dt1, dt2) => {
     var diff = (dt2.getTime() - dt1.getTime()) / 1000;
     diff /= 60 * 60;
+
+    if (Math.abs(Math.round(diff)) < 1) {
+      return `${Math.abs(Math.round(diff * 60))} minutes ago`;
+    }
     if (Math.abs(Math.round(diff)) < 24) {
       return `${Math.abs(Math.round(diff))} hours ago`;
     }
