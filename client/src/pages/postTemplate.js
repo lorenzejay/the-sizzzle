@@ -62,7 +62,7 @@ const PostTemplate = ({ location }) => {
                 />
               </span>
             ) : (
-              <div className="flex items-center gap-3 justify-end mt-5">
+              <div className="flex items-center gap-3 justify-end mt-1">
                 <Link
                   to={`/edit-post/${details.upload_id}`}
                   className="px-5 py-0.5 bg-gray-600 rounded-md text-white "
