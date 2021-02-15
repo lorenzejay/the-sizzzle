@@ -19,7 +19,7 @@ router.post("/register", async (req, res) => {
     //check if user exists already then throw error
     const isAlreadyRegistered = await pool.query(
       "SELECT * FROM users WHERE email = $1 OR username = $2",
-      [email, removedSpacesOnUsernameAndLowercase]
+      [email, username]
     );
 
     if (isAlreadyRegistered.rows.length !== 0) {
