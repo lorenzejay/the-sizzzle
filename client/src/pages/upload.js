@@ -183,7 +183,7 @@ const Upload = ({ history }) => {
             </button>
           </div>
           {/* <RichTextEditor description={description} setDescription={setDescription} /> */}
-          <Button type="submit" className="w-3/4 md:w-1/2">
+          <Button type="submit" className="w-3/4 md:w-1/2 mb-10">
             Post
           </Button>
         </form>

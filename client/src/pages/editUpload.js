@@ -196,7 +196,9 @@ const EditUpload = ({ location, history }) => {
                 Undo
               </button>
             </div>
-            <Button type="submit">Update</Button>
+            <Button type="submit" className="mb-10">
+              Update
+            </Button>
           </form>
         </PaddingWrapper>
       )}
