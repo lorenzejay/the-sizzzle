@@ -87,7 +87,10 @@ const UploadProgressSlider = ({ step1, step2, step3, step4 }) => {
   //   console.log(step1, step2, step3, step4);
   return (
     <div className="relative flex w-full mb-10">
-      <div className="absolute h-1 bg-gray-100 top-1 w-full"></div>
+      <div
+        className="absolute bg-gray-100 w-full"
+        style={{ top: "5px", height: "5px", zIndex: "-1" }}
+      ></div>
       <ProgressStep id="step1" className={`progress-step ${step1 ? "is-active" : "is-complete"}`}>
         Image and Title
       </ProgressStep>
