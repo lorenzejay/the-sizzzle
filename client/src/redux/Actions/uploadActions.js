@@ -19,10 +19,14 @@ import {
   DELETE_UPLOAD_FAIL,
 } from "../Types/uploadTypes";
 
-export const uploadUsersPost = (title, ingredients, directions, base64EncodedImage) => async (
-  dispatch,
-  getState
-) => {
+export const uploadUsersPost = (
+  title,
+  ingredients,
+  directions,
+  difficulty,
+  category,
+  base64EncodedImage
+) => async (dispatch, getState) => {
   try {
     const {
       userLogin: { userInfo },
@@ -31,7 +35,14 @@ export const uploadUsersPost = (title, ingredients, directions, base64EncodedIma
     const data = await fetch("/api/upload", {
       method: "POST",
       headers: { token: `${userInfo.token}`, "Content-type": "application/json" },
-      body: JSON.stringify({ data: base64EncodedImage, title, ingredients, directions }),
+      body: JSON.stringify({
+        data: base64EncodedImage,
+        title,
+        ingredients,
+        directions,
+        difficulty,
+        category,
+      }),
     });
     const parsedData = await data.json();
     dispatch({ type: UPLOAD_POST_SUCCESS, payload: parsedData });
@@ -91,10 +102,14 @@ export const getUploadDetails = (upload_id) => async (dispatch) => {
   }
 };
 
-export const updateUpload = (title, ingredients, directions, upload_id) => async (
-  dispatch,
-  getState
-) => {
+export const updateUpload = (
+  title,
+  ingredients,
+  directions,
+  difficulty,
+  category,
+  upload_id
+) => async (dispatch, getState) => {
   try {
     dispatch({ type: UPDATE_UPLOAD_REQUEST });
     const {
@@ -103,7 +118,7 @@ export const updateUpload = (title, ingredients, directions, upload_id) => async
     const data = await fetch(`/api/upload/update/${upload_id}`, {
       method: "PUT",
       headers: { token: userInfo.token, "Content-type": "application/json" },
-      body: JSON.stringify({ title, ingredients, directions }),
+      body: JSON.stringify({ title, ingredients, directions, difficulty, category }),
     });
 
     const parsedData = await data.json();
