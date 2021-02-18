@@ -24,8 +24,8 @@ const UploadPreview = ({ post }) => {
       <Link to={`/post/${post.upload_id}`} className="mx-auto" key={post.upload_id}>
         <img
           src={post.image_url}
-          loading="lazy"
-          className="object-cover w-full"
+          loading="eager"
+          className="object-cover w-full max-h-limit"
           alt="user upload thumnails"
         />
         <div className=" lg:p-0 mt-3">
