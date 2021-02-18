@@ -4,14 +4,23 @@ import IngredientPreviews from "./ingredientPreviews";
 import PaddingWrapper from "./paddingWrapper";
 import UploaderProfileBar from "./uploaderProfileBar";
 
-const UploadLayout = ({ details, title, imageSrc, ingredients, directions }) => {
+const UploadLayout = ({
+  details,
+  title,
+  imageSrc,
+  ingredients,
+  directions,
+  difficulty,
+  category,
+}) => {
   //if there is details show it instead its defaults
   const convertDate = (date) => {
     return new Date(date).toLocaleString().slice(0, 9);
   };
   return (
     <PaddingWrapper>
-      <h2 className="text-5xl font-bold my-5">{details.title || title}</h2>
+      <h2 className="text-5xl font-bold my-5">{title}</h2>
+
       {details && (
         <div className="flex items-center justify-between ">
           <UploaderProfileBar uploaded_by={details.uploaded_by} className="w-full " />
@@ -20,27 +29,22 @@ const UploadLayout = ({ details, title, imageSrc, ingredients, directions }) => 
           </p>
         </div>
       )}
+      <section className="my-3 flex justify-start text-base uppercase">
+        <p className="bg-red-500 px-3 rounded-sm mr-5">{difficulty}</p>
+        <p className="bg-gray-300 px-3 rounded-sm ">{category}</p>
+      </section>
       <img
-        src={details.image_url || imageSrc}
-        className="relative object-cover max-h-screen w-full"
+        src={imageSrc}
+        className="relative object-cover max-h-limit w-full"
         alt="Visual of the recipe posted."
       />
 
       <div className="my-5">
-        <ul>
-          {details ? (
-            <IngredientPreviews ingredientList={details.ingredients} />
-          ) : (
-            <IngredientPreviews ingredientList={ingredients} />
-          )}
-        </ul>
+        <IngredientPreviews ingredientList={ingredients} />
+
         <hr className="my-6" />
 
-        {details.directions ? (
-          <DirectionPreviews directionList={details.directions} />
-        ) : (
-          <DirectionPreviews directionList={directions} />
-        )}
+        <DirectionPreviews directionList={directions} />
       </div>
     </PaddingWrapper>
   );
