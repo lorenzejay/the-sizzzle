@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "type": "Chicken"
+  },
+  {
+    "id": 2,
+    "type": "Beef"
+  },
+  {
+    "id": 3,
+    "type": "Pork"
+  },
+  {
+    "id": 4,
+    "type": "Salmon"
+  },
+  {
+    "id": 5,
+    "type": "Pasta"
+  },
+  {
+    "id": 6,
+    "type": "Vegetables"
+  },
+  {
+    "id": 7,
+    "type": "Salad"
+  },
+  {
+    "id": 8,
+    "type": "Main Course"
+  },
+  {
+    "id": 9,
+    "type": "Party Food"
+  },
+  {
+    "id": 10,
+    "type": "Cookies"
+  },
+  {
+    "id": 11,
+    "type": "Bread"
+  },
+  {
+    "id": 12,
+    "type": "Breakfast and Brunch"
+  },
+  {
+    "id": 13,
+    "type": "Slow Cooker"
+  }
+]
