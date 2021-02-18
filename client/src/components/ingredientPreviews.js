@@ -2,7 +2,7 @@ import React from "react";
 
 const IngredientPreviews = ({ ingredientList }) => {
   return (
-    <>
+    <section className="mb-5">
       <h3 className="font-bold text-3xl">Ingredients</h3>
       <ul>
         {ingredientList &&
@@ -15,7 +15,7 @@ const IngredientPreviews = ({ ingredientList }) => {
             );
           })}
       </ul>
-    </>
+    </section>
   );
 };
 
