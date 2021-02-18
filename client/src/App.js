@@ -12,8 +12,8 @@ import PostTemplate from "./pages/postTemplate";
 import EditUpload from "./pages/editUpload";
 import SavedPosts from "./pages/savedPosts";
 import UploadIngredientsAndDirections from "./pages/uploadIngredientsAndDirections";
-import UploadDifficulty from "./components/uploadDifficultyAndCategory";
-import UploadPreview from "./components/uploadPreview";
+import UploadDifficulty from "./pages/uploadDifficultyAndCategory";
+import UploadPreview from "./pages/uploadPreview";
 
 function App() {
   return (
