@@ -9,7 +9,7 @@ const cloudMedia = require("cloudinary").v2;
 router.post("/", authorization, async (req, res) => {
   try {
     const fileStr = req.body.data; //image uploaded
-    const { title, ingredients, directions } = req.body;
+    const { title, ingredients, directions, difficulty, category } = req.body;
     const user_id = req.user;
 
     const uploadImageResponse = await cloudinary.uploader.upload(fileStr, {
@@ -17,7 +17,7 @@ router.post("/", authorization, async (req, res) => {
     });
     // console.log(uploadImageResponse);
     const query = await pool.query(
-      "INSERT INTO uploads (uploaded_by, title, ingredients, directions, cloudinary_id, image_url) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *",
+      "INSERT INTO uploads (uploaded_by, title, ingredients, directions, cloudinary_id, image_url, difficulty, category) VALUES ($1, $2 ,$3, $4, $5, $6, $7, $8) RETURNING *",
       [
         user_id,
         title,
@@ -25,6 +25,8 @@ router.post("/", authorization, async (req, res) => {
         directions,
         uploadImageResponse.public_id,
         uploadImageResponse.secure_url,
+        difficulty,
+        category,
       ]
     );
     const result = query.rows[0];
@@ -184,7 +186,7 @@ router.put("/update/:upload_id", authorization, async (req, res) => {
     const { upload_id } = req.params;
     const user_id = req.user;
     //not updating images for simplicity reasons
-    const { title, ingredients, directions } = req.body;
+    const { title, ingredients, directions, difficulty, category } = req.body;
     //check if post exists and if user owns it
     const check = await pool.query(
       "SELECT * FROM uploads WHERE upload_id = $1 AND uploaded_by = $2",
@@ -198,8 +200,8 @@ router.put("/update/:upload_id", authorization, async (req, res) => {
     }
 
     const query = await pool.query(
-      "UPDATE uploads SET title = $1, ingredients = $2, directions = $3 WHERE uploaded_by = $4 AND upload_id = $5 RETURNING *",
-      [title, ingredients, directions, user_id, upload_id]
+      "UPDATE uploads SET title = $1, ingredients = $2, directions = $3, difficulty = $4, category = $5 WHERE uploaded_by = $6 AND upload_id = $7 RETURNING *",
+      [title, ingredients, directions, difficulty, category, user_id, upload_id]
     );
     if (query.rows.length > 0) {
       return res.json({ success: true, message: "Post Updated Successfully" });
