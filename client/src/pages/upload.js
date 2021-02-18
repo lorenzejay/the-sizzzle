@@ -5,6 +5,7 @@ import Input from "../components/input";
 import Layout from "../components/layout";
 import UploadProgressSlider from "../components/uploadProgressSlider";
 import { Link } from "react-router-dom";
+import PaddingWrapper from "../components/paddingWrapper";
 
 const Upload = ({ history, location }) => {
   // console.log(location);
@@ -46,7 +47,7 @@ const Upload = ({ history, location }) => {
 
   return (
     <Layout>
-      <div>
+      <PaddingWrapper>
         <form className="flex flex-col justify-center items-center">
           <h1 className="text-4xl font-bold uppercase my-10 text-center">
             Post your dishes <span>🔥</span>
@@ -54,7 +55,7 @@ const Upload = ({ history, location }) => {
           <UploadProgressSlider step1={true} step2={false} step3={false} step4={false} />
 
           {previewSource && (
-            <div className="preview flex flex-col w-3/4 md:w-1/2">
+            <div className="preview flex flex-col ">
               <h3 className="">Preview</h3>
               <h2 className="text-5xl font-bold my-5">{title}</h2>
               {previewSource && (
@@ -66,18 +67,25 @@ const Upload = ({ history, location }) => {
               )}
             </div>
           )}
-          <Input type="file" name="image" onChange={handleFileInputState} value={fileInputState} />
+          <Input
+            type="file"
+            name="image"
+            onChange={handleFileInputState}
+            value={fileInputState}
+            className="w-full"
+          />
           <Input
             type="text"
             name="title"
             placeholder="A non-boring title here."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            className="w-full"
           />
 
           <Button
             type="button"
-            className="w-3/4 md:w-1/2 mb-10 flex"
+            className="mb-10 flex w-full"
             disabled={title === "" || !previewSource ? true : false}
           >
             <Link
@@ -91,7 +99,7 @@ const Upload = ({ history, location }) => {
             </Link>
           </Button>
         </form>
-      </div>
+      </PaddingWrapper>
     </Layout>
   );
 };
