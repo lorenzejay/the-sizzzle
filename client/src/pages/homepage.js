@@ -10,6 +10,9 @@ const Homepage = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+  //if there is a logged in user
+  const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
+  const { loggedInUserDetails } = userLoggedInDetails;
   const userFollowingsPosts = useSelector((state) => state.userFollowingsPosts);
   const { loading, error, posts } = userFollowingsPosts;
 
@@ -19,8 +22,10 @@ const Homepage = () => {
   useEffect(() => {
     if (userInfo) {
       dispatch(getAllCurrentUserFollowingsPost());
+    } else {
+      getRandomPosts();
     }
-  }, [dispatch, userInfo]);
+  }, [dispatch, userInfo, loggedInUserDetails]);
 
   //if there is no user logged in get random posts
   const getRandomPosts = async () => {
@@ -36,13 +41,6 @@ const Homepage = () => {
       console.log(err);
     }
   };
-
-  useEffect(() => {
-    if (!userInfo || !posts) {
-      getRandomPosts();
-    }
-  }, [userInfo, posts]);
-  // console.log(randomPosts);
 
   return (
     <Layout>
