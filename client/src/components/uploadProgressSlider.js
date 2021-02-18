@@ -1,14 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-export const ProgressTrack = styled.div`
-  position: absolute;
-  top: 5px;
-  width: 100%;
-  height: 5px;
-  background-color: #dfe3e4;
-  z-index: -1;
-`;
 export const ProgressStep = styled.button`
   position: relative;
   width: 100%;
@@ -91,11 +83,11 @@ export const ProgressStep = styled.button`
   }
 `;
 
-const UploadProgressSlider = ({ step1, step2, step3, step4, complete }) => {
+const UploadProgressSlider = ({ step1, step2, step3, step4 }) => {
   //   console.log(step1, step2, step3, step4);
   return (
     <div className="relative flex w-full mb-10">
-      <ProgressTrack />
+      <div className="absolute h-1 bg-gray-100 top-1 w-full"></div>
       <ProgressStep id="step1" className={`progress-step ${step1 ? "is-active" : "is-complete"}`}>
         Image and Title
       </ProgressStep>
