@@ -73,7 +73,17 @@ const PostTemplate = ({ location }) => {
               </div>
             )}
           </PaddingWrapper>
-          {details && !showModal && <UploadLayout details={details} />}
+          {details && !showModal && (
+            <UploadLayout
+              details={details}
+              title={details.title}
+              imageSrc={details.image_url}
+              ingredients={details.ingredients}
+              directions={details.directions}
+              difficulty={details.difficulty}
+              category={details.category}
+            />
+          )}
         </>
       )}
     </Layout>
