@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Layout from "./layout";
-import UploadProgressSlider from "./uploadProgressSlider";
+import Layout from "../components/layout";
+import UploadProgressSlider from "../components/uploadProgressSlider";
 import foodCategories from "../data/foodCategories.json";
-import PaddingWrapper from "./paddingWrapper";
-import UploadBackandNextButton from "./uploadBackandNextButton";
+import PaddingWrapper from "../components/paddingWrapper";
+import UploadBackandNextButton from "../components/uploadBackandNextButton";
 
 const UploadDifficulty = ({ location }) => {
   const [difficulty, setDifficulty] = useState("");
