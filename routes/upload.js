@@ -14,7 +14,16 @@ router.post("/", authorization, async (req, res) => {
 
     const uploadImageResponse = await cloudinary.uploader.upload(fileStr, {
       use_filename: true,
+      eager: [{ quality: 60 }],
+      eager_async: true,
     });
+
+    // //this is what we should pull
+    // const optimizImageQuality = await cloudinary.image(
+    //   uploadImageResponse.public_id + "." + uploadImageResponse.format,
+    //   { quality: 60 }
+    // );
+
     // console.log(uploadImageResponse);
     const query = await pool.query(
       "INSERT INTO uploads (uploaded_by, title, ingredients, directions, cloudinary_id, image_url, difficulty, category) VALUES ($1, $2 ,$3, $4, $5, $6, $7, $8) RETURNING *",
@@ -24,7 +33,7 @@ router.post("/", authorization, async (req, res) => {
         ingredients,
         directions,
         uploadImageResponse.public_id,
-        uploadImageResponse.secure_url,
+        uploadImageResponse.eager[0].secure_url,
         difficulty,
         category,
       ]
