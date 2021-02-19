@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout";
-import UploadProgressSlider from "../components/uploadProgressSlider";
+import UploadProgressTimeline from "../components/uploadProgressTimeline";
 import foodCategories from "../data/foodCategories.json";
 import PaddingWrapper from "../components/paddingWrapper";
 import UploadBackandNextButton from "../components/uploadBackandNextButton";
@@ -20,7 +20,7 @@ const UploadDifficulty = ({ location }) => {
 
   return (
     <Layout>
-      <UploadProgressSlider step1={false} step2={false} step3={true} step4={false} />
+      <UploadProgressTimeline step1={false} step2={false} step3={true} step4={false} />
       <PaddingWrapper>
         <h3 className="font-bold text-3xl">Categories</h3>
         <select
@@ -51,9 +51,9 @@ const UploadDifficulty = ({ location }) => {
 
         <UploadBackandNextButton
           backPath={"/upload-ingredients-directions"}
-          backState={{ ...location.state }}
+          state={{ ...location.state, difficulty, category }}
           nextPath={"/upload-preview"}
-          nextState={{ ...location.state, difficulty, category }}
+          // nextState={{ ...location.state, difficulty, category }}
           disabled={difficulty === "" || category === "" ? true : false}
         />
       </PaddingWrapper>
