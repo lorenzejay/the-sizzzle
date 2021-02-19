@@ -21,7 +21,7 @@ const UploadPreview = ({ location, history }) => {
   const { loading, postResult } = uploadPost;
 
   //   console.table(recipe);
-  const handleSubmitPost = (e) => {
+  const handleSubmitPost = async () => {
     if (
       !imageSrc ||
       !title ||
@@ -32,15 +32,12 @@ const UploadPreview = ({ location, history }) => {
     ) {
       return setUploadError("Nothing should be blank before uploading");
     }
-    dispatch(uploadUsersPost(title, ingredientList, directionList, difficulty, category, imageSrc));
+    await dispatch(
+      uploadUsersPost(title, ingredientList, directionList, difficulty, category, imageSrc)
+    );
     //push back to the home page...
+    history.push("/");
   };
-
-  useEffect(() => {
-    if (postResult) {
-      history.push("/");
-    }
-  }, [postResult, history]);
 
   return (
     <Layout>
