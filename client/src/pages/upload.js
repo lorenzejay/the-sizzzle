@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/button";
 import Input from "../components/input";
 import Layout from "../components/layout";
-import UploadProgressSlider from "../components/uploadProgressSlider";
+import UploadProgressSlider from "../components/uploadProgressTimeline";
 import { Link } from "react-router-dom";
 import PaddingWrapper from "../components/paddingWrapper";
 
 const Upload = ({ history, location }) => {
-  // console.log(location);
+  // console.log(location.state);
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -62,7 +62,7 @@ const Upload = ({ history, location }) => {
                 <img
                   src={previewSource}
                   alt="Preview of upload media."
-                  className="relative object-cover max-h-limit w-full"
+                  className="relative object-cover max-h-limit xl:max-h-extended w-full"
                 />
               )}
             </div>
@@ -72,7 +72,7 @@ const Upload = ({ history, location }) => {
             name="image"
             onChange={handleFileInputState}
             value={fileInputState}
-            className="w-full"
+            className="w-full "
           />
           <Input
             type="text"
