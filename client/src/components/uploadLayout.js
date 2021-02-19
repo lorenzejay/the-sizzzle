@@ -35,7 +35,7 @@ const UploadLayout = ({
       </section>
       <img
         src={imageSrc}
-        className="relative object-cover max-h-limit w-full"
+        className="relative object-cover max-h-limit lg:x-h-extended w-full"
         alt="Visual of the recipe posted."
       />
 
