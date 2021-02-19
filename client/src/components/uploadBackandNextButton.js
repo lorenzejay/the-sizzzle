@@ -2,16 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Button from "./button";
 
-const UploadBackandNextButton = ({ backPath, backState, nextPath, nextState, disabled }) => {
+const UploadBackandNextButton = ({ backPath, nextPath, state, disabled }) => {
   return (
     <section className="flex justify-between my-5">
-      <Link className="flex" to={{ pathname: backPath, state: backState }}>
+      <Link className="flex" to={{ pathname: backPath, state }}>
         <Button className="">Back</Button>
       </Link>
       <Link
         to={{
           pathname: nextPath,
-          state: nextState,
+          state,
         }}
         className="flex"
       >
