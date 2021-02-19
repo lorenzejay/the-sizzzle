@@ -83,7 +83,7 @@ export const ProgressStep = styled.button`
   }
 `;
 
-const UploadProgressSlider = ({ step1, step2, step3, step4 }) => {
+const UploadProgressTimeline = ({ step1, step2, step3, step4 }) => {
   //   console.log(step1, step2, step3, step4);
   return (
     <div className="relative flex w-full mb-10">
@@ -116,7 +116,7 @@ const UploadProgressSlider = ({ step1, step2, step3, step4 }) => {
   );
 };
 
-UploadProgressSlider.defaultProps = {
+UploadProgressTimeline.defaultProps = {
   step1: true,
   step2: false,
   step3: false,
@@ -124,4 +124,4 @@ UploadProgressSlider.defaultProps = {
   complete: false,
 };
 
-export default UploadProgressSlider;
+export default UploadProgressTimeline;
