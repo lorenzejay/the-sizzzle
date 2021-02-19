@@ -8,7 +8,7 @@ import Loader from "../components/loader";
 import PaddingWrapper from "../components/paddingWrapper";
 import UploadLayout from "../components/uploadLayout";
 import { uploadUsersPost } from "../redux/Actions/uploadActions";
-import UploadProgressSlider from "../components/uploadProgressSlider";
+import UploadProgressTimeline from "../components/uploadProgressTimeline";
 
 const UploadPreview = ({ location, history }) => {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const UploadPreview = ({ location, history }) => {
     <Layout>
       <PaddingWrapper>
         {loading && <Loader />}
-        <UploadProgressSlider step1={false} step2={false} step3={false} step4={true} />
+        <UploadProgressTimeline step1={false} step2={false} step3={false} step4={true} />
         <h1>Preview</h1>
         {uploadError && <ErrorMessage>{uploadError}</ErrorMessage>}
       </PaddingWrapper>
