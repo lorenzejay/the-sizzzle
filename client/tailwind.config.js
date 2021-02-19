@@ -9,6 +9,7 @@ module.exports = {
       "3/4": "75%",
       full: "100%",
       limit: "400px",
+      extended: "1000px",
     },
     extend: {},
   },
