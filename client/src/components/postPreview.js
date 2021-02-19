@@ -25,7 +25,7 @@ const UploadPreview = ({ post }) => {
         <img
           src={post.image_url}
           loading="eager"
-          className="object-cover w-full max-h-limit"
+          className="object-cover w-full max-h-limit xl:max-h-extended"
           alt="user upload thumnails"
         />
         <div className=" lg:p-0 mt-3">
