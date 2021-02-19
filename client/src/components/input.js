@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 const Input = ({ placeholder, type, name, value, onChange, className }) => {
   return (
     <input
-      className={`px-5 py-2 rounded outline-none w-3/4 md:w-1/2 my-3 ${className}`}
+      className={`px-5 py-2 rounded outline-none  my-3 ${className}`}
       placeholder={placeholder}
       name={name}
       type={type}
