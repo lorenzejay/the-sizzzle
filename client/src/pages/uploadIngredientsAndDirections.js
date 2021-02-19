@@ -4,7 +4,7 @@ import IngredientPreviews from "../components/ingredientPreviews";
 import PaddingWrapper from "../components/paddingWrapper";
 import Input from "../components/input";
 import Layout from "../components/layout";
-import UploadProgressSlider from "../components/uploadProgressSlider";
+import UploadProgressTimeline from "../components/uploadProgressTimeline";
 import UploadBackandNextButton from "../components/uploadBackandNextButton";
 
 const UploadIngredientsAndDirections = ({ location }) => {
@@ -55,7 +55,7 @@ const UploadIngredientsAndDirections = ({ location }) => {
   }, [location]);
   return (
     <Layout>
-      <UploadProgressSlider step1={false} step2={true} step3={false} step4={false} />
+      <UploadProgressTimeline step1={false} step2={true} step3={false} step4={false} />
 
       <PaddingWrapper>
         <IngredientPreviews ingredientList={ingredientList} />
@@ -111,9 +111,9 @@ const UploadIngredientsAndDirections = ({ location }) => {
         </div>
         <UploadBackandNextButton
           backPath={"/upload"}
-          backState={{ ...location.state }}
+          state={{ ...location.state, ingredientList, directionList }}
           nextPath="/upload-difficulty-category"
-          nextState={{ ...location.state, ingredientList, directionList }}
+          // nextState={{ ...location.state, ingredientList, directionList }}
           disabled={ingredientList.length === 0 || directionList.length === 0 ? true : false}
         />
       </PaddingWrapper>
