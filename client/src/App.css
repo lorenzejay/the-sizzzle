@@ -9,7 +9,7 @@ button {
 }
 
 input:focus,
-textarea {
+textarea:focus {
   outline: none !important;
   border: 1.2px solid #000;
 }
@@ -54,6 +54,4 @@ textarea {
 
 select {
   border: 1px solid #333;
-  width: 50%;
-  outline: none;
 }
