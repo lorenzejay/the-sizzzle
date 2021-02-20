@@ -92,7 +92,7 @@ const UploadProgressTimeline = ({ step1, step2, step3, step4 }) => {
         style={{ top: "5px", height: "5px", zIndex: "-1" }}
       ></div>
       <ProgressStep id="step1" className={`progress-step ${step1 ? "is-active" : "is-complete"}`}>
-        Image and Title
+        Title
       </ProgressStep>
 
       <ProgressStep
