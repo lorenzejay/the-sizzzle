@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../components/button";
@@ -18,7 +18,7 @@ const UploadPreview = ({ location, history }) => {
   const [uploadError, setUploadError] = useState("");
 
   const uploadPost = useSelector((state) => state.uploadPost);
-  const { loading, postResult } = uploadPost;
+  const { loading, error } = uploadPost;
 
   //   console.table(recipe);
   const handleSubmitPost = async () => {
@@ -35,8 +35,11 @@ const UploadPreview = ({ location, history }) => {
     await dispatch(
       uploadUsersPost(title, ingredientList, directionList, difficulty, category, imageSrc)
     );
-    //push back to the home page...
-    history.push("/");
+    if (!error) {
+      history.push("/");
+    } else {
+      setUploadError("Could not upload image, please try again. ");
+    }
   };
 
   return (
@@ -44,7 +47,7 @@ const UploadPreview = ({ location, history }) => {
       <PaddingWrapper>
         {loading && <Loader />}
         <UploadProgressTimeline step1={false} step2={false} step3={false} step4={true} />
-        <h1>Preview</h1>
+        <h1 className="font-semibold text-2xl underline">Preview</h1>
         {uploadError && <ErrorMessage>{uploadError}</ErrorMessage>}
       </PaddingWrapper>
       <UploadLayout
@@ -56,14 +59,14 @@ const UploadPreview = ({ location, history }) => {
         category={recipe.category}
       />
       <PaddingWrapper>
-        <section className="flex justify-between my-5">
+        <section className="flex justify-between my-5 w-full">
           <Link
-            className="flex"
+            className="w-full"
             to={{ pathname: "/upload-difficulty-category", state: { ...location.state } }}
           >
-            <Button className="">Back</Button>
+            <Button className="flex justify-around">Back</Button>
           </Link>
-          <Button className="ml-auto" type="button" onClick={handleSubmitPost}>
+          <Button className="" type="button" onClick={handleSubmitPost}>
             Upload
           </Button>
         </section>
