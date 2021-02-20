@@ -27,6 +27,7 @@ const UploadDifficulty = ({ location }) => {
           placeholder="categories"
           onChange={(e) => setCategory(e.target.value)}
           value={category}
+          className="w-full lg:w-1/2"
         >
           <option value="">Choose from the popular categories</option>
           {foodCategories.map((category) => (
@@ -41,6 +42,7 @@ const UploadDifficulty = ({ location }) => {
           placeholder="border-2"
           onChange={(e) => setDifficulty(e.target.value)}
           value={difficulty}
+          className="w-full lg:w-1/2"
         >
           <option value="">Choose difficulty of the recipe</option>
           <option value="easy">Easy</option>
