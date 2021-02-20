@@ -14,15 +14,9 @@ router.post("/", authorization, async (req, res) => {
 
     const uploadImageResponse = await cloudinary.uploader.upload(fileStr, {
       use_filename: true,
-      eager: [{ quality: 60 }],
+      eager: [{ quality: "auto:eco" }],
       eager_async: true,
     });
-
-    // //this is what we should pull
-    // const optimizImageQuality = await cloudinary.image(
-    //   uploadImageResponse.public_id + "." + uploadImageResponse.format,
-    //   { quality: 60 }
-    // );
 
     // console.log(uploadImageResponse);
     const query = await pool.query(
