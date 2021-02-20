@@ -68,19 +68,19 @@ const UploadIngredientsAndDirections = ({ location }) => {
             placeholder="Input Ingredient"
             onChange={(e) => setIngredient(e.target.value)}
             value={ingredient}
-            className="flex-grow"
+            className="w-3/4"
           />
           <button
             type="button"
             onClick={handleIngredients}
-            className="w-auto cursor-pointer outline-none hover:bg-green-400 text-xl px-2 border-r-2"
+            className=" w-auto cursor-pointer outline-none hover:bg-green-400 text-base lg:text-xl px-2 border-r-2"
           >
             Add
           </button>
           <button
             type="button"
             onClick={undoLastIngredient}
-            className="w-auto cursor-pointer outline-none hover:bg-red-400 text-xl px-2"
+            className="w-auto cursor-pointer outline-none hover:bg-red-400 text-base lg:text-xl px-2"
           >
             Undo
           </button>
@@ -92,19 +92,19 @@ const UploadIngredientsAndDirections = ({ location }) => {
             placeholder="Directions"
             onChange={(e) => setDirection(e.target.value)}
             value={direction}
-            className="flex-grow px-5 py-2 rounded"
+            className="px-5 py-2 rounded outline-none w-3/4"
           />
           <button
             type="button"
             onClick={handleDirectionLists}
-            className="w-auto cursor-pointer outline-none hover:bg-green-400 text-xl h-auto px-2 border-r-2"
+            className="w-auto cursor-pointer outline-none hover:bg-green-400 text-base lg:text-xl h-auto px-2 border-r-2"
           >
             Add
           </button>
           <button
             type="button"
             onClick={undoLastDirection}
-            className="w-auto cursor-pointer outline-none hover:bg-red-400 text-xl h-auto px-2"
+            className="w-auto cursor-pointer outline-none hover:bg-red-400 text-base lg:text-xl h-auto px-2"
           >
             Undo
           </button>
