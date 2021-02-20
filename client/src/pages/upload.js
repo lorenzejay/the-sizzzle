@@ -49,20 +49,19 @@ const Upload = ({ history, location }) => {
     <Layout>
       <PaddingWrapper>
         <form className="flex flex-col justify-center items-center">
-          <h1 className="text-4xl font-bold uppercase my-10 text-center">
+          <h1 className="text-3xl lg:text-4xl font-bold uppercase my-10 text-center">
             Post your dishes <span>🔥</span>
           </h1>
           <UploadProgressSlider step1={true} step2={false} step3={false} step4={false} />
 
           {previewSource && (
             <div className="preview flex flex-col ">
-              <h3 className="">Preview</h3>
               <h2 className="text-5xl font-bold my-5">{title}</h2>
               {previewSource && (
                 <img
                   src={previewSource}
                   alt="Preview of upload media."
-                  className="relative object-cover max-h-limit xl:max-h-extended w-full"
+                  className="relative object-cover max-h-mobileMax lg:max-h-limit xl:max-h-extended w-full"
                 />
               )}
             </div>
