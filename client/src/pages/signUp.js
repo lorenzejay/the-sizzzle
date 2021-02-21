@@ -50,17 +50,15 @@ const SignUp = ({ history }) => {
     <Layout>
       <div className="h-screen w-full flex items-center justify-center ">
         {loading && <Loader />}
-        <Form title={"Sign Up"} className="mx-auto" handleSubmit={handleSignUp}>
-          {error && (
-            <ErrorMessage className="mx-auto w-3/4 p-3 text-red-500 shadow">{error}</ErrorMessage>
-          )}
+        <Form title={"Sign Up"} className="mx-auto items-center" handleSubmit={handleSignUp}>
+          {error && <ErrorMessage className=" w-3/4 p-3 text-red-500 shadow">{error}</ErrorMessage>}
           {formError && <ErrorMessage>{formError}</ErrorMessage>}
           <Input
             placeholder="First Name"
             type="text"
             name="firstName"
             value={firstName}
-            className="mx-auto lg:w-1/4 "
+            className="w-3/4 "
             onChange={(e) => setFirstName(e.target.value)}
           />
           <Input
@@ -68,7 +66,7 @@ const SignUp = ({ history }) => {
             type="text"
             name="lastName"
             value={lastName}
-            className="mx-auto lg:w-1/4 "
+            className="w-3/4 "
             onChange={(e) => setLastName(e.target.value)}
           />
           <Input
@@ -76,7 +74,7 @@ const SignUp = ({ history }) => {
             type="text"
             name="username"
             value={username}
-            className="mx-auto lg:w-1/4 "
+            className="w-3/4 "
             onChange={(e) => setUsername(e.target.value)}
           />
           <Input
@@ -84,7 +82,7 @@ const SignUp = ({ history }) => {
             type="email"
             name="email"
             value={email}
-            className="mx-auto lg:w-1/4 "
+            className="w-3/4 "
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input
@@ -92,7 +90,7 @@ const SignUp = ({ history }) => {
             type="password"
             name="password"
             value={password}
-            className="mx-auto lg:w-1/4 "
+            className="w-3/4 "
             onChange={(e) => setPassword(e.target.value)}
           />
           <Input
@@ -100,13 +98,13 @@ const SignUp = ({ history }) => {
             type="password"
             name="confirmPassword"
             value={confirmPassword}
-            className="mx-auto lg:w-1/4 "
+            className="w-3/4 "
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <Button className="w-3/4 md:w-1/2 lg:w-1/4 uppercase" type="submit">
             Continue
           </Button>
-          <Link to="/login" className="mx-auto mt-5">
+          <Link to="/login" className="mt-5">
             If you already have an account, <span style={{ color: "#ff0078" }}>Sign In</span>
           </Link>
         </Form>
