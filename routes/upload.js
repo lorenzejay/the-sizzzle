@@ -51,7 +51,7 @@ router.post("/", authorization, async (req, res) => {
 //get 10 random posts if there is no followers
 router.get("/random", async (req, res) => {
   try {
-    const query = await pool.query("SELECT * FROM uploads ORDER BY RANDOM() limit 6");
+    const query = await pool.query("SELECT * FROM uploads ORDER BY RANDOM() limit 10");
     res.send(query.rows);
   } catch (error) {
     console.log(error.message);
@@ -213,6 +213,30 @@ router.put("/update/:upload_id", authorization, async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+  }
+});
+
+//GET FEATURED POST X6
+// a featured post is the most liked post from the past week
+
+router.get("/featured-posts", async (req, res) => {
+  try {
+    //we need a relationship between uploads and liked_uploads
+    //we need posts within the past 7 days
+    //order by amount of liked posts
+    //limit 3
+
+    const featuredPost = await pool.query(
+      "SELECT uploads.upload_id, uploads.title, uploads.created_at, uploads.difficulty, uploads.uploaded_by,  COUNT(liked_uploads.upload_post) AS liked_uploads_count FROM uploads INNER JOIN liked_uploads on liked_uploads.upload_post = uploads.upload_id where uploads.created_at > current_date - interval '7 days' GROUP BY uploads.upload_id ORDER BY liked_uploads_count DESC LIMIT 3"
+    );
+
+    res.json(featuredPost.rows);
+
+    //using join to get all upload details comparing it with upload_id from table 2
+
+    // "select * from uploads left join liked_uploads on uploads.upload_id = liked_uploads.upload_post"
+  } catch (error) {
+    console.log(error);
   }
 });
 
