@@ -106,7 +106,7 @@ const SignUp = ({ history }) => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <Button className="w-3/4 uppercase" type="submit">
-              Sign Up
+              Start Sizzzlin
             </Button>
             <Link to="/login" className="mt-5">
               If you already have an account, <span style={{ color: "#ff0078" }}>Sign In</span>
