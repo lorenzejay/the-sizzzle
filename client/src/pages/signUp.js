@@ -7,6 +7,7 @@ import Form from "../components/form";
 import Input from "../components/input";
 import Layout from "../components/layout";
 import Loader from "../components/loader";
+import PaddingWrapper from "../components/paddingWrapper";
 import { register } from "../redux/Actions/userActions";
 
 const SignUp = ({ history }) => {
@@ -48,67 +49,71 @@ const SignUp = ({ history }) => {
 
   return (
     <Layout>
-      <div className="h-screen w-full flex items-center justify-center ">
-        {loading && <Loader />}
-        <Form title={"Sign Up"} className="mx-auto items-center" handleSubmit={handleSignUp}>
-          {error && <ErrorMessage className=" w-3/4 p-3 text-red-500 shadow">{error}</ErrorMessage>}
-          {formError && <ErrorMessage>{formError}</ErrorMessage>}
-          <Input
-            placeholder="First Name"
-            type="text"
-            name="firstName"
-            value={firstName}
-            className="w-3/4 "
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          <Input
-            placeholder="Last Name"
-            type="text"
-            name="lastName"
-            value={lastName}
-            className="w-3/4 "
-            onChange={(e) => setLastName(e.target.value)}
-          />
-          <Input
-            placeholder="Username"
-            type="text"
-            name="username"
-            value={username}
-            className="w-3/4 "
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <Input
-            placeholder="Email"
-            type="email"
-            name="email"
-            value={email}
-            className="w-3/4 "
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Input
-            placeholder="Password"
-            type="password"
-            name="password"
-            value={password}
-            className="w-3/4 "
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Input
-            placeholder="Confirm Password"
-            type="password"
-            name="confirmPassword"
-            value={confirmPassword}
-            className="w-3/4 "
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          <Button className="w-3/4 md:w-1/2 lg:w-1/4 uppercase" type="submit">
-            Continue
-          </Button>
-          <Link to="/login" className="mt-5">
-            If you already have an account, <span style={{ color: "#ff0078" }}>Sign In</span>
-          </Link>
-        </Form>
-      </div>
+      <PaddingWrapper>
+        <div className="h-screen w-full flex items-center justify-center ">
+          {loading && <Loader />}
+          <Form title={"Sign Up"} className=" items-center" handleSubmit={handleSignUp}>
+            {error && (
+              <ErrorMessage className=" w-3/4 p-3 text-red-500 shadow">{error}</ErrorMessage>
+            )}
+            {formError && <ErrorMessage>{formError}</ErrorMessage>}
+            <Input
+              placeholder="First Name"
+              type="text"
+              name="firstName"
+              value={firstName}
+              className="w-3/4 "
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <Input
+              placeholder="Last Name"
+              type="text"
+              name="lastName"
+              value={lastName}
+              className="w-3/4 "
+              onChange={(e) => setLastName(e.target.value)}
+            />
+            <Input
+              placeholder="Username"
+              type="text"
+              name="username"
+              value={username}
+              className="w-3/4 "
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <Input
+              placeholder="Email"
+              type="email"
+              name="email"
+              value={email}
+              className="w-3/4 "
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              placeholder="Password"
+              type="password"
+              name="password"
+              value={password}
+              className="w-3/4 "
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Input
+              placeholder="Confirm Password"
+              type="password"
+              name="confirmPassword"
+              value={confirmPassword}
+              className="w-3/4 "
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <Button className="w-3/4 uppercase" type="submit">
+              Sign Up
+            </Button>
+            <Link to="/login" className="mt-5">
+              If you already have an account, <span style={{ color: "#ff0078" }}>Sign In</span>
+            </Link>
+          </Form>
+        </div>
+      </PaddingWrapper>
     </Layout>
   );
 };
