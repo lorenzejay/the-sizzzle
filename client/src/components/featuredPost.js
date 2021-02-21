@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BiTrendingUp } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import UploaderProfileBar from "./uploaderProfileBar";
@@ -27,8 +28,13 @@ const FeaturedPost = () => {
   }, []);
 
   return (
-    <div>
-      <h2 className="font-medium mb-3">Trending on The Sizzzle</h2>
+    <div className="pt-5 lg:pt-10">
+      <h2 className="font-medium mb-3 flex items-center text-xl">
+        <span>
+          <BiTrendingUp className="mr-1" />
+        </span>
+        Trending on The Sizzzle
+      </h2>
       <section>
         {loggedInUserDetails && (
           <ul className="lg:flex gap-7">
