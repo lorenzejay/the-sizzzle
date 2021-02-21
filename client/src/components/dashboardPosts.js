@@ -15,7 +15,7 @@ const DashboardPosts = () => {
 
   //get the users posts
   const allUserPosts = useSelector((state) => state.allUserPosts);
-  const { allPosts, loading: loadPosts, error: errorPosts } = allUserPosts;
+  const { allPosts, error: errorPosts } = allUserPosts;
 
   //get users posts
   useEffect(() => {
@@ -26,7 +26,6 @@ const DashboardPosts = () => {
 
   return (
     <div className="post-grid grid grid-cols-3 my-10 justify-center md:mx-auto md:gap-32">
-      {loadPosts && <Loader />}
       {errorPosts && <ErrorMessage className="text-red-600 w-full">{errorPosts}</ErrorMessage>}
       {allPosts &&
         allPosts.map((post) => (
