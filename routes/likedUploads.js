@@ -76,7 +76,7 @@ router.get("/retrieve-liked-posts", authorization, async (req, res) => {
 //get amount of saved uploads
 //check with upload_post
 //how every many row counts is the amount of saved by number of upload_post
-router.get("/count-amount-saved/:upload_post", async (req, res) => {
+router.get("/count-amount-liked/:upload_post", async (req, res) => {
   try {
     const { upload_post } = req.params;
     const query = await pool.query("SELECT * FROM liked_uploads WHERE upload_post = $1", [
