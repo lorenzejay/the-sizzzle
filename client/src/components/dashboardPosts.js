@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getAllUserPosts } from "../redux/Actions/uploadActions";
 import ErrorMessage from "./errorMessage";
-import Loader from "./loader";
 
 const DashboardPosts = () => {
   const dispatch = useDispatch();
@@ -32,13 +31,13 @@ const DashboardPosts = () => {
           <Link to={`/post/${post.upload_id}`} key={post.upload_id}>
             <img
               src={post.image_url}
-              className="w-full h-36  md:w-48 md:h-48 xl:w-64 xl:h-64 object-cover"
+              className="w-full h-40  md:w-48 md:h-48 xl:w-64 xl:h-64 object-cover"
               loading="lazy"
               alt="post"
             />
           </Link>
         ))}
-      {allPosts && allPosts.length === 0 && <h2 className="flex items-center">No Posts Yet </h2>}
+      {allPosts && allPosts.length === 0 && <h2 className="w-full text-center">No Posts Yet </h2>}
     </div>
   );
 };
