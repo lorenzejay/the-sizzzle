@@ -5,6 +5,7 @@ import { getAllCurrentUserFollowingsPost } from "../redux/Actions/uploadActions"
 import Loader from "../components/loader";
 import PaddingWrapper from "../components/paddingWrapper";
 import PostPreview from "../components/postPreview";
+import FeaturedPost from "../components/featuredPost";
 
 const Homepage = () => {
   const dispatch = useDispatch();
@@ -22,10 +23,14 @@ const Homepage = () => {
   useEffect(() => {
     if (userInfo) {
       dispatch(getAllCurrentUserFollowingsPost());
-    } else {
-      getRandomPosts();
     }
   }, [dispatch, userInfo, loggedInUserDetails]);
+
+  useEffect(() => {
+    if (!posts) {
+      getRandomPosts();
+    }
+  }, [posts]);
 
   //if there is no user logged in get random posts
   const getRandomPosts = async () => {
@@ -41,29 +46,24 @@ const Homepage = () => {
       console.log(err);
     }
   };
-
+  // console.log(posts);
   return (
     <Layout>
-      {loading && <Loader />}
-      {error && <h3>{error}</h3>}
-      <div className="flex flex-col justify-center items-center gap-10 pt-5 md:gap-20 lg:gap-24">
-        {posts &&
-          posts.map((post) => {
-            return (
-              <PaddingWrapper key={post.upload_id}>
-                <PostPreview post={post} />
-              </PaddingWrapper>
-            );
-          })}
-        {randomPosts &&
-          randomPosts.map((post) => {
-            return (
-              <PaddingWrapper key={post.upload_id}>
-                <PostPreview post={post} />
-              </PaddingWrapper>
-            );
-          })}
-      </div>
+      <PaddingWrapper>
+        {loading && <Loader />}
+        {error && <h3>{error}</h3>}
+        <FeaturedPost />
+        <div className="flex flex-col justify-center items-center gap-10 pt-5 md:gap-20 lg:gap-24">
+          {posts &&
+            posts.map((post) => {
+              return <PostPreview post={post} key={post.upload_id} />;
+            })}
+          {randomPosts &&
+            randomPosts.map((post) => {
+              return <PostPreview post={post} key={post.upload_id} />;
+            })}
+        </div>
+      </PaddingWrapper>
     </Layout>
   );
 };
