@@ -22,13 +22,13 @@ const ProfileOptionsDropdown = ({ profileDropdown, location }) => {
 
   return (
     <div
-      className={` shadow-lg absolute top-20 right-0 lg:right-24 min-h-48 w-72 transition-all duration-500 z-10 bg-white  ${
+      className={`shadow-2xl absolute top-20 right-0 lg:right-24 min-h-48 w-72 transition-all duration-500 z-10 bg-white  ${
         profileDropdown ? "block" : "hidden"
       }`}
     >
       {loggedInUserDetails && (
         <div>
-          <section className="flex items-center justify-between border-b-2 border-opacity-5 border-black w-full p-5">
+          <section className="flex items-center justify-between border-b-2 border-opacity-5 border-black w-full p-5 xl:px-8">
             <Link to={`/dashboard/${loggedInUserDetails.username}`}>
               <img
                 src={profilePic || DefaultPP}
@@ -49,7 +49,7 @@ const ProfileOptionsDropdown = ({ profileDropdown, location }) => {
             </div>
           </section>
           {loggedInUserDetails && (
-            <ul className="flex flex-col justify-around items-start p-5 text-md font-medium text-gray-500   transition-all duration-500 profile-dropdown">
+            <ul className="flex flex-col justify-around items-start p-5 text-md font-medium text-gray-500   transition-all duration-500 profile-dropdown xl:px-8">
               <li>
                 <Link to="/upload" className="hover:text-black">
                   Write a dish
