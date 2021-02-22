@@ -27,7 +27,7 @@ const Homepage = () => {
   }, [dispatch, userInfo, loggedInUserDetails]);
 
   useEffect(() => {
-    if (!posts && !loading) {
+    if (posts === undefined || posts.length === 0) {
       getRandomPosts();
     }
   }, [posts, loading]);
@@ -46,12 +46,12 @@ const Homepage = () => {
       console.log(err);
     }
   };
-  // console.log(posts);
+  console.log(posts);
   return (
     <Layout>
       <PaddingWrapper>
         {loading && <Loader />}
-        {error && <h3>{error}</h3>}
+        {/* {error && <h3>{error}</h3>} */}
         <FeaturedPost />
         <div className="flex flex-col justify-center items-center gap-10 pt-5 md:gap-20 lg:gap-24">
           {posts &&
