@@ -17,7 +17,8 @@ const Homepage = () => {
   const userFollowingsPosts = useSelector((state) => state.userFollowingsPosts);
   const { loading, error, posts } = userFollowingsPosts;
 
-  const [randomPosts, setRandomPosts] = useState([]);
+  // const [randomPosts, setRandomPosts] = useState([]);
+  const [displayedPosts, setDisplayedPosts] = useState([]);
 
   //if you are logged in
   useEffect(() => {
@@ -27,10 +28,12 @@ const Homepage = () => {
   }, [dispatch, userInfo, loggedInUserDetails]);
 
   useEffect(() => {
-    if (posts === undefined || posts.length === 0) {
+    if (posts !== []) {
+      return setDisplayedPosts(posts);
+    } else {
       getRandomPosts();
     }
-  }, [posts, loading]);
+  }, [dispatch, posts]);
 
   //if there is no user logged in get random posts
   const getRandomPosts = async () => {
@@ -41,12 +44,13 @@ const Homepage = () => {
       });
       //returns the array of the random posts
       const parsedData = await data.json();
-      setRandomPosts(parsedData);
+      setDisplayedPosts(parsedData);
     } catch (err) {
       console.log(err);
     }
   };
-  console.log(posts);
+  console.log("displayedposts", displayedPosts);
+
   return (
     <Layout>
       <PaddingWrapper>
@@ -54,14 +58,18 @@ const Homepage = () => {
         {/* {error && <h3>{error}</h3>} */}
         <FeaturedPost />
         <div className="flex flex-col justify-center items-center gap-10 pt-5 md:gap-20 lg:gap-24">
-          {posts &&
+          {displayedPosts &&
+            displayedPosts.map((post) => {
+              return <PostPreview post={post} key={post.upload_id} />;
+            })}
+          {/* {posts &&
             posts.map((post) => {
               return <PostPreview post={post} key={post.upload_id} />;
             })}
           {randomPosts &&
             randomPosts.map((post) => {
               return <PostPreview post={post} key={post.upload_id} />;
-            })}
+            })} */}
         </div>
       </PaddingWrapper>
     </Layout>
