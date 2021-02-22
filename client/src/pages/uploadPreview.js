@@ -32,6 +32,7 @@ const UploadPreview = ({ location, history }) => {
     ) {
       return setUploadError("Nothing should be blank before uploading");
     }
+    window.scrollTo(0, 0);
     await dispatch(
       uploadUsersPost(title, ingredientList, directionList, difficulty, category, imageSrc)
     );
