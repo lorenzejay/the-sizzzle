@@ -144,7 +144,7 @@ const Header = () => {
   return (
     <>
       <Nav>
-        <NavContainer className="items-center px-5  lg:px-24">
+        <NavContainer className="items-center px-5  lg:px-52 xl:px-72">
           <NavLink className="text-base tracking-wider" to="/">
             The Sizzzle
           </NavLink>
