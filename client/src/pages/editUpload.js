@@ -10,6 +10,7 @@ import Loader from "../components/loader";
 import DeleteUpload from "../components/deleteUpload";
 import Input from "../components/input";
 import foodCategories from "../data/foodCategories.json";
+import convertDate from "../components/date";
 
 const EditUpload = ({ location, history }) => {
   const dispatch = useDispatch();
@@ -63,11 +64,6 @@ const EditUpload = ({ location, history }) => {
       history.push("/login");
     }
   }, [userInfo]);
-
-  const convertDate = (date) => {
-    // return new Date(date).toString().slice(4, 15).replaceAt(6, ", ");
-    return new Date(date).toLocaleString().slice(0, 8);
-  };
 
   const handleIngredients = () => {
     if (ingredient !== "") {
@@ -139,7 +135,7 @@ const EditUpload = ({ location, history }) => {
               onChange={(e) => setTitle(e.target.value)}
             ></textarea>
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center justify-between gap-5">
               <UploaderProfileBar uploaded_by={details.uploaded_by} className="w-full " />
               <p className="my-4 pb-3 text-gray-400">{convertDate(details.created_at)}</p>
             </div>
