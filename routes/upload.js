@@ -51,7 +51,9 @@ router.post("/", authorization, async (req, res) => {
 //get 10 random posts if there is no followers
 router.get("/random", async (req, res) => {
   try {
-    const query = await pool.query("SELECT * FROM uploads ORDER BY RANDOM() limit 10");
+    const query = await pool.query(
+      "SELECT * FROM uploads ORDER BY created_at ,RANDOM() DESC limit 10 "
+    );
     res.send(query.rows);
   } catch (error) {
     console.log(error.message);
