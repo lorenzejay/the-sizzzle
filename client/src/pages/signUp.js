@@ -50,8 +50,8 @@ const SignUp = ({ history }) => {
   return (
     <Layout>
       <PaddingWrapper>
+        {loading && <Loader />}
         <div className="h-screen w-full flex items-center justify-center ">
-          {loading && <Loader />}
           <Form title={"Sign Up"} className=" items-center" handleSubmit={handleSignUp}>
             {error && (
               <ErrorMessage className=" w-3/4 p-3 text-red-500 shadow">{error}</ErrorMessage>
