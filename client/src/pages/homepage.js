@@ -27,10 +27,10 @@ const Homepage = () => {
   }, [dispatch, userInfo, loggedInUserDetails]);
 
   useEffect(() => {
-    if (!posts) {
+    if (!posts && !loading) {
       getRandomPosts();
     }
-  }, [posts]);
+  }, [posts, loading]);
 
   //if there is no user logged in get random posts
   const getRandomPosts = async () => {
