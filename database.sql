@@ -37,8 +37,10 @@ CREATE TABLE uploads(
     upload_id SERIAL PRIMARY KEY,
     uploaded_by uuid NOT NULL,
     title VARCHAR(50) NOT NULL,
-    caption TEXT NOT NULL,
-    description TEXT NOT NULL,
+    ingredients TEXT[] NOT NULL,
+    directions TEXT[] NOT NULL,
+    difficulty varchar(125) NOT NULL,
+    category varchar(125) NOT NULL,
     cloudinary_id VARCHAR(128) NOT NULL,
     image_url VARCHAR(128) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
@@ -46,11 +48,19 @@ CREATE TABLE uploads(
 
 alter table uploads add foreign key(uploaded_by) references users(user_id) on delete cascade;
 --deleting the column comments and directions
-alter table uploads drop column caption;
-alter table uploads drop column description;
---add column of ingredients which is type array 
-alter table uploads add ingredients text[];
-alter table uploads add directions text[];
+-- alter table uploads drop column caption;
+-- alter table uploads drop column description;
+-- --add column of ingredients which is type array 
+-- alter table uploads add ingredients text[];
+-- alter table uploads add directions text[];
+-- alter table uploads alter column ingredients set NOT NULL;
+-- alter table uploads alter column directions set NOT NULL;
+-- --add a column for difficulty and add food category 
+-- alter table uploads add difficulty varchar(255);
+-- alter table uploads add category varchar(255);
+-- alter table uploads alter column category set NOT NULL;
+-- alter table uploads alter difficulty set NOT NULL;
+
 
 -- alter table followers drop constraint followers_user_to_fkey;
 
