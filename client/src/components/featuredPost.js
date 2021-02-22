@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BiTrendingUp } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import convertDate from "./date";
 import UploaderProfileBar from "./uploaderProfileBar";
 
 const FeaturedPost = () => {
@@ -10,6 +11,7 @@ const FeaturedPost = () => {
   const { loggedInUserDetails } = userLoggedInDetails;
 
   const [featuredPosts, setFeaturedPosts] = useState([]);
+  //gets the top 6 posts from the week based on the most likes
   const getFeaturedPosts = async () => {
     try {
       const data = await fetch("/api/upload/featured-posts", {
@@ -40,12 +42,6 @@ const FeaturedPost = () => {
           <ul className="lg:flex gap-7">
             {featuredPosts &&
               featuredPosts.map((post, i) => {
-                const month = new Date(post.created_at).getMonth();
-                const date = new Date(post.created_at).getDate();
-                const year = new Date(post.created_at).getFullYear();
-
-                //bg color depending on level
-
                 return (
                   <li className="mb-8">
                     <Link to={`/post/${post.upload_id}`} className="featured-list-item flex ">
@@ -57,7 +53,7 @@ const FeaturedPost = () => {
                         <div>
                           <h3 className="font-bold">{post.title}</h3>
                           <div>
-                            {month}/{date}/{year} ·{" "}
+                            {convertDate(post.created_at)} ·{" "}
                             <span
                               className={`${post.difficulty === "easy" && "bg-green-300"} ${
                                 post.difficulty === "medium" && "bg-yellow-300"
