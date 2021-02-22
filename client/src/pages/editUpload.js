@@ -9,6 +9,7 @@ import Button from "../components/button";
 import Loader from "../components/loader";
 import DeleteUpload from "../components/deleteUpload";
 import Input from "../components/input";
+import foodCategories from "../data/foodCategories.json";
 
 const EditUpload = ({ location, history }) => {
   const dispatch = useDispatch();
@@ -28,10 +29,11 @@ const EditUpload = ({ location, history }) => {
 
   const [title, setTitle] = useState("");
   const [ingredient, setIngredient] = useState("");
+  const [difficulty, setDifficulty] = useState("");
+  const [category, setCategory] = useState("");
   const [ingredientList, setIngredientList] = useState([]);
   const [direction, setDirection] = useState("");
   const [directionList, setDirectionList] = useState([]);
-  const [uploadError, setUploadError] = useState([]);
   const [updateError, setUpdateError] = useState("");
 
   useEffect(() => {
@@ -45,6 +47,8 @@ const EditUpload = ({ location, history }) => {
       setIngredientList(details.ingredients);
       setDirectionList(details.directions);
       setTitle(details.title);
+      setDifficulty(details.difficulty);
+      setCategory(details.category);
     }
   }, [details]);
 
@@ -99,8 +103,16 @@ const EditUpload = ({ location, history }) => {
 
   const updateUploadPost = (e) => {
     e.preventDefault();
-    if (title !== "" && ingredientList !== [] && direction !== []) {
-      dispatch(updateUpload(title, ingredientList, directionList, uploadIdFromPath));
+    if (
+      title !== "" &&
+      ingredientList !== [] &&
+      direction !== [] &&
+      difficulty !== "" &&
+      category !== ""
+    ) {
+      dispatch(
+        updateUpload(title, ingredientList, directionList, difficulty, category, uploadIdFromPath)
+      );
       setUpdateError("");
       window.location.reload();
     } else {
@@ -108,8 +120,8 @@ const EditUpload = ({ location, history }) => {
     }
   };
 
-  details && console.log(details.directions);
-  console.log(directionList);
+  // details && console.log(details.directions);
+
   return (
     <Layout>
       {loading && <Loader />}
@@ -117,19 +129,54 @@ const EditUpload = ({ location, history }) => {
       {details && (
         <PaddingWrapper>
           {updateError && <ErrorMessage>{updateError}</ErrorMessage>}
-          <DeleteUpload upload_id={details.upload_id} className="float-right" />
-          <form onSubmit={updateUploadPost}>
-            <input
-              placeholder="Title"
-              value={title}
+          <DeleteUpload upload_id={details.upload_id} className="float-right mb-5" />
+          <form onSubmit={updateUploadPost} className="float-left w-full">
+            <textarea
               name="title"
+              id="title"
+              className="text-5xl w-full min-h-full font-bold outline-none break-words border-none"
+              value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="border-none text-3xl w-full"
-            />
+            ></textarea>
+
             <div className="flex items-center gap-5">
               <UploaderProfileBar uploaded_by={details.uploaded_by} className="w-full " />
               <p className="my-4 pb-3 text-gray-400">{convertDate(details.created_at)}</p>
             </div>
+
+            <section className="my-3 flex justify-start text-base uppercase">
+              <p className="bg-red-500 px-3 rounded-sm mr-5">{difficulty}</p>
+              <p className="bg-gray-300 px-3 rounded-sm ">{category}</p>
+            </section>
+            <section className="flex items-center mb-5">
+              <select
+                placeholder="border-2"
+                onChange={(e) => setDifficulty(e.target.value)}
+                value={difficulty}
+                className="w-1/4 lg:w-1/2"
+              >
+                <option value="">Choose difficulty of the recipe</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+                <option value="extreme">Extreme</option>
+              </select>
+
+              <select
+                placeholder="categories"
+                onChange={(e) => setCategory(e.target.value)}
+                value={category}
+                className="w-1/4 lg:w-1/2"
+              >
+                <option value="">Choose from the popular categories</option>
+                {foodCategories.map((category) => (
+                  <option key={category.id} value={category.type.toLowerCase()}>
+                    {category.type}
+                  </option>
+                ))}
+              </select>
+            </section>
+
             <img src={details.image_url} className="relative object-cover max-h-screen w-full" />
             <h3 className="text-2xl font-bold">Ingredients</h3>
             <ul>
@@ -144,12 +191,12 @@ const EditUpload = ({ location, history }) => {
             <h3 className="text-2xl font-bold">Directions</h3>
             <ol className="list-decimal">
               {directionList.map((item, i) => (
-                <li key={i} className=" my-1 text-lg">
+                <li key={i} className="ml-4 my-1 text-lg">
                   {item}
                 </li>
               ))}
             </ol>
-            <div className="flex flex-row w-3/4 md:w-1/2 lg:w-full my-3 items-center">
+            <div className="flex flex-row my-3 items-center">
               <Input
                 type="text"
                 name="ingredients"
@@ -173,7 +220,7 @@ const EditUpload = ({ location, history }) => {
                 Undo
               </button>
             </div>
-            <div className="flex flex-row w-3/4 md:w-1/2 lg:w-full my-3 items-center">
+            <div className="flex flex-row my-3 items-center">
               <textarea
                 name="direction"
                 placeholder="Directions"
