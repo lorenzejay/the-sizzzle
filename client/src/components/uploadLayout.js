@@ -4,6 +4,7 @@ import IngredientPreviews from "./ingredientPreviews";
 import PaddingWrapper from "./paddingWrapper";
 import UploaderProfileBar from "./uploaderProfileBar";
 import convertDate from "../components/date";
+import DifficultyAndCategory from "./difficultyAndCategory";
 const UploadLayout = ({
   details,
   title,
@@ -25,10 +26,7 @@ const UploadLayout = ({
           </p>
         </div>
       )}
-      <section className="my-3 flex justify-start text-base uppercase">
-        <p className="bg-red-500 px-3 rounded-sm mr-5">{difficulty}</p>
-        <p className="bg-gray-300 px-3 rounded-sm ">{category}</p>
-      </section>
+      <DifficultyAndCategory difficulty={difficulty} category={category} />
 
       <img
         src={imageSrc}
