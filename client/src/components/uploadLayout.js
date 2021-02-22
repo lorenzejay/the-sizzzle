@@ -3,7 +3,7 @@ import DirectionPreviews from "./directionsPreviews";
 import IngredientPreviews from "./ingredientPreviews";
 import PaddingWrapper from "./paddingWrapper";
 import UploaderProfileBar from "./uploaderProfileBar";
-
+import convertDate from "../components/date";
 const UploadLayout = ({
   details,
   title,
@@ -13,10 +13,6 @@ const UploadLayout = ({
   difficulty,
   category,
 }) => {
-  //if there is details show it instead its defaults
-  const convertDate = (date) => {
-    return new Date(date).toLocaleString().slice(0, 9);
-  };
   return (
     <PaddingWrapper>
       <h2 className="text-5xl font-bold my-5">{title}</h2>
@@ -33,6 +29,7 @@ const UploadLayout = ({
         <p className="bg-red-500 px-3 rounded-sm mr-5">{difficulty}</p>
         <p className="bg-gray-300 px-3 rounded-sm ">{category}</p>
       </section>
+
       <img
         src={imageSrc}
         className="relative object-cover max-h-mobileMax lg:max-h-limit xl:max-h-extended w-full"
