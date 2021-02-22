@@ -43,30 +43,32 @@ const FeaturedPost = () => {
             {featuredPosts &&
               featuredPosts.map((post, i) => {
                 return (
-                  <li className="mb-8">
-                    <Link to={`/post/${post.upload_id}`} className="featured-list-item flex ">
-                      <div className="flex">
-                        <span className="text-gray-400 text-3xl mr-3">0{i + 1}</span>
+                  <li className="mb-8" key={post.upload_id}>
+                    <div className="flex">
+                      <span className="text-gray-400 text-3xl">0{i + 1}</span>
+
+                      <UploaderProfileBar uploaded_by={post.uploaded_by} className={"ml-4 pt-1"} />
+                    </div>
+                    <div className="ml-12 pt-1">
+                      <Link
+                        to={`/post/${post.upload_id}`}
+                        className="featured-list-item  font-bold"
+                      >
+                        {post.title}
+                      </Link>
+                      <div>
+                        {convertDate(post.created_at)} ·{" "}
+                        <span
+                          className={`${post.difficulty === "easy" && "bg-green-300"} ${
+                            post.difficulty === "medium" && "bg-yellow-300"
+                          } ${post.difficulty === "hard" && "bg-red-300"} ${
+                            post.difficulty === "extreme" && "bg-red-600"
+                          } px-3 `}
+                        >
+                          {post.difficulty.toUpperCase()}
+                        </span>
                       </div>
-                      <div className="ml-3 pt-1">
-                        <UploaderProfileBar uploaded_by={post.uploaded_by} />
-                        <div>
-                          <h3 className="font-bold">{post.title}</h3>
-                          <div>
-                            {convertDate(post.created_at)} ·{" "}
-                            <span
-                              className={`${post.difficulty === "easy" && "bg-green-300"} ${
-                                post.difficulty === "medium" && "bg-yellow-300"
-                              } ${post.difficulty === "hard" && "bg-red-300"} ${
-                                post.difficulty === "extreme" && "bg-red-600"
-                              } px-3 `}
-                            >
-                              {post.difficulty.toUpperCase()}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
+                    </div>
                   </li>
                 );
               })}
