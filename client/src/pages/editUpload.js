@@ -171,7 +171,10 @@ const EditUpload = ({ location, history }) => {
               </select>
             </section>
 
-            <img src={details.image_url} className="relative object-cover max-h-screen w-full" />
+            <img
+              src={details.image_url}
+              className="relative object-cover max-h-mobileMax lg:max-h-limit xl:max-h-extended w-full"
+            />
             <h3 className="text-2xl font-bold">Ingredients</h3>
             <ul>
               {ingredientList.map((item, i) => (
