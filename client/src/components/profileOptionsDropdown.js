@@ -22,7 +22,7 @@ const ProfileOptionsDropdown = ({ profileDropdown, location }) => {
 
   return (
     <div
-      className={`shadow-2xl absolute top-20 right-0 lg:right-24 min-h-48 w-72 transition-all duration-500 z-10 bg-white  ${
+      className={`shadow-2xl absolute top-20 right-2 lg:right-24 min-h-48 w-72 transition-all duration-500 z-10 bg-white  ${
         profileDropdown ? "block" : "hidden"
       }`}
     >
