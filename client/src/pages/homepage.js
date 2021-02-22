@@ -24,17 +24,17 @@ const Homepage = () => {
   useEffect(() => {
     if (userInfo) {
       dispatch(getAllCurrentUserFollowingsPost());
+    } else {
+      getRandomPosts();
     }
   }, [dispatch, userInfo, loggedInUserDetails]);
 
   useEffect(() => {
-    if (posts !== []) {
-      return setDisplayedPosts(posts);
-    } else {
-      getRandomPosts();
+    if (posts === []) {
+      return getRandomPosts();
     }
+    setDisplayedPosts(posts);
   }, [dispatch, posts]);
-
   //if there is no user logged in get random posts
   const getRandomPosts = async () => {
     try {
@@ -44,11 +44,12 @@ const Homepage = () => {
       });
       //returns the array of the random posts
       const parsedData = await data.json();
-      setDisplayedPosts(parsedData);
+      await setDisplayedPosts(parsedData);
     } catch (err) {
       console.log(err);
     }
   };
+  console.log(posts);
   console.log("displayedposts", displayedPosts);
 
   return (
