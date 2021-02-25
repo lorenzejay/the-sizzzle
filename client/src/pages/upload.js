@@ -61,7 +61,7 @@ const Upload = ({ history, location }) => {
                 <img
                   src={previewSource}
                   alt="Preview of upload media."
-                  className="relative object-cover max-h-mobileMax lg:max-h-limit xl:max-h-extended w-full"
+                  className="relative object-cover lg:h-auto max-h-mobileMax xl:max-h-extended w-full"
                 />
               )}
             </div>
