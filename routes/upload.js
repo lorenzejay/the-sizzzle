@@ -52,7 +52,7 @@ router.post("/", authorization, async (req, res) => {
 router.get("/random", async (req, res) => {
   try {
     const query = await pool.query(
-      "SELECT * FROM uploads ORDER BY created_at ,RANDOM() ASC limit 10 "
+      "SELECT * FROM uploads ORDER BY created_at ,RANDOM() DESC limit 10 "
     );
     res.send(query.rows);
   } catch (error) {
@@ -120,7 +120,7 @@ router.get("/user-following-post", authorization, async (req, res) => {
     //   [user_id]
     // );
     const query = await pool.query(
-      "SELECT * FROM uploads WHERE uploaded_by = $1 OR uploaded_by IN (SELECT user_to FROM followers WHERE user_from = $1) ORDER BY created_at ASC",
+      "SELECT * FROM uploads WHERE uploaded_by = $1 OR uploaded_by IN (SELECT user_to FROM followers WHERE user_from = $1) ORDER BY created_at DESC",
       [user_id]
     );
 
