@@ -30,11 +30,11 @@ const Homepage = () => {
   }, [dispatch, userInfo, loggedInUserDetails]);
 
   useEffect(() => {
-    if (posts === []) {
+    if (posts && posts.length === 0) {
       return getRandomPosts();
     }
     setDisplayedPosts(posts);
-  }, [dispatch, posts]);
+  }, [posts]);
   //if there is no user logged in get random posts
   const getRandomPosts = async () => {
     try {
@@ -44,13 +44,14 @@ const Homepage = () => {
       });
       //returns the array of the random posts
       const parsedData = await data.json();
-      await setDisplayedPosts(parsedData);
+
+      return setDisplayedPosts(parsedData);
     } catch (err) {
       console.log(err);
     }
   };
-  console.log(posts);
-  console.log("displayedposts", displayedPosts);
+  // console.log(posts);
+  // console.log("displayedposts", displayedPosts);
 
   return (
     <Layout>
