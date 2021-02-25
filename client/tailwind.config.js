@@ -8,7 +8,7 @@ module.exports = {
       "1/2": "50%",
       "3/4": "75%",
       full: "100%",
-      limit: "400px",
+      limit: "550px",
       extended: "650px",
       mobileMax: "75vh",
     },
