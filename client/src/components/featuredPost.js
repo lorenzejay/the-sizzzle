@@ -6,10 +6,6 @@ import convertDate from "./date";
 import UploaderProfileBar from "./uploaderProfileBar";
 
 const FeaturedPost = () => {
-  //if there is a logged in user
-  const userLoggedInDetails = useSelector((state) => state.userLoggedInDetails);
-  const { loggedInUserDetails } = userLoggedInDetails;
-
   const [featuredPosts, setFeaturedPosts] = useState([]);
   //gets the top 6 posts from the week based on the most likes
   const getFeaturedPosts = async () => {
@@ -40,45 +36,43 @@ const FeaturedPost = () => {
             Trending on The Sizzzle
           </h2>
           <section>
-            {loggedInUserDetails && (
-              <ul className="lg:flex gap-7">
-                {featuredPosts &&
-                  featuredPosts.map((post, i) => {
-                    return (
-                      <li className="mb-8" key={post.upload_id}>
-                        <div className="flex">
-                          <span className="text-gray-400 text-3xl">0{i + 1}</span>
+            <ul className="lg:flex gap-7">
+              {featuredPosts &&
+                featuredPosts.map((post, i) => {
+                  return (
+                    <li className="mb-8" key={post.upload_id}>
+                      <div className="flex">
+                        <span className="text-gray-400 text-3xl">0{i + 1}</span>
 
-                          <UploaderProfileBar
-                            uploaded_by={post.uploaded_by}
-                            className={"ml-4 pt-1"}
-                          />
-                        </div>
-                        <div className="ml-12 pt-1">
-                          <Link
-                            to={`/post/${post.upload_id}`}
-                            className="featured-list-item  font-bold"
+                        <UploaderProfileBar
+                          uploaded_by={post.uploaded_by}
+                          className={"ml-4 pt-1"}
+                        />
+                      </div>
+                      <div className="ml-12 pt-1">
+                        <Link
+                          to={`/post/${post.upload_id}`}
+                          className="featured-list-item  font-bold"
+                        >
+                          {post.title}
+                        </Link>
+                        <div>
+                          {convertDate(post.created_at)} ·{" "}
+                          <span
+                            className={`${post.difficulty === "easy" && "bg-green-300"} ${
+                              post.difficulty === "medium" && "bg-yellow-300"
+                            } ${post.difficulty === "hard" && "bg-red-300"} ${
+                              post.difficulty === "extreme" && "bg-red-600"
+                            } px-3 `}
                           >
-                            {post.title}
-                          </Link>
-                          <div>
-                            {convertDate(post.created_at)} ·{" "}
-                            <span
-                              className={`${post.difficulty === "easy" && "bg-green-300"} ${
-                                post.difficulty === "medium" && "bg-yellow-300"
-                              } ${post.difficulty === "hard" && "bg-red-300"} ${
-                                post.difficulty === "extreme" && "bg-red-600"
-                              } px-3 `}
-                            >
-                              {post.difficulty.toUpperCase()}
-                            </span>
-                          </div>
+                            {post.difficulty.toUpperCase()}
+                          </span>
                         </div>
-                      </li>
-                    );
-                  })}
-              </ul>
-            )}
+                      </div>
+                    </li>
+                  );
+                })}
+            </ul>
           </section>
         </div>
       )}
